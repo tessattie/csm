@@ -1,0 +1,515 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url(/csm/public/images/background.jpg);
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: #eee;
+}
+.title
+{
+	float:right;
+	margin-top:20px;
+	line-height: 100px;
+	vertical-align: center;
+	color:#142465;
+	font-weight: bold;
+}
+.salesrow
+{
+	margin-top:-15px!important;
+	margin-left:-20px!important;
+}			
+th 
+{
+	background:#f2f2f2;
+}
+table 
+{
+	border:1px solid #c0c0c0;
+	opacity:0.9;
+}
+.menuitems
+{
+	font-size: 12px;
+}
+td.SectionName
+{
+	background: #ddd!important;
+    border-left: #ddd!important;
+    border-right: #ddd!important;
+}
+.UPC > a
+{
+	padding:0px!important;
+}
+.navrightmenu 
+{
+	margin-right:20px;
+}
+.SctName
+{
+	text-align: left!important;
+}
+.salesdates 
+{
+	display: inline-block;
+	float:left;
+	margin-top:30px;
+}
+.negative
+{
+	color:red;
+	font-weight: bold;
+}
+.logo
+{
+	width:90%;
+	height:auto;
+}
+.navbar-collapse
+{
+	margin-top:10px;
+}
+th
+{
+	vertical-align: middle!important;
+}
+.errorpagemessage
+{
+	text-align: center;
+	color:grey;
+}
+.dates
+{
+	border-radius: 4px;
+}
+.datetext
+{
+	color:#142465;
+}
+.row:first-child
+{
+	border-bottom: 1px solid #DEEDDE;
+	margin:0;
+}
+.row
+{
+	margin-top:10px;
+}
+.reports
+{
+	width:60%;
+	height:45px;
+	margin:auto;
+	background-color:#F2F2F2;
+	border-radius: 5px;
+	border:1px solid #D7DBDA;
+	-webkit-box-shadow: 3px 3px 12px -9px rgba(117,121,117,1);
+	-moz-box-shadow: 3px 3px 12px -9px rgba(117,121,117,1);
+	box-shadow: 3px 3px 12px -9px rgba(117,121,117,1);
+	color:#142465;
+	font-weight: bold;
+}
+.section_name
+{
+	text-align: center;
+	font-weight: bold;
+	font-size:11px;
+	border-right: none;
+	width:100%;
+}
+.container-fluid
+{
+	position:relative;
+}
+.reports:hover
+{
+	background-color: #142465;
+	color:#F2F2F2;
+}
+.button_border
+{
+	text-align:center;
+}
+caption
+{
+	text-align: center;
+	font-size: 21px;
+	color:#142465;
+}
+.signinrow
+{
+	margin-top: 30px!important;
+}
+.VdrName
+{
+	font-size: 8px!important;
+}
+.liststable > thead > tr > th, .liststable > thead > tr > td, .liststable > tbody > tr > td
+{
+	font-size: 12px!important;
+}
+.filArianne
+{
+	font-size: 11px;
+	font-weight: bold;
+	text-decoration: underline;
+}
+.filAriann
+{
+	font-size: 11px;
+	font-weight: bold;
+}
+tbody td
+{
+	text-align: center;
+	font-size: 9px;
+	font-weight: bold;
+}
+.ItemDescription, .tpr, .CaseCost, .Retail, .CertCode
+{
+	font-size: 8px!important;
+	font-weight:bold;
+}
+thead
+{
+	font-weight: bold;
+	text-align: center;
+}
+thead > tr > th, thead > tr > td 
+{
+	text-align: center;
+	font-size: 9px;
+	vertical-align: center;
+}
+#close
+{
+	margin-top:6px;
+	float:right;
+	margin-right:10px;
+}
+#bouton_close
+{
+	margin-right: 10px
+}
+.row:first-child
+{
+	border-bottom: none;
+	margin-left:-28px;
+	margin-top: -25px;
+}
+.compareUs
+{
+	vertical-align: middle!important;
+}
+#report_results
+{
+	width:100%;
+}
+#report_results > tbody > tr >td
+{
+	border:1px solid #ddd;
+}
+.dropdown-menu
+{
+	padding-left:6px;
+	padding-right: 6px;
+}
+a:link
+{
+	padding:10px 7px!important;
+}
+a:link.navbar-brand
+{
+	padding:15px 15px!important;
+}
+.navbar-header
+{
+	width:9%;
+	padding-bottom:10px;
+}
+.tablecaption
+{
+	margin-left:13px;
+}
+h3
+{
+	color:#142465;
+	width:90%;
+	margin-top:16px;
+	margin-left:20px;
+	font-size: 21px;
+	font-weight: bold;
+}
+.active
+{
+	border-radius: 4px;
+}
+.ItemDescription
+{
+	text-align: left;
+	font-size: 10px;
+}
+.dropdown-menu > form > li
+{
+	font-size: 10px;
+	font-weight: bold;
+}
+.navbar-nav > li > a
+{
+	padding-top:5px;
+	padding-bottom:5px;
+}
+.navbar-nav
+{
+	margin-top: 5px;
+}
+.table_cells
+{
+	font-size: 11px;
+}
+#upc_search
+{
+	margin-top:6px;
+	margin-right:15px;
+	float:left;
+	width:40%;
+	margin-left:10px;
+}
+#search_upc
+{
+	display: inline-block;
+	margin-left:8px;
+}
+.search_input
+{
+	width:100%;
+}
+#upc
+{
+	width:70%;
+	float:left;
+	display: inline-block;
+}
+#report_results
+{
+	float:left;
+}
+.inside
+{
+	width:100%;
+}
+#back_upc
+{
+	margin-left:6px;
+}
+#page_navigation 
+{
+	width:20%;
+	display:inline-block;
+	float: right;
+	text-align: justify;
+	margin-top:14px;
+	margin-right:15px;
+}
+.page_link
+{
+	border:1px solid black;
+	padding:7px;
+	margin-left:5px;
+	color:black;
+	background-color: #F2F2F2;
+	border:1px solid #D7DBDA;
+	-webkit-box-shadow: 3px 3px 12px -9px rgba(117,121,117,1);
+	-moz-box-shadow: 3px 3px 12px -9px rgba(117,121,117,1);
+	box-shadow: 3px 3px 12px -9px rgba(117,121,117,1);
+	text-decoration: none;
+	cursor:pointer; 
+}
+.previous_link
+{
+	border:1px solid black;
+	padding:7px;
+	background-color: #F2F2F2;
+	color:black;
+	border:1px solid #D7DBDA;
+	text-decoration: none;
+	-webkit-box-shadow: 3px 3px 12px -9px rgba(117,121,117,1);
+	-moz-box-shadow: 3px 3px 12px -9px rgba(117,121,117,1);
+	box-shadow: 3px 3px 12px -9px rgba(117,121,117,1);
+	cursor:pointer; 
+}
+.next_link
+{
+	border:1px solid black;
+	text-decoration: none;
+	padding:7px;
+	margin-left:5px;
+	color:black;
+	background-color: #F2F2F2;
+	border:1px solid #D7DBDA;
+	-webkit-box-shadow: 3px 3px 12px -9px rgba(117,121,117,1);
+	-moz-box-shadow: 3px 3px 12px -9px rgba(117,121,117,1);
+	box-shadow: 3px 3px 12px -9px rgba(117,121,117,1);
+	cursor:pointer; 
+}
+.active_page
+{
+	color:#F2F2F2;
+	background-color: #142465;	
+	text-decoration: none;
+	cursor:pointer; 
+}
+a:hover, a:visited, a:link, a:active
+{
+	text-decoration: none;
+	color:#142465;
+	font-weight:bold;
+}
+.fildiv
+{
+	padding-left: 0px;
+	padding-top: 9px;
+}
+.salesdiv
+{
+	float:right;
+	text-align: right;
+}
+.form-inline.salesdiv
+{
+	margin:0px;
+	margin-right: -15px;
+}
+.salescol
+{
+	padding:0px;
+}
+.errortext
+{
+	border :1px solid #8A6D3B;
+	width : 80%;
+	margin:auto;
+	text-align: center;
+	padding:10px;
+	font-weight: bold;
+}
+#backtop
+{
+	bottom:25px;
+	right:25px;
+	font-weight: bold;
+	position:fixed;
+	z-index: 10;
+	opacity:0.7;
+}
+
+/*new css*/
+
+.form-control
+{
+	margin-top: 5px;
+}
+
+.btn
+{
+	margin-bottom: 10px;
+}
+.bg-danger
+{
+	padding:3px 0px 3px 0px;
+	text-align: center;
+	border-radius: 3px;
+}
+.table-bordered > thead > tr > th
+{
+	text-align: center;
+	font-size: 10px;
+}
+.table
+{
+	width:90%;
+	margin:auto;
+	margin-bottom: 30px;
+}
+#report_result
+{
+	width:100%;
+}
+th > .form-control
+{
+	height:23px;
+	font-size: 8px;
+}
+#report_result_wrapper
+{
+	padding-bottom: 20px;
+}
+.form-control
+{
+	height:28px;
+	font-size: 10px;
+}
+form > .btn
+{
+	margin-top:15px;
+}
+th > .btn, td > a > .btn
+{
+	font-weight: bold;
+	font-size: 9px;
+	margin-bottom: 0px;
+}
+td > a > .btn
+{
+	margin-left: 2px;
+	padding:2px 5px;
+}
+.form-inline
+{
+	width:88%;
+	margin:auto;
+	padding-left: 10px;
+}
+.menuform
+{
+	padding-top:10px;
+	margin-left:30px;
+}
+.error
+{
+	width:50%;
+	margin:auto;
+	font-size: 10px;
+}
+.form-inline > .btn
+{
+	font-size: 11px;
+}
+.changepw
+{
+	width:88%;
+	padding-left: 10px;
+	padding-bottom: 3px;
+	margin:auto;
+	color:black;
+}
+.errorDiv > .bg-danger
+{
+	width:35%;
+	font-size: 9px;
+	margin:auto;
+}
+.sidebar .list-group-item 
+{
+    border: 1px solid #DDD;
+    border-left: 0;
+    border-right: 0;
+    margin-bottom: 0;
+    margin-top: -1px;
+    padding: 13px!important;
+    text-align: center;
+    font-size: 85%;
+}
