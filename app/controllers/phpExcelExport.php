@@ -1066,7 +1066,7 @@ class phpExcelExport extends Controller{
 							$this->sheet->getStyle($key . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 							$this->sheet->getStyle($key . ($j+1))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 							$this->sheet->setCellValue($key . ($j+1), number_format($report[$i][$this->columns[$value]."One"], 2, ".", ''));
-							$this->sheet->setCellValue($key . $j, round($report[$i][$this->columns[$value]."Two"], 2, '.', ''));
+							$this->sheet->setCellValue($key . $j, round($report[$i][$this->columns[$value]."Two"]));
 						}
 						else
 						{
