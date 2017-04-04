@@ -75,7 +75,7 @@ class home extends Controller{
 		$data = array();
 		$title = "";
 		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PK", "SIZE",
-			"CASE COST", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", "SALES", "TPR PRICE", "TPR START DATE", "TPR END DATE");
+			"CASE COST", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", "SALES", "TPR PRICE", "TPR START DATE", "TPR END DATE");
 		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", "sales", "tpr", "tprStart", "tprEnd");
 		if(!empty($_POST['vendorNumber']))
@@ -97,7 +97,7 @@ class home extends Controller{
 		$data = array();
 		$title = "";
 		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PACK", "SIZE",
-			"CASE COST", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", 
+			"CASE COST", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", 
 			"SALES", "TPR PRICE", "TPR START DATE", "TPR END DATE", "VDR NO", "VDR NAME");
 		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", 
@@ -124,29 +124,29 @@ class home extends Controller{
 		$title = "";
 		$report = null;
 		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PK", "SIZE",
-			"CASE COST", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", "SALES", "TPR PRICE", "TPR START DATE", "TPR END DATE");
+			"CASE COST", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", "SALES", "TPR PRICE", "TPR START DATE", "TPR END DATE");
 		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", "sales", "tpr", "tprStart", "tprEnd");
 		if(!empty($_POST['vendorNegNumber']))
 		{
 			$this->setDefaultDates($_POST['fromNegvendor'], $_POST['toNegvendor']);
 			$this->exportURL = "/csm/public/phpExcelExport/vendorNegative/".$_POST['vendorNegNumber'] . "/" . $this->from . "/" . $this->to;
-			$vendorReport = $this->brdata->get_vendorReport($_POST['vendorNegNumber'], $this->today, $_POST['fromNegvendor'], $_POST['toNegvendor']);
-			$j=0;
-			$i=0;
-			foreach($vendorReport as $key => $value)
-			{
-				if($value['onhand'] >= 0 ||  $value['SctNo'] == 184)
-				{
-					unset($vendorReport[$i]);
-				}
-				$i = $i + 1;
-			}
-			foreach($vendorReport as $key => $value)
-			{
-				$report[$j] = $value;
-				$j = $j + 1;
-			}
+			$vendorReport = $this->brdata->get_vendorNegativeReport($_POST['vendorNegNumber'], $this->today, $_POST['fromNegvendor'], $_POST['toNegvendor']);
+			// $j=0;
+			// $i=0;
+			// foreach($vendorReport as $key => $value)
+			// {
+			// 	if($value['onhand'] >= 0 ||  $value['SctNo'] == 184)
+			// 	{
+			// 		unset($vendorReport[$i]);
+			// 	}
+			// 	$i = $i + 1;
+			// }
+			// foreach($vendorReport as $key => $value)
+			// {
+			// 	$report[$j] = $value;
+			// 	$j = $j + 1;
+			// }
 			if(!empty($report[0]))
 			{
 				$title = '[VDR' . $_POST["vendorNegNumber"] . ' - '. $report[0]["VdrName"] . '] - [' . $this->from . ' to ' . $this->to . '] - [' . count($report) . ' ITEMS]';				
@@ -161,7 +161,7 @@ class home extends Controller{
 		$data = array();
 		$title = "";
 		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PACK", "SIZE",
-			"CASE COST", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", 
+			"CASE COST", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", 
 			"SALES", "VDR #", "VDR NAME", "TPR PRICE", "TPR START DATE", "TPR END DATE");
 		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", 
@@ -204,7 +204,7 @@ class home extends Controller{
 		$data = array();
 		$title = "TPR REPORT";
 		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PK", "SIZE",
-			"CASE COST", "UNIT PRICE", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", "SALES", "TPR PRICE", "TPR START DATE", "TPR END DATE", "VDR NO", "VDR NAME");
+			"CASE COST", "UNIT PRICE", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", "SALES", "TPR PRICE", "TPR START DATE", "TPR END DATE", "VDR NO", "VDR NAME");
 		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "Retail", "unitPrice", "onhand", "lastReceiving", "lastReceivingDate", "sales", "tpr", "tprStart", "tprEnd", "VdrNo", "VdrName");
 		$this->exportURL = "/csm/public/phpExcelExport/specials/" . $this->from . "/" . $this->to;
@@ -219,7 +219,7 @@ class home extends Controller{
 		$title = "";
 		$report = null;
 		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PK", "SIZE",
-			"CASE COST", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", "SALES", "TPR PRICE", "TPR START DATE", "TPR END DATE");
+			"CASE COST", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", "SALES", "TPR PRICE", "TPR START DATE", "TPR END DATE");
 		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", "sales", "tpr", "tprStart", "tprEnd");
 		if(!empty($_POST['vendorMvtNumber']))
@@ -256,7 +256,7 @@ class home extends Controller{
 		$data = array();
 		$title = "";
 		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PACK", "SIZE",
-			"CASE COST", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", 
+			"CASE COST", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", 
 			"SALES", "TPR PRICE", "TPR START DATE", "TPR END DATE");
 		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", 
@@ -298,7 +298,7 @@ class home extends Controller{
 		$data = array();
 		$title = "";
 		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PK", "SIZE",
-			"CASE COST", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", "SALES", "TPR PRICE", "TPR START DATE", "TPR END DATE");
+			"CASE COST", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", "SALES", "TPR PRICE", "TPR START DATE", "TPR END DATE");
 		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", "sales", "tpr", "tprStart", "tprEnd");
 		if(!empty($vendor))
@@ -320,7 +320,7 @@ class home extends Controller{
 		$data = array();
 		$title = "Vendor price compare";
 		$theadTitles = array("UPC", "BRAND", "ITEM DESCRIPTION", "ON-HAND", "SALES", "TPR PRICE", "TPR START DATE", 
-			"TPR END DATE", "PACK", "SIZE", "CASE COST", "UNIT PRICE", "RETAIL", "ITEM #", "LAST ORDER", "LAST ORDER DATE", "VDR NO", "VDR NAME");
+			"TPR END DATE", "PACK", "SIZE", "CASE COST", "UNIT PRICE", "RETAIL", "ITEM #", "LAST RECEIVING", "LAST RECEIVING DATE", "VDR NO", "VDR NAME");
 		$queryTitles = array("UPC", "Brand", "ItemDescription", "onhand", "sales", "tpr", "tprStart", "tprEnd", 
 			array("PackOne", "SizeAlphaOne", "CaseCostOne", "unitPriceOne", "RetailOne", "CertCodeOne", "lastReceivingOne", "lastReceivingDateOne", "VdrNoOne", "VdrNameOne"), 
 			array("PackTwo", "SizeAlphaTwo", "CaseCostTwo","unitPriceTwo", "RetailTwo", "CertCodeTwo", "lastReceivingTwo", "lastReceivingDateTwo", "VdrNoTwo", "VdrNameTwo"));
@@ -344,7 +344,7 @@ class home extends Controller{
 		$data = array();
 		$title = "Section price compare";
 		$theadTitles = array("UPC", "BRAND", "ITEM DESCRIPTION", "ON-HAND", "SALES", "TPR PRICE", "TPR START DATE", 
-			"TPR END DATE", "PACK", "SIZE", "CASE COST", "UNIT PRICE", "RETAIL", "ITEM #", "LAST ORDER", "LAST ORDER DATE", "VDR NO", "VDR NAME");
+			"TPR END DATE", "PACK", "SIZE", "CASE COST", "UNIT PRICE", "RETAIL", "ITEM #", "LAST RECEIVING", "LAST RECEIVING DATE", "VDR NO", "VDR NAME");
 		$queryTitles = array("UPC", "Brand", "ItemDescription", "onhand", "sales", "tpr", "tprStart", "tprEnd", 
 			array("PackOne", "SizeAlphaOne", "CaseCostOne", "unitPriceOne", "RetailOne", "CertCodeOne", "lastReceivingOne", "lastReceivingDateOne", "VdrNoOne", "VdrNameOne"), 
 			array("PackTwo", "SizeAlphaTwo", "CaseCostTwo", "unitPriceTwo", "RetailTwo", "CertCodeTwo", "lastReceivingTwo", "lastReceivingDateTwo", "VdrNoTwo", "VdrNameTwo"));
@@ -367,7 +367,7 @@ class home extends Controller{
 	{
 		$data = array();
 		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PACK", "SIZE",
-			"CASE COST", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", "SALES", 
+			"CASE COST", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", "SALES", 
 			"VDR #", "VDR NAME", "TPR PRICE", "TPR START DATE", "TPR END DATE");
 		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", 
@@ -389,7 +389,7 @@ class home extends Controller{
 	{
 		$data = array();
 		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PACK", "SIZE",
-			"CASE COST", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", 
+			"CASE COST", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", 
 			"SALES", "VDR #", "VDR NAME", "TPR PRICE", "TPR START DATE", "TPR END DATE");
 		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", 
@@ -412,7 +412,7 @@ class home extends Controller{
 		$data = array();
 		$title = "";
 		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PACK", "SIZE",
-			"CASE COST", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", 
+			"CASE COST", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", 
 			"SALES", "TPR PRICE", "TPR START DATE", "TPR END DATE");
 		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", 
@@ -440,7 +440,7 @@ class home extends Controller{
 		$report = array();
 		$title = "";
 		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PACK", "SIZE",
-			"CASE COST", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", 
+			"CASE COST", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", 
 			"SALES", "TPR PRICE", "TPR START DATE", "TPR END DATE");
 		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", 
@@ -482,7 +482,7 @@ class home extends Controller{
 		$data = array();
 		$title = "";
 		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PACK", "SIZE",
-			"CASE COST", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", 
+			"CASE COST", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", 
 			"SALES", "VDR #", "VDR NAME", "TPR PRICE", "TPR START DATE", "TPR END DATE");
 		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", 
@@ -509,7 +509,7 @@ class home extends Controller{
 		$data = array();
 		$title = "";
 		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PACK", "SIZE",
-			"CASE COST", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", "SALES", 
+			"CASE COST", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", "SALES", 
 			"VDR #", "VDR NAME", "TPR PRICE", "TPR START DATE", "TPR END DATE");
 		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", "sales", 
@@ -535,7 +535,7 @@ class home extends Controller{
 		$data = array();
 		$title = "";
 		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PACK", "SIZE",
-			"CASE COST", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", 
+			"CASE COST", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", 
 			"SALES", "TPR PRICE", "TPR START DATE", "TPR END DATE");
 		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", 
@@ -560,7 +560,7 @@ class home extends Controller{
 	{
 		$data = array();
 		$theadTitles = array("VDR #", "VDR NAME", "UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PACK", "SIZE",
-			"CASE COST", "UNIT PRICE", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", "SALES", 
+			"CASE COST", "UNIT PRICE", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", "SALES", 
 			"TPR PRICE", "TPR START DATE", "TPR END DATE");
 		$queryTitles = array("VdrNo", "VdrName", "UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "unitPrice", "Retail", "onhand", "lastReceiving", "lastReceivingDate", "sales", "tpr", "tprStart", "tprEnd");
@@ -581,7 +581,7 @@ class home extends Controller{
 	{
 		$data = array();
 		$theadTitles = array("VDR #", "VDR NAME", "UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PACK", "SIZE",
-			"CASE COST", "UNIT PRICE", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", "SALES", "TPR PRICE",
+			"CASE COST", "UNIT PRICE", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", "SALES", "TPR PRICE",
 		    "TPR START DATE", "TPR END DATE");
 		$queryTitles = array("VdrNo", "VdrName", "UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "unitPrice", "Retail", "onhand", "lastReceiving", "lastReceivingDate", "sales", "tpr", "tprStart", "tprEnd");
@@ -601,7 +601,7 @@ class home extends Controller{
 	{
 		$data = array();
 		$theadTitles = array("VDR #", "VDR NAME", "UPC", "BRAND", "ITEM DESCRIPTION", "PACK", "SIZE",
-			"CASE COST", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", "SALES", 
+			"CASE COST", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", "SALES", 
 			"TPR PRICE", "TPR START DATE", "TPR END DATE");
 		$queryTitles = array("VdrNo", "VdrName", "UPC", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", "sales", "tpr", "tprStart", "tprEnd");
@@ -622,7 +622,7 @@ class home extends Controller{
 	{
 		$data = array();
 		$theadTitles = array("VDR #", "VDR NAME", "UPC", "BRAND", "ITEM DESCRIPTION", "PACK", "SIZE",
-			"CASE COST", "RETAIL", "ON-HAND", "LAST ORDER", "LAST ORDER DATE", "SALES", 
+			"CASE COST", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", "SALES", 
 			"TPR PRICE", "TPR START DATE", "TPR END DATE");
 		$queryTitles = array("VdrNo", "VdrName", "UPC", "Brand", "ItemDescription", "Pack", "SizeAlpha",
 			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", "sales", "tpr", "tprStart", "tprEnd");
