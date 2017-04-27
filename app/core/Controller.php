@@ -5,15 +5,12 @@ class Controller{
 
 	protected $userRole;
 
-	protected $predis;
-
 	protected $memcache;
 
 	public function __construct()
 	{
 		$this->roles = array(1 => "menuAdmin", 2 => "menuOne", 3 => "menuTwo", 4 => "menuZero");
 		$this->userRole = $this->setRole();
-		$this->predis = $this->predis();
 
 		$this->memcache = new Memcache;
 		$this->memcache->addServer("localhost");
@@ -44,19 +41,6 @@ class Controller{
 			require_once '../app/vendors/PHPExcel/Classes/PHPExcel.php';
 		}
 		return new PHPExcel();
-	}
-
-	public function predis()
-	{
-		require_once '../app/vendors/predis/autoload.php';
-		Predis\Autoloader::register();
-		$redis = new Predis\Client(array(
-		    "scheme" => "tcp",
-		    "host" => "localhost",
-		    "port" => "6379",
-		    "password" => ""));
-		
-		return $redis;
 	}
 
 	public function view($view, $data = [])

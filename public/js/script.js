@@ -144,7 +144,27 @@ jQuery(function($){
 		}
 		else
 		{
-			alert("Verify that you numbers are correct.");
+			alert("Verify that the numbers are correct.");
+		}
+	});
+
+	$("#vendorDepartmentNeg").click(function(){ 
+		var regex = /[0-9]/;
+		var vendorNumber = prompt('Enter the vendor number :')
+		var departmentNumber = prompt('Enter the department Number : ');
+		if(regex.test(departmentNumber) && regex.test(vendorNumber))
+		{
+			$("#dvendorNumberNeg").val(vendorNumber); // vendor number
+			$("#dptvendorNumberNeg").val(departmentNumber); // department number
+			$("#fromvendorDptNeg").val($('#fromdate').val());
+			$("#tovendorDptNeg").val($('#todate').val()); 
+			document.forms["vendorDepartmentformNeg"].submit();
+			$("#dvendorNumberNeg").val(''); // vendor number
+			$("#dptvendorNumberNeg").val(''); // department number
+		}
+		else
+		{
+			alert("Verify that the numbers are correct.");
 		}
 	});
 

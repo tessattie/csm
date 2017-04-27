@@ -574,6 +574,48 @@ class home extends Controller{
 		$this->renderView($data);
 	}
 
+	public function vendorDepartmentNegative()
+	{
+		$data = array();
+		$title = "";
+		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PACK", "SIZE",
+			"CASE COST", "RETAIL", "ON-HAND", "LAST RECEIVING", "LAST RECEIVING DATE", 
+			"SALES", "TPR PRICE", "TPR START DATE", "TPR END DATE");
+		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
+			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", 
+			"sales", "tpr", "tprStart", "tprEnd");
+		if(!empty($_POST['dvendorNumberNeg']) && !empty($_POST['dptvendorNumberNeg']))
+		{
+			$this->setDefaultDates($_POST['fromvendorDptNeg'], $_POST['tovendorDptNeg']);
+			$this->exportURL = "/csm/public/phpExcelExport/vendorDepartmentNegative/".$_POST['dvendorNumberNeg'] . "/" . $_POST['dptvendorNumberNeg'] . "/" . $this->from . "/" . $this->to;
+			$vdrDptReport = $this->brdata->get_vendorDepartmentReport($_POST['dvendorNumberNeg'], $_POST['dptvendorNumberNeg'], $this->today, $_POST['fromvendorDptNeg'], $_POST['tovendorDptNeg']);
+			$j=0;
+			$i=0;
+			foreach($vdrDptReport as $key => $value)
+			{
+				if($value['onhand'] >= 0)
+				{
+					unset($vdrDptReport[$i]);
+				}
+				$i = $i + 1;
+			}
+			foreach($vdrDptReport as $key => $value)
+			{
+				$report[$j] = $value;
+				$j = $j + 1;
+			}
+			if(!empty($report[0]))
+			{
+				$title = '[VDR'.$_POST['dvendorNumberNeg'].' - '.$report[0]['VdrName'].'] - [DPT'.$_POST['dptvendorNumberNeg'].' - '.$report[0]['DptName'].'] - ['.$this->from.' to '.$this->to.'] - ['.count($report).' ITEMS]';				
+			}
+			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
+				"title" => $title, "tableID" => "report_result", "action" => "vendorDepartment", "reportType" => 'templateWithSectionOrder', 
+				"from" => $this->from, "to" => $this->to, "report" => $report, "menu" => $this->userRole);
+			$this->memcache->set("report", $report);
+		}
+		$this->renderView($data);
+	}
+
 	public function UPCPriceCompare()
 	{
 		$data = array();

@@ -221,6 +221,33 @@ class phpExcelExport extends Controller{
 		$this->saveReport('VendorDepartment'.$report[0]['VdrName'].'_'.$report[0]['DptName'].'_'.$this->today);
 	}
 
+	public function vendorDepartmentNegative($vendor, $department, $from, $to)
+	{
+		$header = array("A" => "UPC", 
+						"B" => "VDR ITEM #", 
+						"C" => "BRAND", 
+						"D" => "ITEM DESCRIPTION", 
+						"E" => "PACK", 
+						"F" => "SIZE", 
+						"G" => "CASE COST",
+						"H" => "RETAIL", 
+						"I" => "ON-HAND", 
+						"J" => "LAST RECEIVING", 
+						"K" => "LAST RECEIVING DATE", 
+						"L" => "SALES", 
+						"M" => "TPR PRICE", 
+						"N" => "TPR START", 
+						"O" => "TPR END");
+		$this->setSheetName("VENDOR DEPARTMENT REPORT");
+		$report = $this->memcache->get("report");
+		$lastItem = count($report) + 4;
+		$bold = array("G", "H", "I", "M");
+		$this->setHeader("VENDOR DEPARTMENT NEGATIVE REPORT" ,"[ VENDOR : " . $vendor . " -  ".$report[0]['VdrName']." ] - [ DPT : 
+			" . $department . " - " . $report[0]['DptName'] . "] - [ ".$from." - ".$to."] ", $header, "vdrDpt", $lastItem);
+		$this->setReportWithSection($header, $report, $bold, "A", "", "D");
+		$this->saveReport('VendorDepartment'.$report[0]['VdrName'].'_'.$report[0]['DptName'].'_'.$this->today);
+	}
+
 	public function UPCRange($upc1, $upc2, $from, $to)
 	{
 		$header = array("A" => "UPC", 

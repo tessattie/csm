@@ -86,12 +86,20 @@
         <input type='hidden' name = 'tosection' id = 'tosection'>
     </form>
 
-  <a href="#" id="vendorDepartment" class="list-group-item">Vendor department</a>
+  <a href="#" id="vendorDepartment" class="list-group-item">Vendor department - Normal</a>
     <form method = 'POST' action = '/csm/public/home/vendorDepartment' name='vendorDepartmentform' id = 'vendorDepartmentform'>
         <input type='hidden' name = 'dvendorNumber' id = 'dvendorNumber'>
         <input type='hidden' name = 'dptvendorNumber' id = 'dptvendorNumber'>
         <input type='hidden' name = 'fromvendorDpt' id = 'fromvendorDpt'>
         <input type='hidden' name = 'tovendorDpt' id = 'tovendorDpt'>
+    </form>
+
+  <a href="#" id="vendorDepartmentNeg" class="list-group-item">Vendor department - Negative</a>
+    <form method = 'POST' action = '/csm/public/home/vendorDepartmentNegative' name='vendorDepartmentformNeg' id = 'vendorDepartmentformNeg'>
+        <input type='hidden' name = 'dvendorNumberNeg' id = 'dvendorNumberNeg'>
+        <input type='hidden' name = 'dptvendorNumberNeg' id = 'dptvendorNumberNeg'>
+        <input type='hidden' name = 'fromvendorDptNeg' id = 'fromvendorDptNeg'>
+        <input type='hidden' name = 'tovendorDptNeg' id = 'tovendorDptNeg'>
     </form>
 
   <a href="#" id="department" class="list-group-item">Department</a>
