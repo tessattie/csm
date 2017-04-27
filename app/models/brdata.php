@@ -40,41 +40,6 @@ class brdata{
 		return $report ;
 	}
 
-	public function get_vendorNegativeReport($vendorNumber, $today, $from, $to)
-	{
-		$SQL = "SELECT  vc.UPC, v.Vendor AS VdrNo, v.VendorName AS VdrName, vc.VendorItem AS CertCode, vc.CaseCost, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
-				i.Brand, vc.Pack, i.SizeAlpha, i.Department AS SctNo, i.MajorDept AS DptNo, i.Description AS ItemDescription, p.BasePrice as Retail,
-				d.Description AS SctName, md.Description AS DptName, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
-				ISNULL((SELECT SUM(id.Units) FROM dbo.InventoryDetail id WHERE id.RecordType = 'R'  AND id.Vendor=vc.Vendor AND id.UPC=p.UPC AND id.Date = (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving,
-				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im 
-				WHERE im.UPC = p.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales,
-				(SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' AND id.Date >='".$today."' ORDER BY id.LastUpdated DESC),0)
-				+ ISNULL((SELECT TOP 1 Units FROM dbo.InventoryDetail WHERE RecordType = 'A' AND Date > (SELECT TOP 1 Date FROM dbo.InventoryDetail id 
-				WHERE id.RecordType = 'P' AND id.UPC = p.UPC AND id.Date >='".$today."' ORDER BY id.LastUpdated DESC) AND UPC= p.UPC ORDER BY Date DESC),0) 
-				+ ISNULL((SELECT SUM(QtySold) FROM dbo.ItemMovement WHERE Date > '".$today."' AND UPC= p.UPC),0) 
-				+ ISNULL((SELECT SUM(Units) FROM dbo.InventoryDetail WHERE RecordType = 'R' AND Date > '".$today."' AND UPC=p.UPC),0) 
-				FROM dbo.InventoryDetail WHERE UPC=p.UPC),99999) FROM dbo.InventoryDetail) AS onhand, (vc.CaseCost / NULLIF(vc.Pack, 0)) AS unitPrice
-				FROM dbo.Vendors v 
-				RIGHT JOIN dbo.VendorCost vc ON vc.Vendor = v.Vendor
-				LEFT JOIN dbo.Price p ON p.UPC = vc.UPC
-				INNER JOIN dbo.Item i ON i.UPC = vc.UPC
-				INNER JOIN dbo.Departments d ON d.Department = i.Department
-				INNER JOIN dbo.MajorDept md ON md.MajorDept = i.MajorDept
-				WHERE v.Vendor = '".$vendorNumber."' AND p.Store = '00000A' AND (SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' AND id.Date >='".$today."' ORDER BY id.LastUpdated DESC),0)
-				+ ISNULL((SELECT TOP 1 Units FROM dbo.InventoryDetail WHERE RecordType = 'A' AND Date > (SELECT TOP 1 Date FROM dbo.InventoryDetail id 
-				WHERE id.RecordType = 'P' AND id.UPC = p.UPC AND id.Date >='".$today."' ORDER BY id.LastUpdated DESC) AND UPC= p.UPC ORDER BY Date DESC),0) 
-				+ ISNULL((SELECT SUM(QtySold) FROM dbo.ItemMovement WHERE Date > '".$today."' AND UPC= p.UPC),0) 
-				+ ISNULL((SELECT SUM(Units) FROM dbo.InventoryDetail WHERE RecordType = 'R' AND Date > '".$today."' AND UPC=p.UPC),0) 
-				FROM dbo.InventoryDetail WHERE UPC=p.UPC),99999) FROM dbo.InventoryDetail) < 0
-				ORDER BY i.Department, i.Description, vc.Pack DESC, i.SizeAlpha DESC;";
-		// Execute query
-		$results = $this->db->query($SQL);
-		// print_r($this->db->errorInfo());die();
-		$report = $results->fetchall(PDO::FETCH_BOTH);
-
-		return $report ;
-	}
-
 	public function get_specialReport($today, $from, $to)
 	{
 		$SQL = "SELECT * FROM specials ORDER BY SctNo, VdrNo, ItemDescription";
@@ -116,6 +81,8 @@ class brdata{
 
 	public function get_itemDescription($itemDescription, $today, $to, $from)
 	{
+		$itemDescription = strtoupper($itemDescription);
+
 		$SQL ="SELECT i.UPC, i.Department AS SctNo, i.MajorDept AS DptNo, vc.Pack, vc.Vendor as VdrNo, vc.VendorItem AS CertCode, vc.CaseCost, i.Brand, i.Description AS ItemDescription, d.Description AS SctName, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
 				i.SizeAlpha, p.BasePRice AS Retail, v.VendorName AS VdrName, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=vc.UPC ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
 				ISNULL((SELECT SUM(id.Units) FROM dbo.InventoryDetail id WHERE id.RecordType = 'R'  AND id.Vendor=vc.Vendor AND id.UPC=p.UPC AND id.Date = (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=vc.UPC AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving,
@@ -137,6 +104,7 @@ class brdata{
 
 		// Execute query
 		$results = $this->db->query($SQL);
+		// print_r($this->db->errorInfo());die();
 		$report = $results->fetchall(PDO::FETCH_BOTH);
 		return $report ;
 	}
