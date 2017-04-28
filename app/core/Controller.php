@@ -13,7 +13,7 @@ class Controller{
 		$this->userRole = $this->setRole();
 
 		$this->memcache = new Memcache;
-		$this->memcache->addServer("localhost");
+		$this->memcache->pconnect("127.0.0.1", "11211");
 	}
 
 	public function model($model)
