@@ -18,8 +18,6 @@ class home extends Controller{
 
 	private $fileArianne;
 
-	protected $memcache;
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -90,7 +88,6 @@ class home extends Controller{
 				$title = '[VDR' . $_POST["vendorNumber"] . ' - '. $vendorReport[0]["VdrName"] . '] - [' . $this->from . ' to ' . $this->to . '] - [' . count($vendorReport) . ' ITEMS]';				
 			}
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles , "title" => $title, "tableID" => "report_result", "action" => "vendor", "reportType" => 'templateWithSectionOrder', "from" => $this->from, "to" => $this->to, "report" => $vendorReport, "menu" => $this->userRole);
-			$this->memcache->set("report", $vendorReport);
 		}
 		$this->renderView($data);
 	}
@@ -117,7 +114,6 @@ class home extends Controller{
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
 				"title" => $title, "tableID" => "report_result", "action" => "vendorSection", "reportType" => 'defaultTemplate', 
 				"from" => $this->from, "to" => $this->to, "report" => $receivingHistory, "menu" => $this->userRole);
-			$this->memcache->set("report", $receivingHistory);
 		}
 		$this->renderView($data);
 	}
@@ -155,7 +151,6 @@ class home extends Controller{
 			{
 				$title = '[VDR' . $_POST["vendorNegNumber"] . ' - '. $report[0]["VdrName"] . '] - [' . $this->from . ' to ' . $this->to . '] - [' . count($report) . ' ITEMS]';				
 			}
-			$this->memcache->set("report", $report);
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles , "title" => $title, "tableID" => "report_result", "action" => "vendor", "reportType" => 'templateWithSectionOrder', "from" => $this->from, "to" => $this->to, "report" => $report, "menu" => $this->userRole);
 		}
 		$this->renderView($data);
@@ -197,7 +192,6 @@ class home extends Controller{
 				$title = '[DPT'.$report[0]['DptNo'].' - '.$report[0]['DptName'].'] - [SCT'.$_POST['sectionMvtNumber'].' - '.$report[0]['SctName'].'] - ['.$this->from.' to '.$this->to.'] - 
 				['.count($report).' ITEMS]';
 			}
-			$this->memcache->set("report", $report);
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
 				"title" => $title, "tableID" => "report_result", "action" => "section", "reportType" => 'defaultTemplate', 
 				"from" => $this->from, "to" => $this->to, "report" => $report, "menu" => $this->userRole);
@@ -253,7 +247,6 @@ class home extends Controller{
 			{
 				$title = '[VDR' . $_POST["vendorMvtNumber"] . ' - '. $report[0]["VdrName"] . '] - [' . $this->from . ' to ' . $this->to . '] - [' . count($report) . ' ITEMS]';				
 			}
-			$this->memcache->set("report", $report);
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles , "title" => $title, "tableID" => "report_result", "action" => "vendor", "reportType" => 'templateWithSectionOrder', "from" => $this->from, "to" => $this->to, "report" => $report, "menu" => $this->userRole);
 		}
 		$this->renderView($data);
@@ -294,7 +287,6 @@ class home extends Controller{
 				$title = '[DPT'.$report[0]['DptNo'].' - '.$report[0]['DptName'].'] - [VDR'.$_POST['svendorMvtNumber'].' - '.$report[0]['VdrName'].'] - 
 				[SCT'.$_POST['sctvendorMvtNumber'].' - '.$report[0]['SctName'].'] - ['.$this->from.' to '.$this->to.']  - ['.count($report).' ITEMS]';
 			}
-			$this->memcache->set("report", $report);
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
 				"title" => $title, "tableID" => "report_result", "action" => "vendorSection", "reportType" => 'defaultTemplate', 
 				"from" => $this->from, "to" => $this->to, "report" => $report, "menu" => $this->userRole);
@@ -319,7 +311,6 @@ class home extends Controller{
 				$title = '[VDR' . $vendor . ' - '. $vendorReport[0]["VdrName"] . '] - [' . $this->from . ' to ' . $this->to . '] - [' . count($vendorReport) . ' ITEMS]';				
 			}
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles , "title" => $title, "tableID" => "report_result", "action" => "vendor", "reportType" => 'templateWithSectionOrder', "from" => $this->from, "to" => $this->to, "report" => $vendorReport, "menu" => $this->userRole);
-			$this->memcache->set("report", $vendorReport);
 		}
 		$this->renderView($data);
 	}
@@ -342,7 +333,6 @@ class home extends Controller{
 			{
 				$title = '[VENDOR PRICE COMPARE : '.$vendorReport[0]['VdrNameOne'].' - '.$vendorReport[0]['VdrNameTwo'].'] - ['.count($vendorReport).' ITEMS]';
 			}
-			$this->memcache->set("report", $vendorReport);
 		}
 		$this->view('home', array("qt" => $queryTitles, "thead" => $theadTitles , "title" => $title, 'active' => "vendorPriceCompare", 
 			"class" => $this->classname, "exportURL" => $this->exportURL, "tableID" => "report_results", "action" => "priceCompare", 
@@ -367,7 +357,6 @@ class home extends Controller{
 			{
 				$title = '[VENDOR SECTION PRICE COMPARE : '.$sectionReport[0]['VdrNameOne'].' - '.$sectionReport[0]['VdrNameTwo'].'] - [SECTION ' . $sectionReport[0]['SctName'] . '] - ['.count($sectionReport).' ITEMS]';
 			}
-			$this->memcache->set("report", $sectionReport);
 		}
 		$this->view('home', array("qt" => $queryTitles, "thead" => $theadTitles , "title" => $title, 'active' => "sectionPriceCompare", 
 			"class" => $this->classname, "exportURL" => $this->exportURL, "tableID" => "report_results", "action" => "sectionCompare", 
@@ -392,7 +381,6 @@ class home extends Controller{
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles , 
 				"title" => $title, "tableID" => "report_result", "action" => "UPCRange", "reportType" => 'templateWithSectionOrder', 
 				"from" => $this->from, "to" => $this->to, "report" => $upcRangeReport, "menu" => $this->userRole);
-			$this->memcache->set("report", $upcRangeReport);
 		}
 		$this->renderView($data);
 	}
@@ -415,7 +403,6 @@ class home extends Controller{
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
 				"title" => $title, "tableID" => "report_result", "action" => "itemDescription", "reportType" => 'templateWithSectionOrder', 
 				"from" => $from2 = $this->from, "to" => $this->to, "report" => $description, "menu" => $this->userRole);
-			$this->memcache->set("report", $description);
 		}
 		$this->renderView($data);
 	}
@@ -443,7 +430,6 @@ class home extends Controller{
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
 				"title" => $title, "tableID" => "report_result", "action" => "vendorSection", "reportType" => 'defaultTemplate', 
 				"from" => $this->from, "to" => $this->to, "report" => $vdrSctReport, "menu" => $this->userRole);
-			$this->memcache->set("report", $vdrSctReport);
 		}
 		$this->renderView($data);
 	}
@@ -487,7 +473,6 @@ class home extends Controller{
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
 				"title" => $title, "tableID" => "report_result", "action" => "vendorSection", "reportType" => 'defaultTemplate', 
 				"from" => $this->from, "to" => $this->to, "report" => $report, "menu" => $this->userRole);
-			$this->memcache->set("report", $report);
 		}
 		$this->renderView($data);
 	}
@@ -515,7 +500,6 @@ class home extends Controller{
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
 				"title" => $title, "tableID" => "report_result", "action" => "section", "reportType" => 'defaultTemplate', 
 				"from" => $this->from, "to" => $this->to, "report" => $sectionReport, "menu" => $this->userRole);
-			$this->memcache->set("report", $sectionReport);
 		}
 		$this->renderView($data);
 	}
@@ -569,7 +553,6 @@ class home extends Controller{
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
 				"title" => $title, "tableID" => "report_result", "action" => "vendorDepartment", "reportType" => 'templateWithSectionOrder', 
 				"from" => $this->from, "to" => $this->to, "report" => $vdrDptReport, "menu" => $this->userRole);
-			$this->memcache->set("report", $vdrDptReport);
 		}
 		$this->renderView($data);
 	}
@@ -611,7 +594,6 @@ class home extends Controller{
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
 				"title" => $title, "tableID" => "report_result", "action" => "vendorDepartment", "reportType" => 'templateWithSectionOrder', 
 				"from" => $this->from, "to" => $this->to, "report" => $report, "menu" => $this->userRole);
-			$this->memcache->set("report", $report);
 		}
 		$this->renderView($data);
 	}
@@ -633,7 +615,6 @@ class home extends Controller{
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
 				"title" => $title, "tableID" => "upcTable", "action" => "UPCPriceCompare", "reportType" => 'defaultTemplate', 
 				"from" => $this->from, "to" => $this->to, "report" => $upcReport, "menu" => $this->userRole);
-			$this->memcache->set("report", $upcReport);
 		}
 		$this->renderView($data);
 	}
@@ -654,7 +635,6 @@ class home extends Controller{
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
 				"title" => $title, "tableID" => "upcTable", "action" => "UPCPriceCompare", "reportType" => 'defaultTemplate', 
 				"from" => $this->from, "to" => $this->to, "report" => $upcReport, "menu" => $this->userRole);
-			$this->memcache->set("report", $upcReport);
 		}
 		$this->renderView($data);
 	}
@@ -676,7 +656,6 @@ class home extends Controller{
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
 				"title" => $title, "tableID" => "upcTable", "action" => "vendorItemCode", "reportType" => 'defaultTemplate', 
 				"from" => $this->from, "to" => $this->to, "report" => $itemcodereport, "menu" => $this->userRole);
-			$this->memcache->set("report", $itemcodereport);
 		}
 		$this->renderView($data);
 	}
@@ -697,7 +676,6 @@ class home extends Controller{
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
 				"title" => $title, "tableID" => "upcTable", "action" => "vendorItemCode", "reportType" => 'defaultTemplate', 
 				"from" => $this->from, "to" => $this->to, "report" => $itemcodereport, "menu" => $this->userRole);
-			$this->memcache->set("report", $itemcodereport);
 		}
 		$this->renderView($data);
 	}

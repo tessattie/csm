@@ -70,7 +70,7 @@ class phpExcelExport extends Controller{
 		$bold = array("G", "M", "H", "I");
 		$unit_price_col = "";
 		$time_startMemcache = $this->microtime_float();
-		$report = $this->memcache->get("report");
+		$vendorReport = $this->brdata->get_vendorReport($vendor, $this->today, $from, $to);
 		$time_endMemcache = $this->microtime_float();
 		$timeMemcache = $time_endMemcache - $time_startMemcache;
 		$lastItem = count($report) + 4;
@@ -102,8 +102,23 @@ class phpExcelExport extends Controller{
 						"N" => "TPR START", 
 						"O" => "TPR END");
 		$this->setSheetName("VENDOR NEGATIVE ON-HAND REPORT");
-		$report = $this->memcache->get("report");
+		$vendorReport = $this->brdata->get_vendorReport($vendor, $this->today, $from, $to);
 		$bold = array("G", "M", "H", "I");
+		$j=0;
+		$i=0;
+		foreach($vendorReport as $key => $value)
+		{
+			if($value['onhand'] >= 0 ||  $value['SctNo'] == 184)
+			{
+				unset($vendorReport[$i]);
+			}
+			$i = $i + 1;
+		}
+		foreach($vendorReport as $key => $value)
+		{
+			$report[$j] = $value;
+			$j = $j + 1;
+		}
 		$lastItem = count($report) + 4;
 		$this->setHeader("VENDOR SECTION FINAL REPORT WITH NEGATIVE ON-HAND","[ VENDOR : " . $vendor . " - ".$report[0]['VdrName']." ] - [ 
 			".$from." - ".$to." ]", $header, 'vdrReport', $lastItem);
@@ -129,7 +144,22 @@ class phpExcelExport extends Controller{
 						"N" => "TPR START", 
 						"O" => "TPR END");
 		$this->setSheetName("VENDOR REPORT");
-		$report = $this->memcache->get("report");
+		$vendorReport = $this->brdata->get_vendorReport($vendor, $this->today, $from, $to);
+		$j=0;
+		$i=0;
+		foreach($vendorReport as $key => $value)
+		{
+			if($value['sales'] != NULL)
+			{
+				unset($vendorReport[$i]);
+			}
+			$i = $i + 1;
+		}
+		foreach($vendorReport as $key => $value)
+		{
+			$report[$j] = $value;
+			$j = $j + 1;
+		}
 		$lastItem = count($report) + 4;
 		$bold = array("G", "M", "H", "I");
 		$this->setHeader("VENDOR MOVEMENT REPORT","[ VENDOR : " . $vendor . " - ".$report[0]['VdrName']." ] - [ 
@@ -157,7 +187,7 @@ class phpExcelExport extends Controller{
 						"O" => "TPR START", 
 						"P" => "TPR END");
 		$this->setSheetName("TPR REPORT");
-		$report = $this->memcache->get("report");
+		$specialReport = $this->brdata->get_specialReport($this->today, $from, $to);
 		$bold = array("G", "N", "H", "I", "J");
 		$lastItem = count($report) + 4;
 		$this->setHeader("TPR SPECIALS REPORT", " [  " . $from . " - " . $to . " ]", $header, 'specials_r', $lastItem, $lastItem);
@@ -185,7 +215,7 @@ class phpExcelExport extends Controller{
 						"P" => "TPR START", 
 						"Q" => "TPR END");
 		$this->setSheetName("DEPARTMENT REPORT");
-		$report = $this->memcache->get("report");
+		$report = $this->brdata->get_departmentReport($department, $this->today, $from, $to);
 		$lastItem = count($report) + 4;
 		$bold = array("G", "H", "I", "O");
 		$this->setHeader("DEPARTMENT REPORT", "[ DPT " . $department . " - " . $report[0]['DptName'] . " ] - 
@@ -212,7 +242,7 @@ class phpExcelExport extends Controller{
 						"N" => "TPR START", 
 						"O" => "TPR END");
 		$this->setSheetName("VENDOR DEPARTMENT REPORT");
-		$report = $this->memcache->get("report");
+		$report = $this->brdata->get_vendorDepartmentReport($vendor, $department, $this->today, $from, $to);
 		$lastItem = count($report) + 4;
 		$bold = array("G", "H", "I", "M");
 		$this->setHeader("VENDOR DEPARTMENT REPORT" ,"[ VENDOR : " . $vendor . " -  ".$report[0]['VdrName']." ] - [ DPT : 
@@ -239,7 +269,22 @@ class phpExcelExport extends Controller{
 						"N" => "TPR START", 
 						"O" => "TPR END");
 		$this->setSheetName("VENDOR DEPARTMENT REPORT");
-		$report = $this->memcache->get("report");
+		$vdrDptReport = $this->brdata->get_vendorDepartmentReport($vendor, $department, $this->today, $from, $to);
+		$j=0;
+		$i=0;
+		foreach($vdrDptReport as $key => $value)
+		{
+			if($value['onhand'] >= 0)
+			{
+				unset($vdrDptReport[$i]);
+			}
+			$i = $i + 1;
+		}
+		foreach($vdrDptReport as $key => $value)
+		{
+			$report[$j] = $value;
+			$j = $j + 1;
+		}
 		$lastItem = count($report) + 4;
 		$bold = array("G", "H", "I", "M");
 		$this->setHeader("VENDOR DEPARTMENT NEGATIVE REPORT" ,"[ VENDOR : " . $vendor . " -  ".$report[0]['VdrName']." ] - [ DPT : 
@@ -268,7 +313,7 @@ class phpExcelExport extends Controller{
 						"P" => "TPR START", 
 						"Q" => "TPR END");
 		$this->setSheetName("UPC RANGE REPORT");
-		$report = $this->memcache->get("report");
+		$report = $this->brdata->get_upcRangeReport($upc1, $upc2, $this->today, $to, $from);
 		$lastItem = count($report) + 4;
 		$bold = array("G", "H", "I", "O");
 		$this->setHeader("UPC RANGE REPORT" ,"[ UPC 1 : " . $upc1 . " / UPC2 : 
@@ -298,7 +343,7 @@ class phpExcelExport extends Controller{
 						"Q" => "TPR END");
 		$this->setSheetName("ITEM DESCRIPTION REPORT");
 		$description = str_replace("_", " ", $description);
-		$report = $this->memcache->get("report");
+		$report = $this->brdata->get_itemDescription($description, $this->today, $to, $from);
 		$bold = array("G", "H", "I", "O");
 		$lastItem = count($report) + 4;
 		$this->setReportWithSection($header, $report, $bold, "A", "", "D");
@@ -328,7 +373,7 @@ class phpExcelExport extends Controller{
 						"Q" => "TPR END");
 		$this->setSheetName("SECTION REPORT");
 		$time_startMemcache = $this->microtime_float();
-		$report = $this->memcache->get("report");
+		$report = $this->brdata->get_sectionReport($section, $this->today, $from, $to);
 		$bold = array("G", "H", "I", "O");
 		$time_endMemcache = $this->microtime_float();
 		$timeMemcache = $time_endMemcache - $time_startMemcache;
@@ -360,8 +405,23 @@ class phpExcelExport extends Controller{
 						"N" => "TPR START", 
 						"O" => "TPR END");
 		$this->setSheetName("VENDOR SECTION NEGATIVE ON-HAND REPORT");
-		$report = $this->memcache->get("report");
+		$vdrSctReport = $this->brdata->get_vendorSectionReport($vendor, $section, $this->today, $to, $from);
 		$bold = array("G", "H", "I", "M");
+		$j=0;
+		$i=0;
+		foreach($vdrSctReport as $key => $value)
+		{
+			if($value['onhand'] >= 0 ||  $value['SctNo'] == 184)
+			{
+				unset($vdrSctReport[$i]);
+			}
+			$i = $i + 1;
+		}
+		foreach($vdrSctReport as $key => $value)
+		{
+			$report[$j] = $value;
+			$j = $j + 1;
+		}
 		$lastItem = count($report) + 4;
 		$this->setHeader("VENDOR SECTION REPORT WITH NEGATIVE ON-HAND","[ VENDOR : " . $vendor . " - ".$report[0]['VdrName'] ." ] - [ SECTION : " . $section . " - " . $report[0]['SctName'] . "] - [ 
 			" . $from . " - " . $to . " ]", $header, 'vdrSctNegativeReport', $lastItem);
@@ -389,8 +449,23 @@ class phpExcelExport extends Controller{
 						"P" => "TPR START", 
 						"Q" => "TPR END");
 		$this->setSheetName("SECTION MOVEMENT REPORT");
-		$report = $this->memcache->get("report");
+		$vdrSctReport = $this->brdata->get_vendorSectionReport($vendor, $section, $this->today, $to, $from);
 		$bold = array("G", "H", "I", "O");
+		$j=0;
+		$i=0;
+		foreach($vdrSctReport as $key => $value)
+		{
+			if($value['sales'] != NULL)
+			{
+				unset($vdrSctReport[$i]);
+			}
+			$i = $i + 1;
+		}
+		foreach($vdrSctReport as $key => $value)
+		{
+			$report[$j] = $value;
+			$j = $j + 1;
+		}
 		$lastItem = count($report) + 4;
 		$this->setHeader("SECTION MOVEMENT REPORT" ," [SCT : ".$section." - " . $report[0]['SctName'] . " ] [ ".$from." - ".$to." ]", $header, "sctReport", $lastItem);
 		$this->setReport($header, $report, $bold, "A", "", "D");
@@ -417,7 +492,22 @@ class phpExcelExport extends Controller{
 						"N" => "TPR START", 
 						"O" => "TPR END");
 		$this->setSheetName("VENDOR SECTION MOVEMENT REPORT");
-		$report = $this->memcache->get("report");
+		$vdrSctReport = $this->brdata->get_vendorSectionReport($vendor, $section, $this->today, $to, $from);
+		$j=0;
+		$i=0;
+		foreach($vdrSctReport as $key => $value)
+		{
+			if($value['sales'] != NULL)
+			{
+				unset($vdrSctReport[$i]);
+			}
+			$i = $i + 1;
+		}
+		foreach($vdrSctReport as $key => $value)
+		{
+			$report[$j] = $value;
+			$j = $j + 1;
+		}
 		$lastItem = count($report) + 4;
 		$bold = array("G", "H", "I", "M");
 		$this->setHeader("VENDOR SECTION MOVEMENT REPORT" ,"[ VENDOR : " . $vendor . " - " . $report[0]['VdrName'] . 
@@ -447,7 +537,7 @@ class phpExcelExport extends Controller{
 						"P" => "VDR #", 
 						"Q" => "VDR NAME");
 		$this->setSheetName("UPC RECEIVING HISTORY");
-		$report = $this->memcache->get("report");
+		$report = $this->brdata->get_upcReceivingHistory($upc, $this->today, $to, $from);
 		$lastItem = count($report) + 4;
 		$bold = array("G", "H", "I", "M");
 		$this->setHeader("UPC RECEIVING HISTORY","[ UPC : ".$upc." ] - [ 
@@ -474,7 +564,7 @@ class phpExcelExport extends Controller{
 						"N" => "TPR START", 
 						"O" => "TPR END");
 		$this->setSheetName("VENDOR SECTION REPORT");
-		$report = $this->memcache->get("report");
+		$report = $this->brdata->get_vendorSectionReport($vendor, $section, $this->today, $to, $from);
 		$lastItem = count($report) + 4;
 		$bold = array("G", "H", "I", "M");
 		$this->setHeader("VENDOR SECTION REPORT" ,"[ VENDOR : " . $vendor . " - " . $report[0]['VdrName'] . 
@@ -505,7 +595,7 @@ class phpExcelExport extends Controller{
 						"Q" => "TPR START", 
 						"R" => "TPR END");
 		$this->setSheetName("VENDOR UPC PRICE COMPARE REPORT");
-		$report = $this->memcache->get("report");
+		$report = $this->brdata->get_upcReport($upc, $this->today, $to, $from);
 		$lastItem = count($report) + 4;
 		$bold = array("J", "K", "I", "L", "P");
 		$this->setHeader("UPC PRICE COMPARE REPORT" ,"[ UPC : " . $upc . " ] - [ ". $from . " - " . $to . " ]", $header, "upcPriceCompare", $lastItem);
@@ -533,7 +623,7 @@ class phpExcelExport extends Controller{
 						"P" => "TPR START", 
 						"Q" => "TPR END");
 		$this->setSheetName("VENDOR ITEM CODE REPORT");
-		$report = $this->memcache->get("report");
+		$report = $this->brdata->get_itemcodeReport($_POST['itemcode'], $this->today, $to, $from);
 		$lastItem = count($report) + 4;
 		$bold = array("J", "K", "I", "O");
 		$this->setHeader("VENDOR ITEM CODE REPORT" ,"[ ITEM CODE " . $code . " ] - [ ". $from . " - " . $to." ]", $header, 'itemCode', $lastItem);
@@ -562,7 +652,7 @@ class phpExcelExport extends Controller{
 						"Q" => "VDR #", 
 						"R" => "VDR NAME");
 		$this->setSheetName("VENDOR PRICE COMPARE REPORT");
-		$report = $this->memcache->get("report");
+		$report = $this->brdata->vendorPriceCompare($vendor1, $vendor2, $this->today, $this->from, $this->to);
 		$lastItem = count($report) + 4;
 		$bold = array("D", "K", "L", "M", "F");
 		$this->setHeader("VENDOR PRICE COMPARE REPORT", " [ VENDORS : " . $vendor1 . " - ".$report[0]['VdrNameOne']." / " . $vendor2 . " - " .
@@ -592,7 +682,7 @@ class phpExcelExport extends Controller{
 						"Q" => "VDR #", 
 						"R" => "VDR NAME");
 		$this->setSheetName("SECTION PRICE COMPARE REPORT");
-		$report = $this->memcache->get("report");
+		$report = $this->brdata->sectionPriceCompare($vendor1, $vendor2, $section, $this->today, $this->from, $this->to);
 		$bold = array("D", "K", "L", "M", "F");
 		$lastItem = count($report) + 4;
 		$this->setHeader("VENDOR PRICE COMPARE PER SECTION", " [ VENDORS : " . $vendor1 . " - ".$report[0]['VdrNameOne']." / " . $vendor2 . " - " .
