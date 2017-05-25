@@ -526,7 +526,6 @@ class home extends Controller{
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
 				"title" => $title, "tableID" => "report_result", "action" => "department", "reportType" => 'templateWithSectionOrder', 
 				"from" => $this->from, "to" => $this->to, "report" => $departmentReport, "menu" => $this->userRole);
-			$this->memcache->set("report", $departmentReport);
 		}
 		$this->renderView($data);
 	}
