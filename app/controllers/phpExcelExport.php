@@ -652,7 +652,7 @@ class phpExcelExport extends Controller{
 						"Q" => "VDR #", 
 						"R" => "VDR NAME");
 		$this->setSheetName("VENDOR PRICE COMPARE REPORT");
-		$report = $this->brdata->vendorPriceCompare($vendor1, $vendor2, $this->today, $this->from, $this->to);
+		$report = $this->brdata->vendorPriceCompare($vendor1, $vendor2, $this->today, $from, $to);
 		$lastItem = count($report) + 4;
 		$bold = array("D", "K", "L", "M", "F");
 		$this->setHeader("VENDOR PRICE COMPARE REPORT", " [ VENDORS : " . $vendor1 . " - ".$report[0]['VdrNameOne']." / " . $vendor2 . " - " .
