@@ -70,7 +70,7 @@ class phpExcelExport extends Controller{
 		$bold = array("G", "M", "H", "I");
 		$unit_price_col = "";
 		$time_startMemcache = $this->microtime_float();
-		$vendorReport = $this->brdata->get_vendorReport($vendor, $this->today, $from, $to);
+		$report = $this->brdata->get_vendorReport($vendor, $this->today, $from, $to);
 		$time_endMemcache = $this->microtime_float();
 		$timeMemcache = $time_endMemcache - $time_startMemcache;
 		$lastItem = count($report) + 4;
@@ -187,7 +187,7 @@ class phpExcelExport extends Controller{
 						"O" => "TPR START", 
 						"P" => "TPR END");
 		$this->setSheetName("TPR REPORT");
-		$specialReport = $this->brdata->get_specialReport($this->today, $from, $to);
+		$report = $this->brdata->get_specialReport($this->today, $from, $to);
 		$bold = array("G", "N", "H", "I", "J");
 		$lastItem = count($report) + 4;
 		$this->setHeader("TPR SPECIALS REPORT", " [  " . $from . " - " . $to . " ]", $header, 'specials_r', $lastItem, $lastItem);
