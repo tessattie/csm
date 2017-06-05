@@ -17,7 +17,7 @@ class account extends Controller{
 	{
 		parent::__construct();
 		$this->exportURL = "#";
-		$this->roles = array(1 => "Admin", 2 => "Level 1", 3 => "Level 2", 4 => "Level 0");
+		$this->roles = array(1 => "Admin", 2 => "Level 1", 3 => "Level 2", 4 => "Level 0", 5 => "Order 0", 6 => "Order 1", 7 => "Order 2");
 		$this->users = $this->model('users');
 		$this->from = date('Y-m-01');
 		$this->to = date('Y-m-d');
