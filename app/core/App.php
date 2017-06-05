@@ -52,6 +52,11 @@ class App{
 		if($controllerName != 'login')
 		{
 			$this->controller->checkSession();
+			if($_SESSION['role'] > 4)
+			{
+				unset($_SESSION);
+				header('Location: /expiration/public/login');
+			}
 		}
 
 		$methodName = $this->method;
