@@ -31,9 +31,13 @@ class login extends Controller{
 				}
 				else
 				{
-					$this->startUserSession($user);
-					$this->rememberUser($_POST);
-					header('Location: /csm/public/home');
+					if($user['role'] > 4){
+						$errorMessage = '<p class="bg-danger">This user does not have access to this application</p>';
+					}else{
+						$this->startUserSession($user);
+						$this->rememberUser($_POST);
+						header('Location: /csm/public/home');
+					}
 				}
 			}
 		}

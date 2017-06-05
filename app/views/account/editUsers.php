@@ -13,6 +13,9 @@
 							<option value = "4">Level 0</option>
 							<option value = "2">Level 1</option>
 							<option value = "3" selected>Level 2</option>
+							<option value = "5">Order 0</option>
+							<option value = "6">Order 1</option>
+							<option value = "7">Order 2</option>
 						</select>
 					</th>
 					<th><input type='submit' class="btn btn-default" value='Submit' name="submit"></th>
