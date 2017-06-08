@@ -52,10 +52,10 @@ class App{
 		if($controllerName != 'login')
 		{
 			$this->controller->checkSession();
-			if($_SESSION['role'] > 4)
+			if($_SESSION['csm']['role'] > 4)
 			{
 				unset($_SESSION);
-				header('Location: /expiration/public/login');
+				header('Location: /csm/public/login');
 			}
 		}
 
@@ -76,8 +76,8 @@ class App{
 
 		if($controllerName != "login")
 		{
-			if(!empty($this->rights[$_SESSION["role"]][$this->roles[$_SESSION["role"]]]["controllers"][array_search($controllerName, $this->rights[$_SESSION["role"]][$this->roles[$_SESSION["role"]]]["controllers"])]) 
-			&& !empty($this->rights[$_SESSION["role"]][$this->roles[$_SESSION["role"]]]["actions"][array_search($methodName, $this->rights[$_SESSION["role"]][$this->roles[$_SESSION["role"]]]["actions"])]))
+			if(!empty($this->rights[$_SESSION['csm']["role"]][$this->roles[$_SESSION['csm']["role"]]]["controllers"][array_search($controllerName, $this->rights[$_SESSION['csm']["role"]][$this->roles[$_SESSION['csm']["role"]]]["controllers"])]) 
+			&& !empty($this->rights[$_SESSION['csm']["role"]][$this->roles[$_SESSION['csm']["role"]]]["actions"][array_search($methodName, $this->rights[$_SESSION['csm']["role"]][$this->roles[$_SESSION['csm']["role"]]]["actions"])]))
 			{
 				call_user_func_array([$this->controller, $this->method], $this->params);
 			}

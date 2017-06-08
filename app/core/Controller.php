@@ -57,7 +57,7 @@ class Controller{
 
 	public function checkSession()
 	{
-		if(!isset($_SESSION['id']))
+		if(!isset($_SESSION['csm']['id']))
 		{
 			header('Location: /csm/public/login');
 		}
@@ -66,13 +66,13 @@ class Controller{
 	public function setRole()
 	{
 		$role = "";
-		if(isset($_SESSION['role']))
+		if(isset($_SESSION['csm']['role']))
 		{
-			$role = $this->roles[$_SESSION['role']];
+			$role = $this->roles[$_SESSION['csm']['role']];
 		}
 		else
 		{
-			if(!isset($_SESSION['id']))
+			if(!isset($_SESSION['csm']['id']))
 			{
 				header('Location: /csm/public/login');
 			}

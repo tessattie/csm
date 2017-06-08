@@ -12,7 +12,7 @@ class users{
 
 	public function getUsers()
 	{
-		$SQL = "SELECT * FROM users ORDER BY lastname";
+		$SQL = "SELECT * FROM users WHERE role=1 OR role=2 OR role=3 OR role=4 ORDER BY lastname";
 		$result = $this->db->query($SQL);
 		return $result->fetchall(PDO::FETCH_BOTH);
 	}
