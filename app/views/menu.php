@@ -14,7 +14,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <?php 
-        if($_SESSION['role'] != "3" && $_SESSION['role'] != "4")
+        if($_SESSION["csm"]['role'] != "3" && $_SESSION["csm"]['role'] != "4")
         {
           include("zeroMovement.php");
         } 
@@ -25,7 +25,7 @@
         <li><a href="/csm/public/home/departmentNames" class="menuitems navrightmenu">Department list</a></li>
         <li><a href="/csm/public/home/specials" class="menuitems navrightmenu">Special list</a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle navrightmenu" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= ucfirst($_SESSION['firstname']); ?> <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle navrightmenu" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= ucfirst($_SESSION["csm"]['firstname']); ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="/csm/public/home">Home</a></li>
             <li><a href="/csm/public/account">Settings</a></li>

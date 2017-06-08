@@ -1093,6 +1093,12 @@ class phpExcelExport extends Controller{
 							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
 							    ->getStartColor()
 							    ->setRGB('F2DEDE');
+							$this->phpExcel->getActiveSheet()
+							    ->getStyle($key . $j)
+							    ->getFill()
+							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+							    ->getStartColor()
+							    ->setRGB('DFF0D8');
 						}
 						else
 						{
@@ -1104,6 +1110,13 @@ class phpExcelExport extends Controller{
 							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
 							    ->getStartColor()
 							    ->setRGB('F2DEDE');
+
+							$this->phpExcel->getActiveSheet()
+							    ->getStyle($key . $j)
+							    ->getFill()
+							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+							    ->getStartColor()
+							    ->setRGB('DFF0D8');
 						}
 						
 					}
@@ -1119,6 +1132,13 @@ class phpExcelExport extends Controller{
 							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
 							    ->getStartColor()
 							    ->setRGB('F2DEDE');
+
+							$this->phpExcel->getActiveSheet()
+							    ->getStyle($key . $j)
+							    ->getFill()
+							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+							    ->getStartColor()
+							    ->setRGB('DFF0D8');
 						}
 						else
 						{
@@ -1130,6 +1150,13 @@ class phpExcelExport extends Controller{
 							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
 							    ->getStartColor()
 							    ->setRGB('F2DEDE');
+
+							$this->phpExcel->getActiveSheet()
+							    ->getStyle($key . $j)
+							    ->getFill()
+							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+							    ->getStartColor()
+							    ->setRGB('DFF0D8');
 						}
 					}
 				}

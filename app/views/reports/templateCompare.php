@@ -62,37 +62,37 @@ if(!empty($data['report']) && $data['report'] != null && $data['report'] != fals
                 			
                 			if($data["qt"][$l][$k] == "lastReceivingOne" && empty($data['report'][$i]["lastReceivingDateOne"]))
 		                    {
-		                        echo "<td class='" . $data["qt"][$l][$k] . "'></td>";
+		                        echo "<td class='" . $data["qt"][$l][$k] . " bg-success'></td>";
 		                    }
 		                    else
 		                    {
 		                    	if($data["qt"][$l][$k] == "CertCodeTwo" || $data["qt"][$l][$k] == "CertCodeOne")
 		                    	{
-		                    		echo "<td class='" . $data["qt"][$l][$k] . "'>
+		                    		echo "<td class='" . $data["qt"][$l][$k] . " bg-success'>
 		                    		<a href = '/csm/public/home/vendorItemCode_url/" . str_replace(' ', '', $data['report'][$i][$data["qt"][$l][$k]]) . "'>" . str_replace(' ', '', $data['report'][$i][$data["qt"][$l][$k]]) . "</a></td>";
 		                    	}
 		                    	else
 		                    	{
 		                    		if($data["qt"][$l][$k] == "VdrNameTwo" || $data["qt"][$l][$k] == "VdrNameOne")
 			                    	{
-			                    		echo "<td class='" . $data["qt"][$l][$k] . "'>
+			                    		echo "<td class='" . $data["qt"][$l][$k] . " bg-success'>
 			                    		<a href = '/csm/public/home/vendor_url/" . $data['report'][$i]['VdrNoOne'] . "'>" . $data['report'][$i][$data["qt"][$l][$k]] . "</a></td>";
 			                    	}
 			                    	else
 			                    	{
 			                    		if($data["qt"][$l][$k] == "CaseCostTwo" || $data["qt"][$l][$k] == "CaseCostOne")
 			                    		{
-			                    			echo "<td class='" . $data["qt"][$l][$k] . "'>" . number_format($data['report'][$i][$data["qt"][$l][$k]], 2, ".", '') . "</td>";
+			                    			echo "<td class='" . $data["qt"][$l][$k] . " bg-success'>" . number_format($data['report'][$i][$data["qt"][$l][$k]], 2, ".", '') . "</td>";
 			                    		}
 			                    		else
 			                    		{
 			                    			if($data["qt"][$l][$k] == "unitPriceTwo" || $data["qt"][$l][$k] == "unitPriceOne")
 			                    			{
-			                    				echo "<td class='" . $data["qt"][$l][$k] . "'>" . number_format($data['report'][$i][$data["qt"][$l][$k]], 2, '.', '') . "</td>";
+			                    				echo "<td class='" . $data["qt"][$l][$k] . " bg-success'>" . number_format($data['report'][$i][$data["qt"][$l][$k]], 2, '.', '') . "</td>";
 			                    			}
 			                    			else
 			                    			{
-			                    				echo "<td class='" . $data["qt"][$l][$k] . "'>" . $data['report'][$i][$data["qt"][$l][$k]] . "</td>";
+			                    				echo "<td class='" . $data["qt"][$l][$k] . " bg-success'>" . $data['report'][$i][$data["qt"][$l][$k]] . "</td>";
 			                    			}
 			                    		}
 			                    	}
