@@ -104,7 +104,7 @@ if(!empty($data['report']) && $data['report'] != null && $data['report'] != fals
                 	{
                 		if($l == 9)
 	                	{
-	                		echo "</tr><tr>";
+	                		echo "</tr><tr class='bg-danger'>";
 	                		for($k = 0; $k < count($data["qt"][$l]); $k++)
 	                		{
 	                			if($data["qt"][$l][$k] == "lastReceivingTwo" && empty($data['report'][$i]["lastReceivingDateTwo"]))

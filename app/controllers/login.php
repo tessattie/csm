@@ -10,7 +10,7 @@ class login extends Controller{
 	
 	public function index($errorMessage = '')
 	{
-		if(!empty($_SESSION['id']))
+		if(!empty($_SESSION['csm']['id']))
 		{
 			header('Location: /csm/public/home');
 		}
@@ -47,12 +47,12 @@ class login extends Controller{
 	private function startUserSession($user)
 	{
 		session_start();
-		$_SESSION["id"] = $user['id'];
-		$_SESSION["username"] = $user['username'];
-		$_SESSION["email"] = $user['email'];
-		$_SESSION["firstname"] = $user['firstname'];
-		$_SESSION["lastname"] = $user['lastname'];
-		$_SESSION["role"] = $user['role'];
+		$_SESSION['csm']["id"] = $user['id'];
+		$_SESSION['csm']["username"] = $user['username'];
+		$_SESSION['csm']["email"] = $user['email'];
+		$_SESSION['csm']["firstname"] = $user['firstname'];
+		$_SESSION['csm']["lastname"] = $user['lastname'];
+		$_SESSION['csm']["role"] = $user['role'];
 	}
 
 	private function rememberUser($post)

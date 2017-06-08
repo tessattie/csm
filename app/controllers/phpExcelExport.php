@@ -75,7 +75,7 @@ class phpExcelExport extends Controller{
 		$timeMemcache = $time_endMemcache - $time_startMemcache;
 		$lastItem = count($report) + 4;
 		$this->setHeader("VENDOR SECTION FINAL REPORT","[ VENDOR : " . $report[0]['VdrNo'] . " - ".$report[0]['VdrName']." ] - [ 
-			".$from." - ".$to." ]", $header, 'vdrReport', $lastItem);
+			".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, 'vdrReport', $lastItem);
 		$time_startPHPExcel = $this->microtime_float();
 		$this->setReportWithSection($header, $report, $bold, $unit_price_col);
 		$time_endPHPExcel = $this->microtime_float();
@@ -121,7 +121,7 @@ class phpExcelExport extends Controller{
 		}
 		$lastItem = count($report) + 4;
 		$this->setHeader("VENDOR SECTION FINAL REPORT WITH NEGATIVE ON-HAND","[ VENDOR : " . $vendor . " - ".$report[0]['VdrName']." ] - [ 
-			".$from." - ".$to." ]", $header, 'vdrReport', $lastItem);
+			".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, 'vdrReport', $lastItem);
 		$this->setReportWithSection($header, $report, $bold, "A", "", "D");
 		$this->saveReport('VendorSectionFinalNegative_'.$vendor.'_'.$report[0]['VdrName'].'_'.$this->today);
 	}
@@ -163,7 +163,7 @@ class phpExcelExport extends Controller{
 		$lastItem = count($report) + 4;
 		$bold = array("G", "M", "H", "I");
 		$this->setHeader("VENDOR MOVEMENT REPORT","[ VENDOR : " . $vendor . " - ".$report[0]['VdrName']." ] - [ 
-			".$from." - ".$to." ]", $header, 'vdrReport', $lastItem);
+			".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, 'vdrReport', $lastItem);
 		$this->setReportWithSection($header, $report, $bold, "A", "", "D");
 		$this->saveReport('VendorMovement_'.$vendor.'_'.$report[0]['VdrName'].'_'.$this->today);
 	}
@@ -190,7 +190,7 @@ class phpExcelExport extends Controller{
 		$report = $this->brdata->get_specialReport($this->today, $from, $to);
 		$bold = array("G", "N", "H", "I", "J");
 		$lastItem = count($report) + 4;
-		$this->setHeader("TPR SPECIALS REPORT", " [  " . $from . " - " . $to . " ]", $header, 'specials_r', $lastItem, $lastItem);
+		$this->setHeader("TPR SPECIALS REPORT", " [  " . $from . " - " . $to . " ]"." - [ ".count($report)." ITEMS ]", $header, 'specials_r', $lastItem, $lastItem);
 		$this->setReportWithSection($header, $report, $bold, "A", "H", "D");
 		$this->saveReport('TPRReport_'.$this->today);
 	}
@@ -219,7 +219,7 @@ class phpExcelExport extends Controller{
 		$lastItem = count($report) + 4;
 		$bold = array("G", "H", "I", "O");
 		$this->setHeader("DEPARTMENT REPORT", "[ DPT " . $department . " - " . $report[0]['DptName'] . " ] - 
-			 [ ".$from." - ".$to. " ]", $header, "dptReport", $lastItem);
+			 [ ".$from." - ".$to. " ]"." - [ ".count($report)." ITEMS ]", $header, "dptReport", $lastItem);
 		$this->setReportWithSection($header, $report, $bold, "A", "", "D");
 		$this->saveReport('DepartmentReport_'.$report[0]['DptName'].'_'.$this->today);
 	}
@@ -246,7 +246,7 @@ class phpExcelExport extends Controller{
 		$lastItem = count($report) + 4;
 		$bold = array("G", "H", "I", "M");
 		$this->setHeader("VENDOR DEPARTMENT REPORT" ,"[ VENDOR : " . $vendor . " -  ".$report[0]['VdrName']." ] - [ DPT : 
-			" . $department . " - " . $report[0]['DptName'] . "] - [ ".$from." - ".$to."] ", $header, "vdrDpt", $lastItem);
+			" . $department . " - " . $report[0]['DptName'] . "] - [ ".$from." - ".$to."]"." - [ ".count($report)." ITEMS ]", $header, "vdrDpt", $lastItem);
 		$this->setReportWithSection($header, $report, $bold, "A", "", "D");
 		$this->saveReport('VendorDepartment'.$report[0]['VdrName'].'_'.$report[0]['DptName'].'_'.$this->today);
 	}
@@ -288,7 +288,7 @@ class phpExcelExport extends Controller{
 		$lastItem = count($report) + 4;
 		$bold = array("G", "H", "I", "M");
 		$this->setHeader("VENDOR DEPARTMENT NEGATIVE REPORT" ,"[ VENDOR : " . $vendor . " -  ".$report[0]['VdrName']." ] - [ DPT : 
-			" . $department . " - " . $report[0]['DptName'] . "] - [ ".$from." - ".$to."] ", $header, "vdrDpt", $lastItem);
+			" . $department . " - " . $report[0]['DptName'] . "] - [ ".$from." - ".$to."]"." - [ ".count($report)." ITEMS ]", $header, "vdrDpt", $lastItem);
 		$this->setReportWithSection($header, $report, $bold, "A", "", "D");
 		$this->saveReport('VendorDepartment'.$report[0]['VdrName'].'_'.$report[0]['DptName'].'_'.$this->today);
 	}
@@ -317,7 +317,7 @@ class phpExcelExport extends Controller{
 		$lastItem = count($report) + 4;
 		$bold = array("G", "H", "I", "O");
 		$this->setHeader("UPC RANGE REPORT" ,"[ UPC 1 : " . $upc1 . " / UPC2 : 
-			" . $upc2 . " ] - [ ".$from." - ".$to." ]", $header, "upcRange", $lastItem);
+			" . $upc2 . " ] - [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "upcRange", $lastItem);
 		$this->setReportWithSection($header, $report, $bold, "A", "", "D");
 		$this->saveReport('UPCRange_'.$upc1.'_'.$upc2.'_'.$this->today);
 	}
@@ -347,7 +347,7 @@ class phpExcelExport extends Controller{
 		$bold = array("G", "H", "I", "O");
 		$lastItem = count($report) + 4;
 		$this->setReportWithSection($header, $report, $bold, "A", "", "D");
-		$this->setHeader("ITEM DESCRIPTION REPORT", "[ ". $description." ] [ FROM ".$from." TO ".$to." ]", $header, "itemDescription", $lastItem);
+		$this->setHeader("ITEM DESCRIPTION REPORT", "[ ". $description." ] [ FROM ".$from." TO ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "itemDescription", $lastItem);
 		$description = str_replace(" ", "_", $description);
 		$this->saveReport('ItemDescriptionReport_'.$description.'_'.$this->today);
 	}
@@ -378,7 +378,7 @@ class phpExcelExport extends Controller{
 		$time_endMemcache = $this->microtime_float();
 		$timeMemcache = $time_endMemcache - $time_startMemcache;
 		$lastItem = count($report) + 4;
-		$this->setHeader("SECTION REPORT" ," [SCT : ".$section." - " . $report[0]['SctName'] . " ] [ ".$from." - ".$to." ]", $header, "sctReport", $lastItem);
+		$this->setHeader("SECTION REPORT" ," [SCT : ".$section." - " . $report[0]['SctName'] . " ] [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "sctReport", $lastItem);
 		$time_startPHPExcel = $this->microtime_float();
 		$this->setReport($header, $report, $bold, "A", "", "D");
 		$time_endPHPExcel = $this->microtime_float();
@@ -424,7 +424,7 @@ class phpExcelExport extends Controller{
 		}
 		$lastItem = count($report) + 4;
 		$this->setHeader("VENDOR SECTION REPORT WITH NEGATIVE ON-HAND","[ VENDOR : " . $vendor . " - ".$report[0]['VdrName'] ." ] - [ SECTION : " . $section . " - " . $report[0]['SctName'] . "] - [ 
-			" . $from . " - " . $to . " ]", $header, 'vdrSctNegativeReport', $lastItem);
+			" . $from . " - " . $to . " ]"." - [ ".count($report)." ITEMS ]", $header, 'vdrSctNegativeReport', $lastItem);
 		$this->setReport($header, $report, $bold, "A", "", "D");
 		$this->saveReport('VendorSectionNegative_'.$vendor.'_'.$report[0]['VdrName'].'_'.$this->today);
 	}
@@ -467,7 +467,7 @@ class phpExcelExport extends Controller{
 			$j = $j + 1;
 		}
 		$lastItem = count($report) + 4;
-		$this->setHeader("SECTION MOVEMENT REPORT" ," [SCT : ".$section." - " . $report[0]['SctName'] . " ] [ ".$from." - ".$to." ]", $header, "sctReport", $lastItem);
+		$this->setHeader("SECTION MOVEMENT REPORT" ," [SCT : ".$section." - " . $report[0]['SctName'] . " ] [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "sctReport", $lastItem);
 		$this->setReport($header, $report, $bold, "A", "", "D");
 		$this->saveReport('SectionMovement_'.$section.'_' . $report[0]['SctName'] . '_' . $this->today);
 	}
@@ -511,7 +511,7 @@ class phpExcelExport extends Controller{
 		$lastItem = count($report) + 4;
 		$bold = array("G", "H", "I", "M");
 		$this->setHeader("VENDOR SECTION MOVEMENT REPORT" ,"[ VENDOR : " . $vendor . " - " . $report[0]['VdrName'] . 
-			" ] - [ SECTION ".$section." - " . $report[0]['SctName'] . "] - [ ".$from." - ".$to." ]", 
+			" ] - [ SECTION ".$section." - " . $report[0]['SctName'] . "] - [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", 
 			$header, 'vdrSctReport', $lastItem);
 		$this->setReport($header, $report, $bold, "A", "", "D");
 		$this->saveReport('VendorSectionMovement_'.$vendor.'_'.$report[0]['VdrName'].'_'.$section.'_'.$report[0]['SctName'].'_'.$this->today);
@@ -541,7 +541,7 @@ class phpExcelExport extends Controller{
 		$lastItem = count($report) + 4;
 		$bold = array("G", "H", "I", "M");
 		$this->setHeader("UPC RECEIVING HISTORY","[ UPC : ".$upc." ] - [ 
-			".$from." - ".$to." ]", $header, 'upcReceivingReport', $lastItem);
+			".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, 'upcReceivingReport', $lastItem);
 		$this->setReport($header, $report, $bold, "A", "", "D");
 		$this->saveReport('upcReceivingHistory_'.$upc.'_'.$this->today);
 	}
@@ -568,7 +568,7 @@ class phpExcelExport extends Controller{
 		$lastItem = count($report) + 4;
 		$bold = array("G", "H", "I", "M");
 		$this->setHeader("VENDOR SECTION REPORT" ,"[ VENDOR : " . $vendor . " - " . $report[0]['VdrName'] . 
-			" ] - [ SECTION ".$section." - " . $report[0]['SctName'] . "] - [ ".$from." - ".$to." ]", 
+			" ] - [ SECTION ".$section." - " . $report[0]['SctName'] . "] - [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", 
 			$header, 'vdrSctReport', $lastItem);
 		$this->setReport($header, $report, $bold, "A", "", "D");
 		$this->saveReport('VendorSection_'.$report[0]['VdrName'].'_'.$report[0]['SctName'].'_'.$this->today);
@@ -598,7 +598,7 @@ class phpExcelExport extends Controller{
 		$report = $this->brdata->get_upcReport($upc, $this->today, $to, $from);
 		$lastItem = count($report) + 4;
 		$bold = array("J", "K", "I", "L", "P");
-		$this->setHeader("UPC PRICE COMPARE REPORT" ,"[ UPC : " . $upc . " ] - [ ". $from . " - " . $to . " ]", $header, "upcPriceCompare", $lastItem);
+		$this->setHeader("UPC PRICE COMPARE REPORT" ,"[ UPC : " . $upc . " ] - [ ". $from . " - " . $to . " ]"." - [ ".count($report)." ITEMS ]", $header, "upcPriceCompare", $lastItem);
 		$this->setReport($header, $report, $bold, "C", "J", "F");
 		$this->saveReport('VendorUPCPriceCompare_' . $upc . '_' . $this->today);
 	}
@@ -626,7 +626,7 @@ class phpExcelExport extends Controller{
 		$report = $this->brdata->get_itemcodeReport($_POST['itemcode'], $this->today, $to, $from);
 		$lastItem = count($report) + 4;
 		$bold = array("J", "K", "I", "O");
-		$this->setHeader("VENDOR ITEM CODE REPORT" ,"[ ITEM CODE " . $code . " ] - [ ". $from . " - " . $to." ]", $header, 'itemCode', $lastItem);
+		$this->setHeader("VENDOR ITEM CODE REPORT" ,"[ ITEM CODE " . $code . " ] - [ ". $from . " - " . $to." ]"." - [ ".count($report)." ITEMS ]", $header, 'itemCode', $lastItem);
 		$this->setReport($header, $report, $bold, "C", "", "F");
 		$this->saveReport('VendorItemCode_' . $code . '_' . $this->today);
 	}
@@ -656,7 +656,7 @@ class phpExcelExport extends Controller{
 		$lastItem = count($report) + 4;
 		$bold = array("D", "K", "L", "M", "F");
 		$this->setHeader("VENDOR PRICE COMPARE REPORT", " [ VENDORS : " . $vendor1 . " - ".$report[0]['VdrNameOne']." / " . $vendor2 . " - " .
-			$report[0]['VdrNameTwo'] . " ] - [ ".$from." - ".$to." ]", $header, "vdrPriceCompare", $lastItem);
+			$report[0]['VdrNameTwo'] . " ] - [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "vdrPriceCompare", $lastItem);
 		$this->setCompareReport($header, $report, $bold, "A", "L", "C");
 		$this->saveReport('VendorPriceCompare_'.$report[0]['VdrNameOne'].'_'.$report[0]['VdrNameTwo'].'_'.$this->today);
 	}
@@ -686,7 +686,7 @@ class phpExcelExport extends Controller{
 		$bold = array("D", "K", "L", "M", "F");
 		$lastItem = count($report) + 4;
 		$this->setHeader("VENDOR PRICE COMPARE PER SECTION", " [ VENDORS : " . $vendor1 . " - ".$report[0]['VdrNameOne']." / " . $vendor2 . " - " .
-			$report[0]['VdrNameTwo'] . " ] - [ SECTION : " . $section . " - " . $report[0]['SctName'] . " ] - [ ".$from." - ".$to." ]", $header, "vdrPriceCompare", $lastItem);
+			$report[0]['VdrNameTwo'] . " ] - [ SECTION : " . $section . " - " . $report[0]['SctName'] . " ] - [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "vdrPriceCompare", $lastItem);
 		$this->setCompareReport($header, $report, $bold, "A", "L", "C");
 		$this->saveReport('SectionPriceCompare_'.$report[0]['VdrNameOne'].'_'.$report[0]['VdrNameTwo'] .'_'.$section."_".$this->today);
 	}
@@ -1087,11 +1087,23 @@ class phpExcelExport extends Controller{
 						{
 							$this->sheet->setCellValue($key . $j, number_format($report[$i][$this->columns[$value]."One"], 2, ".", ''));
 							$this->sheet->setCellValue($key . ($j+1), number_format($report[$i][$this->columns[$value]."Two"], 2, ".", ''));
+							$this->phpExcel->getActiveSheet()
+							    ->getStyle($key . ($j+1))
+							    ->getFill()
+							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+							    ->getStartColor()
+							    ->setRGB('F2DEDE');
 						}
 						else
 						{
 							$this->sheet->setCellValue($key . $j, $report[$i][$this->columns[$value]."One"]);
 							$this->sheet->setCellValue($key . ($j+1), $report[$i][$this->columns[$value]."Two"]);
+							$this->phpExcel->getActiveSheet()
+							    ->getStyle($key . ($j+1))
+							    ->getFill()
+							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+							    ->getStartColor()
+							    ->setRGB('F2DEDE');
 						}
 						
 					}
@@ -1101,11 +1113,23 @@ class phpExcelExport extends Controller{
 						{
 							$this->sheet->setCellValue($key . ($j+1), number_format($report[$i][$this->columns[$value]."One"], 2, ".", ''));
 							$this->sheet->setCellValue($key . $j, round($report[$i][$this->columns[$value]."Two"]));
+							$this->phpExcel->getActiveSheet()
+							    ->getStyle($key . ($j+1))
+							    ->getFill()
+							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+							    ->getStartColor()
+							    ->setRGB('F2DEDE');
 						}
 						else
 						{
 							$this->sheet->setCellValue($key . ($j+1), $report[$i][$this->columns[$value]."One"]);
 							$this->sheet->setCellValue($key . $j, $report[$i][$this->columns[$value]."Two"]);
+							$this->phpExcel->getActiveSheet()
+							    ->getStyle($key . ($j+1))
+							    ->getFill()
+							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+							    ->getStartColor()
+							    ->setRGB('F2DEDE');
 						}
 					}
 				}
