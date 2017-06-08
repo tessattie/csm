@@ -31,7 +31,7 @@ class brdata{
 				INNER JOIN dbo.Departments d ON d.Department = i.Department
 				INNER JOIN dbo.MajorDept md ON md.MajorDept = i.MajorDept
 				WHERE v.Vendor = '".$vendorNumber."' AND p.Store = '00000A'
-				ORDER BY i.Department, i.Description, vc.Pack DESC, i.SizeAlpha DESC;";
+				ORDER BY i.Department, i.Description, i.SizeAlpha ASC, vc.Pack DESC;";
 		// Execute query
 		$results = $this->db->query($SQL);
 		// print_r($this->db->errorInfo());die();
