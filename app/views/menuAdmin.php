@@ -63,7 +63,7 @@
           <input type='hidden' name = 'toNegvendor' id = 'toNegvendor'>
         </form>
 
-    <a href="#" id="vendorSection" class="list-group-item">Vendor section - Normal</a>
+    <a href="#" id="vendorSection" class="list-group-item">Vendor Section - Normal</a>
     <form method = 'POST' action = '/csm/public/home/vendorSection' name='vendorSectionform' id = 'vendorSectionform'>
         <input type='hidden' name = 'svendorNumber' id = 'svendorNumber'>
         <input type='hidden' name = 'sctvendorNumber' id = 'sctvendorNumber'>
@@ -71,7 +71,7 @@
         <input type='hidden' name = 'tovendorSection' id = 'tovendorSection'>
     </form>
 
-    <a href="#" id="vendorSectionNegative" class="list-group-item">Vendor section - Negative</a>
+    <a href="#" id="vendorSectionNegative" class="list-group-item">Vendor Section Negative for Inventory</a>
     <form method = 'POST' action = '/csm/public/home/vendorSectionNegative' name='vendorSectionNegativeform' id = 'vendorSectionNegativeform'>
         <input type='hidden' name = 'svendorNegNumber' id = 'svendorNegNumber'>
         <input type='hidden' name = 'sctvendorNegNumber' id = 'sctvendorNegNumber'>
@@ -93,7 +93,7 @@
         <input type='hidden' name = 'toNegsection' id = 'toNegsection'>
     </form>
 
-  <a href="#" id="vendorDepartment" class="list-group-item">Vendor department - Normal</a>
+  <a href="#" id="vendorDepartment" class="list-group-item">Vendor Department - Normal</a>
     <form method = 'POST' action = '/csm/public/home/vendorDepartment' name='vendorDepartmentform' id = 'vendorDepartmentform'>
         <input type='hidden' name = 'dvendorNumber' id = 'dvendorNumber'>
         <input type='hidden' name = 'dptvendorNumber' id = 'dptvendorNumber'>
@@ -101,7 +101,7 @@
         <input type='hidden' name = 'tovendorDpt' id = 'tovendorDpt'>
     </form>
 
-  <a href="#" id="vendorDepartmentNeg" class="list-group-item">Vendor department - Negative</a>
+  <a href="#" id="vendorDepartmentNeg" class="list-group-item">Vendor Department - Negative</a>
     <form method = 'POST' action = '/csm/public/home/vendorDepartmentNegative' name='vendorDepartmentformNeg' id = 'vendorDepartmentformNeg'>
         <input type='hidden' name = 'dvendorNumberNeg' id = 'dvendorNumberNeg'>
         <input type='hidden' name = 'dptvendorNumberNeg' id = 'dptvendorNumberNeg'>
