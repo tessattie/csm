@@ -16,7 +16,9 @@ if(!empty($data['report']) && $data['report'] != null && $data['report'] != fals
     echo "</tr></thead><tbody>";
     $vdrOne = 0;
     $vdrEqual = 0;
-    $vendorPercent = array();
+    $vendorPercent[1] = array( "name" => "", "number" => "",  "percent" => 0);
+    $vendorPercent[0] = array( "name" => "", "number" => "",  "percent" => 0);
+    $vendorPercent[2] = array( "name" => "", "number" => "",  "percent" => 0);
         $vdrTwo = 0;
 	for ($i = 0; $i < count($data['report']); $i++) 
     {
@@ -218,5 +220,5 @@ else
 </div>
 </div>
 <span id = "vendor1" style = "display:none"><?= "VENDOR " . $vendorPercent[0]['number'] . " - " . strtoupper($vendorPercent[0]['name']) . " : " . $vendorPercent[0]['percent'] . "%" ?></span>
-<span id = "vendor2" style = "display:none"><?= "VENDOR" . $vendorPercent[1]['number'] . " - " . strtoupper($vendorPercent[1]['name']) . " : " . $vendorPercent[1]['percent'] . "%" ?></span>
+<span id = "vendor2" style = "display:none"><?= "VENDOR " . $vendorPercent[1]['number'] . " - " . strtoupper($vendorPercent[1]['name']) . " : " . $vendorPercent[1]['percent'] . "%" ?></span>
 <span id = "vendor3" style = "display:none"><?= "EQUAL PRICES " . " : " . $vendorPercent[2]['percent'] . "%" ?></span>

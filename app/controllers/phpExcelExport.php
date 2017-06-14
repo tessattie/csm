@@ -36,10 +36,10 @@ class phpExcelExport extends Controller{
 		$this->brdata = $this->model('brdata');
 		$this->today = date('Y-m-d', strtotime("-1 days"));
 		$this->columnWidths = array("UPC" => 13, "VDR ITEM #" => 11, "BRAND" => 10, "ITEM DESCRIPTION" => 30, "PACK" => 6, "SIZE" => 8, 
-			"CASE COST" => 10, "RETAIL" => 7, "ON-HAND" => 8, "LAST RECEIVING" => 12, "LAST RECEIVING DATE" => 15, "SALES" => 5, "VDR #" => 7, "VDR NAME" => 22, 
+			"CASE COST" => 10, "RETAIL" => 7, "ON-HAND" => 8, "LAST REC" => 12, "LAST REC DATE" => 15, "SALES" => 5, "VDR #" => 7, "VDR NAME" => 22, 
 			"TPR PRICE" => 7, "TPR START" => 8, "TPR END" => 8, "SCT NO" => 8, "SCT NAME" => 30, "DPT NO" => 8, "DPT NAME" => 30, "UNIT PRICE" => 10);
 		$this->columns = array("UPC" => "UPC", "VDR ITEM #" => "CertCode", "BRAND" => "Brand", "ITEM DESCRIPTION" => "ItemDescription", "PACK" => "Pack", "SIZE" => "SizeAlpha", "CASE COST" => "CaseCost", "RETAIL" => "Retail", 
-			"ON-HAND" => "onhand", "LAST RECEIVING" => "lastReceiving", "LAST RECEIVING DATE" => "lastReceivingDate", "SALES" => "sales", "VDR #" => "VdrNo", "VDR NAME" => "VdrName", "TPR PRICE" => "tpr", "TPR START" => "tprStart", 
+			"ON-HAND" => "onhand", "LAST REC" => "lastReceiving", "LAST REC DATE" => "lastReceivingDate", "SALES" => "sales", "VDR #" => "VdrNo", "VDR NAME" => "VdrName", "TPR PRICE" => "tpr", "TPR START" => "tprStart", 
 			"TPR END" => "tprEnd", "SCT NO" => "SctNo", "SCT NAME" => "SctName", "DPT NO" => "DptNo", "DPT NAME" => "DptName", "UNIT PRICE" => "unitPrice");
 	} 
 
@@ -60,8 +60,8 @@ class phpExcelExport extends Controller{
 						"G" => "CASE COST", 
 						"H" => "RETAIL", 
 						"I" => "ON-HAND", 
-						"J" => "LAST RECEIVING", 
-						"K" => "LAST RECEIVING DATE", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
 						"L" => "SALES", 
 						"M" => "TPR PRICE", 
 						"N" => "TPR START", 
@@ -95,8 +95,8 @@ class phpExcelExport extends Controller{
 						"G" => "CASE COST", 
 						"H" => "RETAIL", 
 						"I" => "ON-HAND", 
-						"J" => "LAST RECEIVING", 
-						"K" => "LAST RECEIVING DATE", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
 						"L" => "SALES", 
 						"M" => "TPR PRICE", 
 						"N" => "TPR START", 
@@ -137,8 +137,8 @@ class phpExcelExport extends Controller{
 						"G" => "CASE COST", 
 						"H" => "RETAIL", 
 						"I" => "ON-HAND", 
-						"J" => "LAST RECEIVING", 
-						"K" => "LAST RECEIVING DATE", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
 						"L" => "SALES", 
 						"M" => "TPR PRICE", 
 						"N" => "TPR START", 
@@ -180,8 +180,8 @@ class phpExcelExport extends Controller{
 						"H" => "UNIT PRICE", 
 						"I" => "RETAIL", 
 						"J" => "ON-HAND", 
-						"K" => "LAST RECEIVING", 
-						"L" => "LAST RECEIVING DATE", 
+						"K" => "LAST REC", 
+						"L" => "LAST REC DATE", 
 						"M" => "SALES", 
 						"N" => "TPR PRICE", 
 						"O" => "TPR START", 
@@ -206,8 +206,8 @@ class phpExcelExport extends Controller{
 						"G" => "CASE COST", 
 						"H" => "RETAIL", 
 						"I" => "ON-HAND", 
-						"J" => "LAST RECEIVING", 
-						"K" => "LAST RECEIVING DATE", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
 						"L" => "SALES", 
 						"M" => "VDR #", 
 						"N" => "VDR NAME", 
@@ -235,8 +235,8 @@ class phpExcelExport extends Controller{
 						"G" => "CASE COST",
 						"H" => "RETAIL", 
 						"I" => "ON-HAND", 
-						"J" => "LAST RECEIVING", 
-						"K" => "LAST RECEIVING DATE", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
 						"L" => "SALES", 
 						"M" => "TPR PRICE", 
 						"N" => "TPR START", 
@@ -262,8 +262,8 @@ class phpExcelExport extends Controller{
 						"G" => "CASE COST",
 						"H" => "RETAIL", 
 						"I" => "ON-HAND", 
-						"J" => "LAST RECEIVING", 
-						"K" => "LAST RECEIVING DATE", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
 						"L" => "SALES", 
 						"M" => "TPR PRICE", 
 						"N" => "TPR START", 
@@ -304,8 +304,8 @@ class phpExcelExport extends Controller{
 						"G" => "CASE COST", 
 						"H" => "RETAIL", 
 						"I" => "ON-HAND", 
-						"J" => "LAST RECEIVING", 
-						"K" => "LAST RECEIVING DATE", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
 						"L" => "SALES", 
 						"M" => "VDR #", 
 						"N" => "VDR NAME", 
@@ -333,8 +333,8 @@ class phpExcelExport extends Controller{
 						"G" => "CASE COST", 
 						"H" => "RETAIL", 
 						"I" => "ON-HAND", 
-						"J" => "LAST RECEIVING", 
-						"K" => "LAST RECEIVING DATE", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
 						"L" => "SALES", 
 						"M" => "VDR #", 
 						"N" => "VDR NAME", 
@@ -363,8 +363,8 @@ class phpExcelExport extends Controller{
 						"G" => "CASE COST", 
 						"H"	 => "RETAIL", 
 						"I" => "ON-HAND", 
-						"J" => "LAST RECEIVING", 
-						"K" => "LAST RECEIVING DATE", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
 						"L" => "SALES", 
 						"M" => "VDR #", 
 						"N" => "VDR NAME", 
@@ -387,6 +387,41 @@ class phpExcelExport extends Controller{
 		$this->saveReport('Section_' . $report[0]['SctName'] . '_' . $this->today);
 	}
 
+	public function sectionNegative($section, $from, $to)
+	{
+		$header = array("A" => "UPC", 
+						"B" => "VDR ITEM #", 
+						"C" => "BRAND", 
+						"D" => "ITEM DESCRIPTION", 
+						"E" => "PACK", 
+						"F" => "SIZE", 
+						"G" => "CASE COST", 
+						"H"	 => "RETAIL", 
+						"I" => "ON-HAND", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
+						"L" => "SALES", 
+						"M" => "VDR #", 
+						"N" => "VDR NAME", 
+						"O" => "TPR PRICE", 
+						"P" => "TPR START", 
+						"Q" => "TPR END");
+		$this->setSheetName("SECTION NEGATIVE REPORT");
+		$time_startMemcache = $this->microtime_float();
+		$report = $this->brdata->get_sectionNegReport($section, $this->today, $from, $to);
+		$bold = array("G", "H", "I", "O");
+		$time_endMemcache = $this->microtime_float();
+		$timeMemcache = $time_endMemcache - $time_startMemcache;
+		$lastItem = count($report) + 4;
+		$this->setHeader("SECTION NEGATIVE REPORT" ," [SCT : ".$section." - " . $report[0]['SctName'] . " ] [ ".$from." - ".$to." ]", $header, "sctReport", $lastItem);
+		$time_startPHPExcel = $this->microtime_float();
+		$this->setReportNegative($header, $report, $bold, "A", "", "D", "sectionNeg");
+		$time_endPHPExcel = $this->microtime_float();
+		$timePHPExcel = $time_endPHPExcel - $time_startPHPExcel;
+		// print_r(array("Memcache" => $timeMemcache, "PHPExcel" => $timePHPExcel));
+		$this->saveReport('Section_' . $report[0]['SctName'] . '_' . $this->today);
+	}
+
 	public function vendorSectionNegative($vendor, $section, $from, $to)
 	{
 		$header = array("A" => "UPC", 
@@ -398,8 +433,8 @@ class phpExcelExport extends Controller{
 						"G" => "CASE COST", 
 						"H" => "RETAIL", 
 						"I" => "ON-HAND", 
-						"J" => "LAST RECEIVING", 
-						"K" => "LAST RECEIVING DATE", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
 						"L" => "SALES", 
 						"M" => "TPR PRICE", 
 						"N" => "TPR START", 
@@ -440,8 +475,8 @@ class phpExcelExport extends Controller{
 						"G" => "CASE COST", 
 						"H" => "RETAIL", 
 						"I" => "ON-HAND", 
-						"J" => "LAST RECEIVING", 
-						"K" => "LAST RECEIVING DATE", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
 						"L" => "SALES", 
 						"M" => "VDR #", 
 						"N" => "VDR NAME", 
@@ -485,8 +520,8 @@ class phpExcelExport extends Controller{
 						"G" => "CASE COST", 
 						"H" => "RETAIL", 
 						"I" => "ON-HAND", 
-						"J" => "LAST RECEIVING", 
-						"K" => "LAST RECEIVING DATE", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
 						"L" => "SALES", 
 						"M" => "TPR PRICE", 
 						"N" => "TPR START", 
@@ -528,8 +563,8 @@ class phpExcelExport extends Controller{
 						"G" => "CASE COST", 
 						"H" => "RETAIL", 
 						"I" => "ON-HAND", 
-						"J" => "LAST RECEIVING", 
-						"K" => "LAST RECEIVING DATE", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
 						"L" => "SALES", 
 						"M" => "TPR PRICE", 
 						"N" => "TPR START", 
@@ -557,8 +592,8 @@ class phpExcelExport extends Controller{
 						"G" => "CASE COST", 
 						"H" => "RETAIL", 
 						"I" => "ON-HAND", 
-						"J" => "LAST RECEIVING", 
-						"K" => "LAST RECEIVING DATE", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
 						"L" => "SALES", 
 						"M" => "TPR PRICE", 
 						"N" => "TPR START", 
@@ -588,8 +623,8 @@ class phpExcelExport extends Controller{
 						"J" => "UNIT PRICE",
 						"K" => "RETAIL", 
 						"L" => "ON-HAND", 
-						"M" => "LAST RECEIVING", 
-						"N" => "LAST RECEIVING DATE", 
+						"M" => "LAST REC", 
+						"N" => "LAST REC DATE", 
 						"O" => "SALES", 
 						"P" => "TPR PRICE", 
 						"Q" => "TPR START", 
@@ -616,8 +651,8 @@ class phpExcelExport extends Controller{
 						"I" => "CASE COST", 
 						"J" => "RETAIL", 
 						"K" => "ON-HAND", 
-						"L" => "LAST RECEIVING", 
-						"M" => "LAST RECEIVING DATE", 
+						"L" => "LAST REC", 
+						"M" => "LAST REC DATE", 
 						"N" => "SALES", 
 						"O" => "TPR PRICE", 
 						"P" => "TPR START", 
@@ -647,8 +682,8 @@ class phpExcelExport extends Controller{
 						"L" => "UNIT PRICE", 
 						"M" => "RETAIL", 
 						"N" => "VDR ITEM #", 
-						"O" => "LAST RECEIVING", 
-						"P" => "LAST RECEIVING DATE", 
+						"O" => "LAST REC", 
+						"P" => "LAST REC DATE", 
 						"Q" => "VDR #", 
 						"R" => "VDR NAME");
 		$this->setSheetName("VENDOR PRICE COMPARE REPORT");
@@ -677,8 +712,8 @@ class phpExcelExport extends Controller{
 						"L" => "UNIT PRICE", 
 						"M" => "RETAIL", 
 						"N" => "VDR ITEM #", 
-						"O" => "LAST RECEIVING", 
-						"P" => "LAST RECEIVING DATE", 
+						"O" => "LAST REC", 
+						"P" => "LAST REC DATE", 
 						"Q" => "VDR #", 
 						"R" => "VDR NAME");
 		$this->setSheetName("SECTION PRICE COMPARE REPORT");
@@ -918,6 +953,83 @@ class phpExcelExport extends Controller{
 		$this->phpExcel->getActiveSheet()->getStyle('A1:'.$lastKey.$j)->applyFromArray($styleArray);
 	}
 
+	private function setReportNegative($header, $report, $bold, $upc_col = "A", $unit_price_col = "", $itemDescription = "D", $reportType)
+	{
+		$j = 4;
+		$lastKey = $this->getLastArrayKey($header);
+		for ($i=0;$i<count($report);$i++)
+		{
+			if($report[$i]['onhand'] < 0){
+				if($reportType == "sectionNeg" && $i >= 1 && $report[$i]["UPC"] == $report[$i-1]["UPC"]){
+
+				}else{
+					foreach($header as $key => $value)
+					{
+						if($this->columns[$value] != "UPC")
+						{
+							if(($value == "TPR PRICE" && $report[$i]["tpr"] == ".00")
+							|| ($value == "TPR START" && $report[$i]["tpr"] == ".00") 
+							|| ($value == "TPR END" && $report[$i]["tpr"] == ".00"))
+							{
+								$this->sheet->setCellValue($key . $j, "");
+								if($value == "TPR PRICE")
+						        {
+						        	$this->sheet->getStyle($key . $j)->getFont()->setBold(true);
+						        }
+							}
+							else   
+							{
+								if($value == "CASE COST" || $value == "UNIT PRICE")
+						        {
+						        	$this->sheet->setCellValue($key . $j, number_format($report[$i][$this->columns[$value]], 2, ".", ""));
+						        }
+						        else
+						        {	
+						        	$this->sheet->setCellValue($key . $j, $report[$i][$this->columns[$value]]);
+						        }
+							}
+						}
+				        else
+				        {
+				        	$this->sheet->setCellValue($key . $j, $report[$i][$this->columns[$value]]);
+				        }
+				        if($this->columns[$value] == "CertCode")
+						{
+							$this->sheet->setCellValue($key . $j, trim($report[$i][$this->columns[$value]]));
+						}
+				        if($value == "ON-HAND")
+				        {
+				        	if($report[$i][$this->columns[$value]] < 0)
+				        	{
+				        		$this->sheet->getStyle($key . $j)->getFont()
+								    ->getColor()->setRGB('FF0000');
+					        		$this->sheet->getStyle($key . $j)->getFont()->setBold(true);
+				        	}
+				        }
+					} 	
+					$j = $j + 1;
+				}
+			}
+		}
+		$j = $j - 1;
+		$this->sheet->getStyle("A1:" . $lastKey . $j) ->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+		$this->sheet->getStyle("A3:" . $lastKey . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->sheet->getStyle('A3:'.$lastKey.$j)->getFont()->setSize(8);
+		for($z=0;$z<count($bold);$z++)
+		{
+			$this->sheet->getStyle($bold[$z].'3:'.$bold[$z].$j)->getFont()->setBold(true);
+		}
+		if($unit_price_col != "")
+		{
+			$this->sheet->getStyle($unit_price_col."3:" . $unit_price_col . $j)->getFont()
+						    ->getColor()->setRGB('0066CC');
+		}
+		$this->sheet->getStyle($itemDescription."3:" . $itemDescription . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+		$this->sheet->getStyle($upc_col . $j)->getNumberFormat()->setFormatCode('0000000000000');
+		$styleArray = array( 'borders' => array( 'allborders' => array( 'style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000'), ), ), ); 
+		$this->phpExcel->getActiveSheet()->getStyle('A1:'.$lastKey.$j)->applyFromArray($styleArray);
+	}
+
 	private function setReportWithSection($header, $report, $bold, $upc_col = "A", $unit_price_col = "", $itemDescription = "D")
 	{
 		$j = 4;
@@ -1021,7 +1133,9 @@ class phpExcelExport extends Controller{
 		$vdrOne = 0;
 		$vdrEqual = 0;
 		$vdrTwo = 0;
-		$vendorPercent = array();
+		$vendorPercent[1] = array( "name" => "", "number" => "",  "percent" => 0);
+	    $vendorPercent[0] = array( "name" => "", "number" => "",  "percent" => 0);
+	    $vendorPercent[2] = array( "name" => "", "number" => "",  "percent" => 0);
 		for ($i=0; $i<count($report); $i++)
 		{
 			if($increment == 0 || $condition != $report[$i]["SctNo"])
@@ -1201,7 +1315,7 @@ class phpExcelExport extends Controller{
 		$this->sheet->mergeCells('G3:L3');
 		$this->sheet->setCellValue("G3", "VENDOR " . $vendorPercent[1]['number'] . " - " . $vendorPercent[1]['name'] . " : " . $vendorPercent[1]['percent'] . "%");
 		$this->sheet->mergeCells('M3:R3');
-		$this->sheet->setCellValue("M3", "EQUAL PRICES : " . $vendorPercent[1]['percent'] . "%");
+		$this->sheet->setCellValue("M3", "EQUAL PRICES : " . $vendorPercent[2]['percent'] . "%");
 		$this->sheet->getStyle("A1:" . $lastKey . $j) ->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
 		$this->sheet->getStyle("A3:" . $lastKey . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 		$this->sheet->getStyle($itemDescription."3:" . $itemDescription . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);

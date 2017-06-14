@@ -25,6 +25,23 @@ jQuery(function($){
 		}
 	});
 
+	$("#sectionNegative").click(function(){ 
+		var regex = /[0-9]/;
+		var sectionNumber = prompt('Enter the section Number : ');
+		if(regex.test(sectionNumber))
+		{
+			$("#sectionNegNumber").val(sectionNumber);
+			$("#fromNegsection").val($('#fromdate').val());
+			$("#toNegsection").val($('#todate').val());
+			document.forms["sectionNegform"].submit();
+			$("#sectionNegNumber").val('');
+		}
+		else
+		{
+			alert("There are no section numbers with more than four digits. Try again.");
+		}
+	});
+
 	$("#sectionMvt").click(function(){ 
 		var regex = /[0-9]/;
 		var sectionNumber = prompt('Enter the section Number : ');
