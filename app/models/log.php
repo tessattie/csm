@@ -7,7 +7,7 @@ class log{
 	public function __construct()
 	{
 		$server_name = 'HOST-STORE';
-		$this->db = new PDO( "sqlsrv:server=".$server_name." ; Database = logs", "sa", "BRd@t@123");
+		$this->db = new PDO( "sqlsrv:server=".$server_name." ; Database = reports", "sa", "BRd@t@123");
 	}
 
 	public function getLogs()
