@@ -3,15 +3,21 @@
 $increment = 0; 
 $condition = 'ht' ;
 $elementCount = count($data['thead']);
+$totalElements = count($data['report']);
 $tdCount = $elementCount - 3;
 if(!empty($data['report']) && $data['report'] != null && $data['report'] != false && count($data['report']) != 0)
 {
     echo "<thead class='thead_position'><tr>";
+    echo "<tr><th colspan='6' class='vendorOne'></th><th colspan='6' class='vendorTwo'></th><th colspan='6' class='vendorEqual'></th></tr>";
     for($j = 0; $j < $elementCount; $j++)
     {
         echo "<th>" . $data['thead'][$j] . "</th>";
     }
     echo "</tr></thead><tbody>";
+    $vdrOne = 0;
+    $vdrEqual = 0;
+    $vendorPercent = array();
+        $vdrTwo = 0;
 	for ($i = 0; $i < count($data['report']); $i++) 
     {
         $onhandClass = "positive"; 
@@ -34,12 +40,29 @@ if(!empty($data['report']) && $data['report'] != null && $data['report'] != fals
         $data['report'][$i]["lastReceivingTwo"] = abs($data['report'][$i]["lastReceivingTwo"]);
         $data['report'][$i]["sales"] = abs(floor($data['report'][$i]["sales"]));
         echo "<tr>";
+        
         if(round($data['report'][$i]["unitPriceOne"]) > round($data['report'][$i]["unitPriceTwo"]))
     	{
+    		$vdrOne = $vdrOne + 1;
+    		$vendorPercent[0] = array("name" => $data['report'][$i]["VdrNameTwo"], "number" => str_replace(" ", "",$data['report'][$i]["VdrNoTwo"]), "percent" => round((100 * $vdrOne)/$totalElements));
     		$firstArray = $data['qt'][8];
     		$secondArray = $data['qt'][9];
     		$data['qt'][8] = $secondArray;
     		$data['qt'][9] = $firstArray;
+    	}
+    	else
+    	{
+    		if($data['report'][$i]["unitPriceOne"] == $data['report'][$i]["unitPriceTwo"])
+    		{
+    			$vdrEqual = $vdrEqual + 1;
+    			$vendorPercent[2] = array( "name" => "", "number" => "",  "percent" => round((100 * $vdrEqual)/$totalElements));
+    		}
+    		else
+    		{
+    			$vdrTwo = $vdrTwo + 1;
+    			$vendorPercent[1] = array( "name" => $data['report'][$i]["VdrNameOne"], "number" => str_replace(" ", "",$data['report'][$i]["VdrNoOne"]),  "percent" => round((100 * $vdrTwo)/$totalElements));
+    		}
+    		
     	}
         for($l=0; $l < count($data['qt']); $l++)
         {
@@ -59,7 +82,6 @@ if(!empty($data['report']) && $data['report'] != null && $data['report'] != fals
                 	{
                 		for($k = 0; $k < count($data["qt"][$l]); $k++)
                 		{
-                			
                 			if($data["qt"][$l][$k] == "lastReceivingOne" && empty($data['report'][$i]["lastReceivingDateOne"]))
 		                    {
 		                        echo "<td class='" . $data["qt"][$l][$k] . " bg-success'></td>";
@@ -195,3 +217,6 @@ else
 </div>
 </div>
 </div>
+<span id = "vendor1" style = "display:none"><?= "VENDOR " . $vendorPercent[0]['number'] . " - " . strtoupper($vendorPercent[0]['name']) . " : " . $vendorPercent[0]['percent'] . "%" ?></span>
+<span id = "vendor2" style = "display:none"><?= "VENDOR" . $vendorPercent[1]['number'] . " - " . strtoupper($vendorPercent[1]['name']) . " : " . $vendorPercent[1]['percent'] . "%" ?></span>
+<span id = "vendor3" style = "display:none"><?= "EQUAL PRICES " . " : " . $vendorPercent[2]['percent'] . "%" ?></span>

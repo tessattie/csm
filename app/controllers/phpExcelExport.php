@@ -653,7 +653,7 @@ class phpExcelExport extends Controller{
 						"R" => "VDR NAME");
 		$this->setSheetName("VENDOR PRICE COMPARE REPORT");
 		$report = $this->brdata->vendorPriceCompare($vendor1, $vendor2, $this->today, $from, $to);
-		$lastItem = count($report) + 4;
+		$lastItem = count($report) + 5;
 		$bold = array("D", "K", "L", "M", "F");
 		$this->setHeader("VENDOR PRICE COMPARE REPORT", " [ VENDORS : " . $vendor1 . " - ".$report[0]['VdrNameOne']." / " . $vendor2 . " - " .
 			$report[0]['VdrNameTwo'] . " ] - [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "vdrPriceCompare", $lastItem);
@@ -684,7 +684,7 @@ class phpExcelExport extends Controller{
 		$this->setSheetName("SECTION PRICE COMPARE REPORT");
 		$report = $this->brdata->sectionPriceCompare($vendor1, $vendor2, $section, $this->today, $this->from, $this->to);
 		$bold = array("D", "K", "L", "M", "F");
-		$lastItem = count($report) + 4;
+		$lastItem = count($report) + 5;
 		$this->setHeader("VENDOR PRICE COMPARE PER SECTION", " [ VENDORS : " . $vendor1 . " - ".$report[0]['VdrNameOne']." / " . $vendor2 . " - " .
 			$report[0]['VdrNameTwo'] . " ] - [ SECTION : " . $section . " - " . $report[0]['SctName'] . " ] - [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "vdrPriceCompare", $lastItem);
 		$this->setCompareReport($header, $report, $bold, "A", "L", "C");
@@ -1016,7 +1016,12 @@ class phpExcelExport extends Controller{
 		$current =  $this->getItemDescriptionColumn($header);
 		$finish = $alphabet[array_search($this->getItemDescriptionColumn($header), $alphabet) + 1];
 		$increment = 0;
+		$totalElements = count($report);
 		$condition = 'ht';
+		$vdrOne = 0;
+		$vdrEqual = 0;
+		$vdrTwo = 0;
+		$vendorPercent = array();
 		for ($i=0; $i<count($report); $i++)
 		{
 			if($increment == 0 || $condition != $report[$i]["SctNo"])
@@ -1034,6 +1039,21 @@ class phpExcelExport extends Controller{
 				    ->getStartColor()
 				    ->setARGB('FFE0E0E0');
 				$j = $j + 1;
+			}
+			if($report[$i]["unitPriceOne"] > $report[$i]["unitPriceTwo"])
+			{
+				$vdrTwo = $vdrTwo + 1;
+				$vendorPercent[1] = array("name" => $report[$i]["VdrNameTwo"], "number" => str_replace(" ", "",$report[$i]["VdrNoTwo"]), "percent" => round((100 * $vdrTwo)/$totalElements)); 
+			}
+			if($report[$i]["unitPriceOne"] == $report[$i]["unitPriceTwo"])
+			{
+				$vdrEqual = $vdrEqual + 1;
+				$vendorPercent[2] = array("name" => "", "number" => "", "percent" => round((100 * $vdrEqual)/$totalElements)); 
+			}
+			if($report[$i]["unitPriceOne"] < $report[$i]["unitPriceTwo"])
+			{
+				$vdrOne = $vdrOne + 1;
+				$vendorPercent[0] = array("name" => $report[$i]["VdrNameOne"], "number" => str_replace(" ", "",$report[$i]["VdrNoOne"]), "percent" => round((100 * $vdrOne)/$totalElements)); 
 			}
 			foreach($header as $key => $value)
 			{
@@ -1160,7 +1180,8 @@ class phpExcelExport extends Controller{
 						}
 					}
 				}
-			} 
+			}
+
 			$j = $j + 2;
 			$increment = 1;
 		}
@@ -1174,6 +1195,13 @@ class phpExcelExport extends Controller{
 			$this->sheet->getStyle($unit_price_col."3:" . $unit_price_col . $j)->getFont()
 						    ->getColor()->setRGB('0066CC');
 		}
+		$this->sheet->insertNewRowBefore(3, 1);
+		$this->sheet->mergeCells('A3:F3');
+		$this->sheet->setCellValue("A3","VENDOR " . $vendorPercent[0]['number'] . " - " . $vendorPercent[0]['name'] . " : " . $vendorPercent[0]['percent'] . "%");
+		$this->sheet->mergeCells('G3:L3');
+		$this->sheet->setCellValue("G3", "VENDOR " . $vendorPercent[1]['number'] . " - " . $vendorPercent[1]['name'] . " : " . $vendorPercent[1]['percent'] . "%");
+		$this->sheet->mergeCells('M3:R3');
+		$this->sheet->setCellValue("M3", "EQUAL PRICES : " . $vendorPercent[1]['percent'] . "%");
 		$this->sheet->getStyle("A1:" . $lastKey . $j) ->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
 		$this->sheet->getStyle("A3:" . $lastKey . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 		$this->sheet->getStyle($itemDescription."3:" . $itemDescription . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);

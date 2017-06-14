@@ -7,10 +7,14 @@ class Controller{
 
 	protected $memcache;
 
+	protected $log;
+
 	public function __construct()
 	{
 		$this->roles = array(1 => "menuAdmin", 2 => "menuOne", 3 => "menuTwo", 4 => "menuZero");
 		$this->userRole = $this->setRole();
+
+		$this->logs = $this->model('log');
 
 		$this->memcache = new Memcache;
 		$this->memcache->addServer("localhost");
@@ -78,5 +82,10 @@ class Controller{
 			}
 		}
 		return $role;
+	}
+
+	public function saveLog($action)
+	{
+		$this->logs->saveLog($date, 1, $action);
 	}
 }

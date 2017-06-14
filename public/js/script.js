@@ -188,6 +188,10 @@ jQuery(function($){
 		}
 	});
 
+	$(".vendorOne").html($("#vendor1").text());
+	$(".vendorTwo").html($("#vendor2").text());
+	$(".vendorEqual").html($("#vendor3").text());
+
 	$("#vendorSectionMvt").click(function(){ 
 		var regex = /[0-9]/;
 		var vendorNumber = prompt('Enter the vendor number :')
