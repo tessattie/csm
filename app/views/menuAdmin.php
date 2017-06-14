@@ -71,7 +71,7 @@
         <input type='hidden' name = 'tovendorSection' id = 'tovendorSection'>
     </form>
 
-    <a href="#" id="vendorSectionNegative" class="list-group-item">Vendor Section Negative for Inventory</a>
+    <a href="#" id="vendorSectionNegative" class="list-group-item">Vendor Section - Negative</a>
     <form method = 'POST' action = '/csm/public/home/vendorSectionNegative' name='vendorSectionNegativeform' id = 'vendorSectionNegativeform'>
         <input type='hidden' name = 'svendorNegNumber' id = 'svendorNegNumber'>
         <input type='hidden' name = 'sctvendorNegNumber' id = 'sctvendorNegNumber'>
@@ -86,7 +86,7 @@
         <input type='hidden' name = 'tosection' id = 'tosection'>
     </form>
 
-  <a href="#" id="sectionNegative" class="list-group-item">Section - Negative</a>
+  <a href="#" id="sectionNegative" class="list-group-item">Section Negative for Inventory</a>
     <form method = 'POST' action = '/csm/public/home/sectionNegative' name='sectionNegform' id = 'sectionNegform'>
         <input type='hidden' name = 'sectionNegNumber' id = 'sectionNegNumber'>
         <input type='hidden' name = 'fromNegsection' id = 'fromNegsection'>

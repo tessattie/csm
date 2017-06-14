@@ -948,7 +948,7 @@ class phpExcelExport extends Controller{
 						    ->getColor()->setRGB('0066CC');
 		}
 		$this->sheet->getStyle($itemDescription."3:" . $itemDescription . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-		$this->sheet->getStyle($upc_col . $j)->getNumberFormat()->setFormatCode('0000000000000');
+		$this->sheet->getStyle($upc_col."3:". $upc_col . $j)->getNumberFormat()->setFormatCode('0000000000000');
 		$styleArray = array( 'borders' => array( 'allborders' => array( 'style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000'), ), ), ); 
 		$this->phpExcel->getActiveSheet()->getStyle('A1:'.$lastKey.$j)->applyFromArray($styleArray);
 	}
@@ -1025,7 +1025,7 @@ class phpExcelExport extends Controller{
 						    ->getColor()->setRGB('0066CC');
 		}
 		$this->sheet->getStyle($itemDescription."3:" . $itemDescription . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-		$this->sheet->getStyle($upc_col . $j)->getNumberFormat()->setFormatCode('0000000000000');
+		$this->sheet->getStyle($upc_col."3:". $upc_col . $j)->getNumberFormat()->setFormatCode('0000000000000');
 		$styleArray = array( 'borders' => array( 'allborders' => array( 'style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000'), ), ), ); 
 		$this->phpExcel->getActiveSheet()->getStyle('A1:'.$lastKey.$j)->applyFromArray($styleArray);
 	}
@@ -1114,7 +1114,7 @@ class phpExcelExport extends Controller{
 		$this->sheet->getStyle("A1:" . $lastKey . $j) ->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
 		$this->sheet->getStyle("A3:" . $lastKey . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 		$this->sheet->getStyle($itemDescription."3:" . $itemDescription . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-		$this->sheet->getStyle($upc_col . $j)->getNumberFormat()->setFormatCode('0000000000000');
+		$this->sheet->getStyle($upc_col . "3:" . $upc_col . $j)->getNumberFormat()->setFormatCode('0000000000000');
 		$styleArray = array( 'borders' => array( 'allborders' => array( 'style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000'), ), ), ); 
 		$this->phpExcel->getActiveSheet()->getStyle('A1:'.$lastKey.$j)->applyFromArray($styleArray);
 	}
@@ -1236,7 +1236,24 @@ class phpExcelExport extends Controller{
 						}
 						else
 						{
-							$this->sheet->setCellValue($key . $j, $report[$i][$this->columns[$value]."One"]);
+							if($value == "VDR ITEM #"){
+								$this->sheet->setCellValue($key . $j, str_replace(" ", "", $report[$i][$this->columns[$value]."One"]));
+							$this->sheet->setCellValue($key . ($j+1), str_replace(" ", "", $report[$i][$this->columns[$value]."Two"]));
+							$this->phpExcel->getActiveSheet()
+							    ->getStyle($key . ($j+1))
+							    ->getFill()
+							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+							    ->getStartColor()
+							    ->setRGB('F2DEDE');
+
+							$this->phpExcel->getActiveSheet()
+							    ->getStyle($key . $j)
+							    ->getFill()
+							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+							    ->getStartColor()
+							    ->setRGB('DFF0D8');
+							}else{
+								$this->sheet->setCellValue($key . $j, $report[$i][$this->columns[$value]."One"]);
 							$this->sheet->setCellValue($key . ($j+1), $report[$i][$this->columns[$value]."Two"]);
 							$this->phpExcel->getActiveSheet()
 							    ->getStyle($key . ($j+1))
@@ -1251,6 +1268,8 @@ class phpExcelExport extends Controller{
 							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
 							    ->getStartColor()
 							    ->setRGB('DFF0D8');
+							}
+							
 						}
 						
 					}
@@ -1259,7 +1278,7 @@ class phpExcelExport extends Controller{
 						if($this->columns[$value] == "CaseCost" || $this->columns[$value] == "unitPrice")
 						{
 							$this->sheet->setCellValue($key . ($j+1), number_format($report[$i][$this->columns[$value]."One"], 2, ".", ''));
-							$this->sheet->setCellValue($key . $j, round($report[$i][$this->columns[$value]."Two"]));
+							$this->sheet->setCellValue($key . $j, number_format($report[$i][$this->columns[$value]."One"], 2, ".", ''));
 							$this->phpExcel->getActiveSheet()
 							    ->getStyle($key . ($j+1))
 							    ->getFill()
@@ -1276,8 +1295,9 @@ class phpExcelExport extends Controller{
 						}
 						else
 						{
-							$this->sheet->setCellValue($key . ($j+1), $report[$i][$this->columns[$value]."One"]);
-							$this->sheet->setCellValue($key . $j, $report[$i][$this->columns[$value]."Two"]);
+							if($value == "VDR ITEM #"){
+								$this->sheet->setCellValue($key . $j, str_replace(" ", "", $report[$i][$this->columns[$value]."One"]));
+							$this->sheet->setCellValue($key . ($j+1), str_replace(" ", "", $report[$i][$this->columns[$value]."Two"]));
 							$this->phpExcel->getActiveSheet()
 							    ->getStyle($key . ($j+1))
 							    ->getFill()
@@ -1291,6 +1311,23 @@ class phpExcelExport extends Controller{
 							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
 							    ->getStartColor()
 							    ->setRGB('DFF0D8');
+							}else{
+								$this->sheet->setCellValue($key . $j, $report[$i][$this->columns[$value]."One"]);
+							$this->sheet->setCellValue($key . ($j+1), $report[$i][$this->columns[$value]."Two"]);
+							$this->phpExcel->getActiveSheet()
+							    ->getStyle($key . ($j+1))
+							    ->getFill()
+							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+							    ->getStartColor()
+							    ->setRGB('F2DEDE');
+
+							$this->phpExcel->getActiveSheet()
+							    ->getStyle($key . $j)
+							    ->getFill()
+							    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+							    ->getStartColor()
+							    ->setRGB('DFF0D8');
+							}
 						}
 					}
 				}
@@ -1319,8 +1356,8 @@ class phpExcelExport extends Controller{
 		$this->sheet->getStyle("A1:" . $lastKey . $j) ->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
 		$this->sheet->getStyle("A3:" . $lastKey . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 		$this->sheet->getStyle($itemDescription."3:" . $itemDescription . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-		$this->sheet->getStyle($upc_col . $j)->getNumberFormat()->setFormatCode('0000000000000');
-		$this->sheet->getStyle('A3:'.$lastKey.$j)->getFont()->setSize(8);
+		$this->sheet->getStyle("A3:A" . $j)->getNumberFormat()->setFormatCode('0000000000000');
+		$this->sheet->getStyle('A3:A'.$j)->getFont()->setSize(8);
 		$styleArray = array( 'borders' => array( 'allborders' => array( 'style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000'), ), ), ); 
 		$this->phpExcel->getActiveSheet()->getStyle('A1:'.$lastKey.$j)->applyFromArray($styleArray);
 	}
