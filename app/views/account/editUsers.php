@@ -30,7 +30,9 @@
 					echo "<td>" . $data['users'][$i]['username'] . "</td>";
 					echo "<td>" . $data['users'][$i]['email'] . "</td>";
 					echo "<td>" . $data['users'][$i]['role'] . "</td>";
-					echo "<td><a href='/csm/public/account/delete/" . $data['users'][$i]['id'] . "'><input type='submit' class='btn btn-default' value='Delete'></a><a href='/csm/public/account/reset/" . $data['users'][$i]['id'] . "'><input type='submit' class='btn btn-default' value='Reset'></a></td>";
+					echo "<td><a href='/csm/public/account/delete/" . $data['users'][$i]['id'] . "'><input type='submit' class='btn btn-default' value='Delete'></a>
+							  <a href='/csm/public/account/reset/" . $data['users'][$i]['id'] . "'><input type='submit' class='btn btn-default' value='Reset'></a>
+							  <a href='/csm/public/account/edit/" . $data['users'][$i]['id'] . "'><input type='submit' class='btn btn-default' value='Edit'></a></td></td>";
 					echo "</tr>";
 				}
 			?>

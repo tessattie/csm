@@ -68,6 +68,18 @@ class account extends Controller{
 		}
 	}
 
+	public function edit($id = false)
+	{
+		$errormessage = "";
+		if(isset($_POST['submit']))
+		{
+			$this->users->updateUser($_POST['firstname'], $_POST['lastname'], $_POST['username'], $_POST['email'], $_POST['role'], $_POST['id']);
+		}
+		$users = $this->users->getUsers();
+		$user = $this->users->getUserById($id);
+		$this->view('account/edit', array("user" => $user, "users" => $users, "error" => $errormessage, "menu" => $this->userRole, "exportURL" => $this->exportURL, "from" => $this->from, "to" => $this->to));
+	}
+
 	public function reset($userId)
 	{
 		$password = "01b307acba4f54f55aafc33bb06bbbf6ca803e9a";
