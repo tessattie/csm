@@ -419,7 +419,7 @@ class phpExcelExport extends Controller{
 		$time_endPHPExcel = $this->microtime_float();
 		$timePHPExcel = $time_endPHPExcel - $time_startPHPExcel;
 		// print_r(array("Memcache" => $timeMemcache, "PHPExcel" => $timePHPExcel));
-		$this->saveReport('Section_' . $report[0]['SctName'] . '_' . $this->today);
+		$this->saveReport('SectionNegative_' . $report[0]['SctName'] . '_' . "_". $section . "_" . $this->today);
 	}
 
 	public function vendorSectionNegative($vendor, $section, $from, $to)
