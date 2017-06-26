@@ -14,7 +14,7 @@ if(!empty($data['report']) && $data['report'] != null && $data['report'] != fals
     echo "</tr></thead><tbody>";
 	for ($i = 0; $i < count($data['report']); $i++) 
     {
-        if($data['report'][$i]['onhand'] < 0)
+        if($data['report'][$i]['onhand'] < 0 && $data['report'][$i]['SctNo'] !=  184)
         {
             $onhandClass = "positive"; 
         if($increment == 0 || $condition != $data['report'][$i]['SctNo'])

@@ -5,8 +5,6 @@ class Controller{
 
 	protected $userRole;
 
-	protected $memcache;
-
 	protected $log;
 
 	public function __construct()
@@ -15,9 +13,6 @@ class Controller{
 		$this->userRole = $this->setRole();
 
 		$this->logs = $this->model('log');
-
-		$this->memcache = new Memcache;
-		$this->memcache->addServer("localhost");
 	}
 
 	public function model($model)
