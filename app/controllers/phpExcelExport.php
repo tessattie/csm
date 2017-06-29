@@ -377,7 +377,7 @@ class phpExcelExport extends Controller{
 		$this->setHeader("SECTION NEGATIVE REPORT" ," [SCT : ".$section." - " . $report[0]['SctName'] . " ] [ ".$from." - ".$to." ]", $header, "sctReport", $lastItem);
 		$this->setReportNegative($header, $report, $bold, "A", "", "D", "sectionNeg");
 		// print_r(array("Memcache" => $timeMemcache, "PHPExcel" => $timePHPExcel));
-		$this->saveReport('Section_' . $report[0]['SctName'] . '_' . $this->today);
+		$this->saveReport('SectionNegative_' . $report[0]['SctName'] . '_' . "_". $section . "_" . $this->today);
 	}
 
 	public function vendorSectionNegative($vendor, $section, $from, $to)

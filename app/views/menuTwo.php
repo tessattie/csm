@@ -25,6 +25,13 @@
           <input type='hidden' name = 'toNegvendor' id = 'toNegvendor'>
         </form>
 
+  <a href="#" id="sectionNegative" class="list-group-item">Section Negative for Inventory</a>
+    <form method = 'POST' action = '/csm/public/home/sectionNegative' name='sectionNegform' id = 'sectionNegform'>
+        <input type='hidden' name = 'sectionNegNumber' id = 'sectionNegNumber'>
+        <input type='hidden' name = 'fromNegsection' id = 'fromNegsection'>
+        <input type='hidden' name = 'toNegsection' id = 'toNegsection'>
+    </form>
+
   <a href="#" id="receivingUPC" class="list-group-item">UPC Receiving history</a>
     <form method = 'POST' action = '/csm/public/home/UPCReceivingHistory' name='upcReceivingform' id = 'upcReceivingform'>
       <input type='hidden' name = 'upcReceivingNumber' id = 'upcReceivingNumber'>
