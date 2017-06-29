@@ -102,27 +102,12 @@ class phpExcelExport extends Controller{
 						"N" => "TPR START", 
 						"O" => "TPR END");
 		$this->setSheetName("VENDOR NEGATIVE ON-HAND REPORT");
-		$vendorReport = $this->brdata->get_vendorReport($vendor, $this->today, $from, $to);
+		$report = $this->brdata->get_vendorReport($vendor, $this->today, $from, $to);
 		$bold = array("G", "M", "H", "I");
-		$j=0;
-		$i=0;
-		foreach($vendorReport as $key => $value)
-		{
-			if($value['onhand'] >= 0 ||  $value['SctNo'] == 184)
-			{
-				unset($vendorReport[$i]);
-			}
-			$i = $i + 1;
-		}
-		foreach($vendorReport as $key => $value)
-		{
-			$report[$j] = $value;
-			$j = $j + 1;
-		}
 		$lastItem = count($report) + 4;
 		$this->setHeader("VENDOR SECTION FINAL REPORT WITH NEGATIVE ON-HAND","[ VENDOR : " . $vendor . " - ".$report[0]['VdrName']." ] - [ 
 			".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, 'vdrReport', $lastItem);
-		$this->setReportWithSection($header, $report, $bold, "A", "", "D");
+		$this->setReportWithSectionNegative($header, $report, $bold, "A", "", "D");
 		$this->saveReport('VendorSectionFinalNegative_'.$vendor.'_'.$report[0]['VdrName'].'_'.$this->today);
 	}
 
@@ -270,26 +255,11 @@ class phpExcelExport extends Controller{
 						"O" => "TPR END");
 		$this->setSheetName("VENDOR DEPARTMENT REPORT");
 		$vdrDptReport = $this->brdata->get_vendorDepartmentReport($vendor, $department, $this->today, $from, $to);
-		$j=0;
-		$i=0;
-		foreach($vdrDptReport as $key => $value)
-		{
-			if($value['onhand'] >= 0)
-			{
-				unset($vdrDptReport[$i]);
-			}
-			$i = $i + 1;
-		}
-		foreach($vdrDptReport as $key => $value)
-		{
-			$report[$j] = $value;
-			$j = $j + 1;
-		}
 		$lastItem = count($report) + 4;
 		$bold = array("G", "H", "I", "M");
 		$this->setHeader("VENDOR DEPARTMENT NEGATIVE REPORT" ,"[ VENDOR : " . $vendor . " -  ".$report[0]['VdrName']." ] - [ DPT : 
 			" . $department . " - " . $report[0]['DptName'] . "] - [ ".$from." - ".$to."]"." - [ ".count($report)." ITEMS ]", $header, "vdrDpt", $lastItem);
-		$this->setReportWithSection($header, $report, $bold, "A", "", "D");
+		$this->setReportWithSectionNegative($header, $report, $bold, "A", "", "D");
 		$this->saveReport('VendorDepartment'.$report[0]['VdrName'].'_'.$report[0]['DptName'].'_'.$this->today);
 	}
 
@@ -372,17 +342,11 @@ class phpExcelExport extends Controller{
 						"P" => "TPR START", 
 						"Q" => "TPR END");
 		$this->setSheetName("SECTION REPORT");
-		$time_startMemcache = $this->microtime_float();
 		$report = $this->brdata->get_sectionReport($section, $this->today, $from, $to);
 		$bold = array("G", "H", "I", "O");
-		$time_endMemcache = $this->microtime_float();
-		$timeMemcache = $time_endMemcache - $time_startMemcache;
 		$lastItem = count($report) + 4;
 		$this->setHeader("SECTION REPORT" ," [SCT : ".$section." - " . $report[0]['SctName'] . " ] [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "sctReport", $lastItem);
-		$time_startPHPExcel = $this->microtime_float();
 		$this->setReport($header, $report, $bold, "A", "", "D");
-		$time_endPHPExcel = $this->microtime_float();
-		$timePHPExcel = $time_endPHPExcel - $time_startPHPExcel;
 		// print_r(array("Memcache" => $timeMemcache, "PHPExcel" => $timePHPExcel));
 		$this->saveReport('Section_' . $report[0]['SctName'] . '_' . $this->today);
 	}
@@ -407,17 +371,11 @@ class phpExcelExport extends Controller{
 						"P" => "TPR START", 
 						"Q" => "TPR END");
 		$this->setSheetName("SECTION NEGATIVE REPORT");
-		$time_startMemcache = $this->microtime_float();
 		$report = $this->brdata->get_sectionNegReport($section, $this->today, $from, $to);
 		$bold = array("G", "H", "I", "O");
-		$time_endMemcache = $this->microtime_float();
-		$timeMemcache = $time_endMemcache - $time_startMemcache;
 		$lastItem = count($report) + 4;
 		$this->setHeader("SECTION NEGATIVE REPORT" ," [SCT : ".$section." - " . $report[0]['SctName'] . " ] [ ".$from." - ".$to." ]", $header, "sctReport", $lastItem);
-		$time_startPHPExcel = $this->microtime_float();
 		$this->setReportNegative($header, $report, $bold, "A", "", "D", "sectionNeg");
-		$time_endPHPExcel = $this->microtime_float();
-		$timePHPExcel = $time_endPHPExcel - $time_startPHPExcel;
 		// print_r(array("Memcache" => $timeMemcache, "PHPExcel" => $timePHPExcel));
 		$this->saveReport('Section_' . $report[0]['SctName'] . '_' . $this->today);
 	}
@@ -440,27 +398,12 @@ class phpExcelExport extends Controller{
 						"N" => "TPR START", 
 						"O" => "TPR END");
 		$this->setSheetName("VENDOR SECTION NEGATIVE ON-HAND REPORT");
-		$vdrSctReport = $this->brdata->get_vendorSectionReport($vendor, $section, $this->today, $to, $from);
+		$report = $this->brdata->get_vendorSectionReport($vendor, $section, $this->today, $to, $from);
 		$bold = array("G", "H", "I", "M");
-		$j=0;
-		$i=0;
-		foreach($vdrSctReport as $key => $value)
-		{
-			if($value['onhand'] >= 0 ||  $value['SctNo'] == 184)
-			{
-				unset($vdrSctReport[$i]);
-			}
-			$i = $i + 1;
-		}
-		foreach($vdrSctReport as $key => $value)
-		{
-			$report[$j] = $value;
-			$j = $j + 1;
-		}
 		$lastItem = count($report) + 4;
 		$this->setHeader("VENDOR SECTION REPORT WITH NEGATIVE ON-HAND","[ VENDOR : " . $vendor . " - ".$report[0]['VdrName'] ." ] - [ SECTION : " . $section . " - " . $report[0]['SctName'] . "] - [ 
 			" . $from . " - " . $to . " ]"." - [ ".count($report)." ITEMS ]", $header, 'vdrSctNegativeReport', $lastItem);
-		$this->setReport($header, $report, $bold, "A", "", "D");
+		$this->setReportNegative($header, $report, $bold, "A", "", "D");
 		$this->saveReport('VendorSectionNegative_'.$vendor.'_'.$report[0]['VdrName'].'_'.$this->today);
 	}
 
@@ -953,7 +896,7 @@ class phpExcelExport extends Controller{
 		$this->phpExcel->getActiveSheet()->getStyle('A1:'.$lastKey.$j)->applyFromArray($styleArray);
 	}
 
-	private function setReportNegative($header, $report, $bold, $upc_col = "A", $unit_price_col = "", $itemDescription = "D", $reportType)
+	private function setReportNegative($header, $report, $bold, $upc_col = "A", $unit_price_col = "", $itemDescription = "D", $reportType = '')
 	{
 		$j = 4;
 		$lastKey = $this->getLastArrayKey($header);
@@ -1099,6 +1042,98 @@ class phpExcelExport extends Controller{
 			} 
 			$j = $j + 1;
 			$increment = 1;
+		}
+		$j = $j - 1;
+		$this->sheet->getStyle('A3:'.$lastKey.$j)->getFont()->setSize(8);
+		for($z=0;$z<count($bold);$z++)
+		{
+			$this->sheet->getStyle($bold[$z].'3:'.$bold[$z].$j)->getFont()->setBold(true);
+		}
+		if($unit_price_col != "")
+		{
+			$this->sheet->getStyle($unit_price_col."3:" . $unit_price_col . $j)->getFont()
+						    ->getColor()->setRGB('0066CC');
+		}
+		$this->sheet->getStyle("A1:" . $lastKey . $j) ->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+		$this->sheet->getStyle("A3:" . $lastKey . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->sheet->getStyle($itemDescription."3:" . $itemDescription . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+		$this->sheet->getStyle($upc_col . "3:" . $upc_col . $j)->getNumberFormat()->setFormatCode('0000000000000');
+		$styleArray = array( 'borders' => array( 'allborders' => array( 'style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000'), ), ), ); 
+		$this->phpExcel->getActiveSheet()->getStyle('A1:'.$lastKey.$j)->applyFromArray($styleArray);
+	}
+
+	private function setReportWithSectionNegative($header, $report, $bold, $upc_col = "A", $unit_price_col = "", $itemDescription = "D")
+	{
+		$j = 4;
+		$lastKey = $this->getLastArrayKey($header);
+		$alphabet = array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
+		$start = $alphabet[array_search($this->getItemDescriptionColumn($header), $alphabet) - 1];
+		$current =  $this->getItemDescriptionColumn($header);
+		$finish = $alphabet[array_search($this->getItemDescriptionColumn($header), $alphabet) + 1];
+		$increment = 0;
+		$condition = 'ht';
+		for ($i=0; $i<count($report); $i++)
+		{
+			if($report[$i]['onhand'] < 0)
+			{
+				if($increment == 0 || $condition != $report[$i]["SctNo"])
+				{
+					$this->sheet->mergeCells('A' . $j . ':' . $start . $j);
+					$this->sheet->setCellValue($current . $j, $report[$i]['SctNo'].' - '.$report[$i]['SctName']);
+					$condition = $report[$i]["SctNo"];
+					$this->sheet->getStyle($current . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+					$this->sheet->getStyle($current . $j)->getFont()->setBold(true);
+					$this->sheet->mergeCells($finish . $j . ':' . $this->getLastArrayKey($header) . $j);
+					$this->phpExcel->getActiveSheet()
+					    ->getStyle($current . $j)
+					    ->getFill()
+					    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+					    ->getStartColor()
+					    ->setARGB('FFE0E0E0');
+					$j = $j + 1;
+				}
+				foreach($header as $key => $value)
+				{
+					if(($value == "TPR PRICE" && $report[$i]["tpr"] == ".00")
+					|| ($value == "TPR START" && $report[$i]["tpr"] == ".00") 
+					|| ($value == "TPR END" && $report[$i]["tpr"] == ".00"))
+					{
+						$this->sheet->setCellValue($key . $j, " ");
+					}
+					else
+					{
+						if($value == "CASE COST")
+				        {
+				        	$this->sheet->setCellValue($key . $j, number_format($report[$i][$this->columns[$value]], 2, ".", ""));
+				        }
+				        else
+				        {
+				        	if($value == "UNIT PRICE")
+				        	{
+				        		$this->sheet->setCellValue($key . $j, number_format($report[$i][$this->columns[$value]], 2, ".", ""));
+				        	}
+				        	else
+				        	{
+				        		$this->sheet->setCellValue($key . $j, $report[$i][$this->columns[$value]]);
+				        	}
+				        }
+					}
+			        if($this->columns[$value] == "CertCode")
+					{
+						$this->sheet->setCellValue($key . $j, trim($report[$i][$this->columns[$value]]));
+					}
+			        if($value == "ON-HAND")
+			        {
+			        	if($report[$i][$this->columns[$value]] < 0)
+			        	{
+			        		$this->sheet->getStyle($key . $j)->getFont()
+						    ->getColor()->setRGB('FF0000');
+			        	}
+			        }
+				} 
+				$j = $j + 1;
+				$increment = 1;
+			}
 		}
 		$j = $j - 1;
 		$this->sheet->getStyle('A3:'.$lastKey.$j)->getFont()->setSize(8);

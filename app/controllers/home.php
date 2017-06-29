@@ -131,8 +131,8 @@ class home extends Controller{
 		{
 			$this->setDefaultDates($_POST['fromNegvendor'], $_POST['toNegvendor']);
 			$this->exportURL = "/csm/public/phpExcelExport/vendorNegative/".$_POST['vendorNegNumber'] . "/" . $this->from . "/" . $this->to;
-			$vendorReport = $this->brdata->get_vendorReport($_POST['vendorNegNumber'], $this->today, $_POST['fromNegvendor'], $_POST['toNegvendor']);
-			if(!empty($vendorReport[0]))
+			$report = $this->brdata->get_vendorReport($_POST['vendorNegNumber'], $this->today, $_POST['fromNegvendor'], $_POST['toNegvendor']);
+			if(!empty($report[0]))
 			{
 				$title = '[VDR' . $_POST["vendorNegNumber"] . ' - '. $report[0]["VdrName"] . '] - [' . $this->from . ' to ' . $this->to . ']';				
 			}
@@ -434,29 +434,14 @@ class home extends Controller{
 		{
 			$this->setDefaultDates($_POST['fromvendorNegSection'], $_POST['tovendorNegSection']);
 			$this->exportURL = "/csm/public/phpExcelExport/vendorSectionNegative/".$_POST['svendorNegNumber'] . "/" . $_POST['sctvendorNegNumber'] . "/" . $this->from . "/" . $this->to;
-			$vdrSctReport = $this->brdata->get_vendorSectionReport($_POST['svendorNegNumber'], $_POST['sctvendorNegNumber'], $this->today, $_POST['tovendorNegSection'], $_POST['fromvendorNegSection']);
-			$j=0;
-			$i=0;
-			foreach($vdrSctReport as $key => $value)
-			{
-				if($value['onhand'] >= 0 ||  $value['SctNo'] == 184)
-				{
-					unset($vdrSctReport[$i]);
-				}
-				$i = $i + 1;
-			}
-			foreach($vdrSctReport as $key => $value)
-			{
-				$report[$j] = $value;
-				$j = $j + 1;
-			}
+			$report = $this->brdata->get_vendorSectionReport($_POST['svendorNegNumber'], $_POST['sctvendorNegNumber'], $this->today, $_POST['tovendorNegSection'], $_POST['fromvendorNegSection']);
 			if(!empty($report[0]))
 			{
 				$title = '[DPT'.$report[0]['DptNo'].' - '.$report[0]['DptName'].'] - [VDR'.$_POST['svendorNegNumber'].' - '.$report[0]['VdrName'].'] - 
 				[SCT'.$_POST['sctvendorNegNumber'].' - '.$report[0]['SctName'].'] - ['.$this->from.' to '.$this->to.']  - ['.count($report).' ITEMS]';
 			}
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
-				"title" => $title, "tableID" => "report_result", "action" => "vendorSection", "reportType" => 'defaultTemplate', 
+				"title" => $title, "tableID" => "report_result", "action" => "vendorSection", "reportType" => 'defaultTemplateNegative', 
 				"from" => $this->from, "to" => $this->to, "report" => $report, "menu" => $this->userRole);
 		}
 		$this->renderView($data);
@@ -582,22 +567,7 @@ class home extends Controller{
 		{
 			$this->setDefaultDates($_POST['fromvendorDptNeg'], $_POST['tovendorDptNeg']);
 			$this->exportURL = "/csm/public/phpExcelExport/vendorDepartmentNegative/".$_POST['dvendorNumberNeg'] . "/" . $_POST['dptvendorNumberNeg'] . "/" . $this->from . "/" . $this->to;
-			$vdrDptReport = $this->brdata->get_vendorDepartmentReport($_POST['dvendorNumberNeg'], $_POST['dptvendorNumberNeg'], $this->today, $_POST['fromvendorDptNeg'], $_POST['tovendorDptNeg']);
-			$j=0;
-			$i=0;
-			foreach($vdrDptReport as $key => $value)
-			{
-				if($value['onhand'] >= 0)
-				{
-					unset($vdrDptReport[$i]);
-				}
-				$i = $i + 1;
-			}
-			foreach($vdrDptReport as $key => $value)
-			{
-				$report[$j] = $value;
-				$j = $j + 1;
-			}
+			$report = $this->brdata->get_vendorDepartmentReport($_POST['dvendorNumberNeg'], $_POST['dptvendorNumberNeg'], $this->today, $_POST['fromvendorDptNeg'], $_POST['tovendorDptNeg']);
 			if(!empty($report[0]))
 			{
 				$title = '[VDR'.$_POST['dvendorNumberNeg'].' - '.$report[0]['VdrName'].'] - [DPT'.$_POST['dptvendorNumberNeg'].' - '.$report[0]['DptName'].'] - ['.$this->from.' to '.$this->to.'] - ['.count($report).' ITEMS]';				
