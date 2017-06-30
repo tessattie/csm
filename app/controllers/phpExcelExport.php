@@ -1074,7 +1074,7 @@ class phpExcelExport extends Controller{
 		$condition = 'ht';
 		for ($i=0; $i<count($report); $i++)
 		{
-			if($report[$i]['onhand'] < 0)
+			if($report[$i]['onhand'] < 0 && $report[$i]["SctNo"] != 184)
 			{
 				if($increment == 0 || $condition != $report[$i]["SctNo"])
 				{
