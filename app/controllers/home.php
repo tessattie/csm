@@ -134,9 +134,9 @@ class home extends Controller{
 			$report = $this->brdata->get_vendorReport($_POST['vendorNegNumber'], $this->today, $_POST['fromNegvendor'], $_POST['toNegvendor']);
 			if(!empty($report[0]))
 			{
-				$title = '[VDR' . $_POST["vendorNegNumber"] . ' - '. $vendorReport[0]["VdrName"] . '] - [' . $this->from . ' to ' . $this->to . ']';				
+				$title = '[VDR' . $_POST["vendorNegNumber"] . ' - '. $report[0]["VdrName"] . '] - [' . $this->from . ' to ' . $this->to . ']';				
 			}
-			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles , "title" => $title, "tableID" => "report_result", "action" => "vendor", "reportType" => 'templateWithSectionOrderNegative', "from" => $this->from, "to" => $this->to, "report" => $vendorReport, "menu" => $this->userRole);
+			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles , "title" => $title, "tableID" => "report_result", "action" => "vendor", "reportType" => 'templateWithSectionOrderNegative', "from" => $this->from, "to" => $this->to, "report" => $report, "menu" => $this->userRole);
 		}
 		$this->renderView($data);
 	}
