@@ -427,7 +427,7 @@ class phpExcelExport extends Controller{
 						"P" => "TPR START", 
 						"Q" => "TPR END");
 		$this->setSheetName("SECTION MOVEMENT REPORT");
-		$vdrSctReport = $this->brdata->get_vendorSectionReport($vendor, $section, $this->today, $to, $from);
+		$vdrSctReport = $this->brdata->get_sectionReport($section, $this->today, $to, $from);
 		$bold = array("G", "H", "I", "O");
 		$j=0;
 		$i=0;
