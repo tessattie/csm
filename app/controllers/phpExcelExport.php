@@ -36,11 +36,11 @@ class phpExcelExport extends Controller{
 		$this->brdata = $this->model('brdata');
 		$this->today = date('Y-m-d', strtotime("-1 days"));
 		$this->columnWidths = array("UPC" => 13, "VDR ITEM #" => 11, "BRAND" => 10, "ITEM DESCRIPTION" => 30, "PACK" => 6, "SIZE" => 8, 
-			"CASE COST" => 10, "RETAIL" => 7, "ON-HAND" => 8, "LAST REC" => 12, "LAST REC DATE" => 15, "SALES" => 5, "VDR #" => 7, "VDR NAME" => 22, 
+			"CASE COST" => 10, "RETAIL" => 7, "ON-HAND" => 8, "LAST REC" => 12, "ADJUSTMENT" => 12, "LAST REC DATE" => 15, "ADJUSTMENT DATE" => 15, "SALES" => 5, "VDR #" => 7, "VDR NAME" => 22, 
 			"TPR PRICE" => 7, "TPR START" => 8, "TPR END" => 8, "SCT NO" => 8, "SCT NAME" => 30, "DPT NO" => 8, "DPT NAME" => 30, "UNIT PRICE" => 10);
 		$this->columns = array("UPC" => "UPC", "VDR ITEM #" => "CertCode", "BRAND" => "Brand", "ITEM DESCRIPTION" => "ItemDescription", "PACK" => "Pack", "SIZE" => "SizeAlpha", "CASE COST" => "CaseCost", "RETAIL" => "Retail", 
 			"ON-HAND" => "onhand", "LAST REC" => "lastReceiving", "LAST REC DATE" => "lastReceivingDate", "SALES" => "sales", "VDR #" => "VdrNo", "VDR NAME" => "VdrName", "TPR PRICE" => "tpr", "TPR START" => "tprStart", 
-			"TPR END" => "tprEnd", "SCT NO" => "SctNo", "SCT NAME" => "SctName", "DPT NO" => "DptNo", "DPT NAME" => "DptName", "UNIT PRICE" => "unitPrice");
+			"TPR END" => "tprEnd", "SCT NO" => "SctNo", "SCT NAME" => "SctName", "DPT NO" => "DptNo", "DPT NAME" => "DptName", "UNIT PRICE" => "unitPrice", "ADJUSTMENT" => "adj", "ADJUSTMENT DATE" => "Date");
 	} 
 
 	public function microtime_float()
@@ -448,6 +448,25 @@ class phpExcelExport extends Controller{
 		$this->setHeader("SECTION MOVEMENT REPORT" ," [SCT : ".$section." - " . $report[0]['SctName'] . " ] [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "sctReport", $lastItem);
 		$this->setReport($header, $report, $bold, "A", "", "D");
 		$this->saveReport('SectionMovement_'.$section.'_' . $report[0]['SctName'] . '_' . $this->today);
+	}
+
+	public function adjustments()
+	{
+		$header = array("A" => "UPC", 
+						"B" => "ITEM DESCRIPTION", 
+						"C" => "SCT NO", 
+						"D" => "SCT NAME", 
+						"E" => "LAST REC", 
+						"F" => "LAST REC DATE", 
+						"G" => "ADJUSTMENT", 
+						"H" => "ADJUSTMENT DATE");
+		$this->setSheetName("ADJUSTMENTS REPORT");
+		$report = $this->brdata->get_adjReport();
+		$bold = array();
+		$lastItem = count($report) + 4;
+		$this->setHeader("ADJUSTMENTREPORT 2017/JUL/04" ,""." - [ ".count($report)." ITEMS ]", $header, "sctReport", $lastItem);
+		$this->setReport($header, $report, $bold, "A", "", "B");
+		$this->saveReport('adjustmentReport_'.$this->today);
 	}
 
 	

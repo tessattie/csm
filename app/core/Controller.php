@@ -9,7 +9,7 @@ class Controller{
 
 	public function __construct()
 	{
-		$this->roles = array(1 => "menuAdmin", 2 => "menuOne", 3 => "menuTwo", 4 => "menuZero");
+		$this->roles = array(0 => "menuAdm", 1 => "menuAdmin", 2 => "menuOne", 3 => "menuTwo", 4 => "menuZero");
 		$this->userRole = $this->setRole();
 
 		$this->logs = $this->model('log');

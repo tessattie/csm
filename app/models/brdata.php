@@ -532,4 +532,24 @@ class brdata{
 
 		return $report;
 	}
+
+	public function get_adjReport()
+	{
+		$SQL = "SELECT id.UPC, id.Units AS adj, id.Date, id.lastUpdated AS adjLastUpdt, id.RecordType, 
+				i.Description AS ItemDescription, i.Department AS SctNo, i.MajorDept DptNo, md.Description DptName, d.Description SctName,
+				(SELECT TOP 1 ind.Date FROM dbo.InventoryDetail ind WHERE ind.RecordType = 'R' AND ind.UPC=id.UPC ORDER BY ind.LastUpdated DESC, ind.Date DESC) AS lastReceivingDate,
+				ISNULL((SELECT SUM(ind.Units) FROM dbo.InventoryDetail ind WHERE ind.RecordType = 'R' AND ind.UPC=id.UPC AND ind.Date = (SELECT TOP 1 ind.Date FROM dbo.InventoryDetail 
+				ind WHERE ind.RecordType = 'R' AND ind.UPC=id.UPC ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving
+				FROM dbo.InventoryDetail id 
+				INNER JOIN dbo.Item i ON i.UPC = id.UPC
+				INNER JOIN dbo.MajorDept md ON md.MajorDept = i.MajorDept
+				INNER JOIN dbo.Departments d ON d.Department = i.Department
+				WHERE id.Units > 0 AND id.RecordType = 'A' AND id.Date = '2017-07-04'";
+		// Execute query
+		$results = $this->db->query($SQL);
+		// print_r($this->db->errorInfo());die();
+		$report = $results->fetchall(PDO::FETCH_BOTH);
+
+		return $report ;
+	}
 }

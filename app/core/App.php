@@ -16,9 +16,14 @@ class App{
 		ini_set('memory_limit', '512M');
 		ini_set('max_execution_time', 1000);
 
-		$this->roles = array(1 => "Admin", 2 => "Level 1", 3 => "Level 2", 4 => "Level 0");
+		$this->roles = array(0 => "SuperAdmin", 1 => "Admin", 2 => "Level 1", 3 => "Level 2", 4 => "Level 0");
 
-		$this->rights = array(1 => array("Admin" => array("controllers" => array("home", "export", "account", "login", "error"), 
+		$this->rights = array(0 => array("SuperAdmin" => array("controllers" => array("home", "export", "account", "login", "error"), 
+														  "actions" => array("index", "vendor", "UPCRange", "section", "vendorSection", 
+							  												 "department", "vendorDepartment", "itemDescription", "logout",
+							  												 "UPCPriceCompare", "vendorItemCode", "vendorNames", "changeExportFolder", "sectionMovement",
+							  												 "sectionNames", "departmentNames", "delete", "reset", "changePassword", "UPCPriceCompare_url"))),
+							  1 => array("Admin" => array("controllers" => array("home", "export", "account", "login", "error"), 
 														  "actions" => array("index", "vendor", "UPCRange", "section", "vendorSection", 
 							  												 "department", "vendorDepartment", "itemDescription", "logout",
 							  												 "UPCPriceCompare", "vendorItemCode", "vendorNames", "changeExportFolder", "sectionMovement",

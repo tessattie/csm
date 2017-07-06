@@ -706,6 +706,20 @@ class home extends Controller{
 		$this->renderView($data);
 	}
 
+	public function adjustments()
+	{
+		$data = array();
+		$theadTitles = array("UPC", "ITEM DESCRIPTION", "SECTION NO", "SECTION NAME","LAST RECEIVING", "LAST RECEIVING DATE", "ADJUSTMENT", "ADJUSTMENT DATE");
+		$queryTitles = array("UPC", "ItemDescription", "SctNo", "SctName", "lastReceiving", "lastReceivingDate", "adj", "Date");
+		$this->exportURL = "/csm/public/phpExcelExport/adjustments";
+		$adjustments = $this->brdata->get_adjReport();
+		$title = "ADJUSTMENTS REPORT";
+		$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
+			"title" => $title, "tableID" => "report_result", "action" => "lists", "reportType" => 'defaultTemplate', 
+			"from" => $this->from, "to" => $this->to, "report" => $adjustments, "menu" => $this->userRole);
+		$this->renderView($data);
+	}
+
 	public function logout()
 	{
 		session_unset();
