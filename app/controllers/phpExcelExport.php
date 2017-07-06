@@ -693,9 +693,10 @@ class phpExcelExport extends Controller{
 		$header = array("A" => "SCT NO", "B" => "SCT NAME", "C" => "DPT NO", "D" => "DPT NAME");
 		$this->setSheetName("SECTION NAMES REPORT");
 		$report = $this->brdata->get_sectionNames();
+		$bold = array();
 		$lastItem = count($report) + 4;
-		$this->setHeader("SECTION NAMES REPORT", "LIST OF STORE SECTIONS", $header, "sctList", $lastItem);
-		$this->setReport($header, $report);
+		$this->setHeader("SECTION NAMES REPORT", "LIST OF STORE SECTIONS", $header, "sctList", $lastItem, "ORIENTATION_PORTRAIT");
+		$this->setReport($header, $report, $bold, "E", "E", "B");
 		$this->saveReport('SectionNames_' . $this->today);
 	}
 
@@ -703,10 +704,11 @@ class phpExcelExport extends Controller{
 	{
 		$header = array("A" => "DPT NO", "B" => "DPT NAME");
 		$this->setSheetName("DEPARTMENT NAMES REPORT");
+		$bold = array();
 		$report = $this->brdata->get_departmentNames();
 		$lastItem = count($report) + 4;
-		$this->setHeader("DEPARTMENT NAMES REPORT", "LIST OF STORE DEPARTMENTS", $header, 'dptList', $lastItem);
-		$this->setReport($header, $report);
+		$this->setHeader("DEPARTMENT NAMES REPORT", "LIST OF STORE DEPARTMENTS", $header, 'dptList', $lastItem, "ORIENTATION_PORTRAIT");
+		$this->setReport($header, $report, $bold, "E", "E", "E");
 		$this->saveReport('DepartmentNames_' . $this->today);
 	}
 
@@ -715,9 +717,10 @@ class phpExcelExport extends Controller{
 		$header = array("A" => "VDR #", "B" => "VDR NAME");
 		$this->setSheetName("VENDOR NAMES REPORTS");
 		$report = $this->brdata->get_vendorNames();
+		$bold = array();
 		$lastItem = count($report) + 4;
-		$this->setHeader("VENDOR NAMES REPORT", "LIST OF VENDORS", $header, 'vdrList', $lastItem);
-		$this->setReport($header, $report);
+		$this->setHeader("VENDOR NAMES REPORT", "LIST OF VENDORS", $header, 'vdrList', $lastItem, "ORIENTATION_PORTRAIT");
+		$this->setReport($header, $report, $bold, "E", "E", "E");
 		$this->saveReport('VendorNames_' . $this->today);
 	}
 
@@ -741,14 +744,20 @@ class phpExcelExport extends Controller{
 		$this->sheet->Name = $sheetName;
 	}
 
-	private function setHeader($title, $subtitle, $header, $reportType, $lastItem)
+	private function setHeader($title, $subtitle, $header, $reportType, $lastItem, $orientation = "ORIENTATION_LANDSCAPE")
 	{
 		$myWorkSheet = new PHPExcel_Worksheet($this->phpExcel, $reportType); 
 		// Attach the “My Data” worksheet as the first worksheet in the PHPExcel object 
 		$lastKey = $this->getLastArrayKey($header);
 		$this->phpExcel->addSheet($myWorkSheet, 0);
 		// Set report to landscape 
-		$this->phpExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
+		if($orientation == "ORIENTATION_PORTRAIT"){
+			$this->phpExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
+		}
+		else{
+			$this->phpExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
+		}
+		
 
 		$this->sheet->mergeCells('A1:' . $lastKey . '1');
 		$this->sheet->mergeCells('A2:' . $lastKey . '2');
@@ -1332,7 +1341,7 @@ class phpExcelExport extends Controller{
 						if($this->columns[$value] == "CaseCost" || $this->columns[$value] == "unitPrice")
 						{
 							$this->sheet->setCellValue($key . ($j+1), number_format($report[$i][$this->columns[$value]."One"], 2, ".", ''));
-							$this->sheet->setCellValue($key . $j, number_format($report[$i][$this->columns[$value]."One"], 2, ".", ''));
+							$this->sheet->setCellValue($key . $j, number_format($report[$i][$this->columns[$value]."Two"], 2, ".", ''));
 							$this->phpExcel->getActiveSheet()
 							    ->getStyle($key . ($j+1))
 							    ->getFill()
@@ -1350,8 +1359,8 @@ class phpExcelExport extends Controller{
 						else
 						{
 							if($value == "VDR ITEM #"){
-								$this->sheet->setCellValue($key . $j, str_replace(" ", "", $report[$i][$this->columns[$value]."One"]));
-							$this->sheet->setCellValue($key . ($j+1), str_replace(" ", "", $report[$i][$this->columns[$value]."Two"]));
+								$this->sheet->setCellValue($key . ($j+1), str_replace(" ", "", $report[$i][$this->columns[$value]."One"]));
+							$this->sheet->setCellValue($key . $j, str_replace(" ", "", $report[$i][$this->columns[$value]."Two"]));
 							$this->phpExcel->getActiveSheet()
 							    ->getStyle($key . ($j+1))
 							    ->getFill()
@@ -1366,8 +1375,8 @@ class phpExcelExport extends Controller{
 							    ->getStartColor()
 							    ->setRGB('DFF0D8');
 							}else{
-								$this->sheet->setCellValue($key . $j, $report[$i][$this->columns[$value]."One"]);
-							$this->sheet->setCellValue($key . ($j+1), $report[$i][$this->columns[$value]."Two"]);
+								$this->sheet->setCellValue($key . ($j+1), $report[$i][$this->columns[$value]."One"]);
+							$this->sheet->setCellValue($key . $j, $report[$i][$this->columns[$value]."Two"]);
 							$this->phpExcel->getActiveSheet()
 							    ->getStyle($key . ($j+1))
 							    ->getFill()
