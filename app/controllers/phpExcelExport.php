@@ -679,7 +679,7 @@ class phpExcelExport extends Controller{
 						"Q" => "VDR #", 
 						"R" => "VDR NAME");
 		$this->setSheetName("SECTION PRICE COMPARE REPORT");
-		$report = $this->brdata->sectionPriceCompare($vendor1, $vendor2, $section, $this->today, $this->from, $this->to);
+		$report = $this->brdata->sectionPriceCompare($vendor1, $vendor2, $section, $this->today, $from, $to);
 		$bold = array("D", "K", "L", "M", "F");
 		$lastItem = count($report) + 5;
 		$this->setHeader("VENDOR PRICE COMPARE PER SECTION", " [ VENDORS : " . $vendor1 . " - ".$report[0]['VdrNameOne']." / " . $vendor2 . " - " .
@@ -1399,7 +1399,6 @@ class phpExcelExport extends Controller{
 			$j = $j + 2;
 			$increment = 1;
 		}
-		$j = $j - 1;
 		for($z=0;$z<count($bold);$z++)
 		{
 			$this->sheet->getStyle($bold[$z].'3:'.$bold[$z].$j)->getFont()->setBold(true);
@@ -1420,7 +1419,7 @@ class phpExcelExport extends Controller{
 		$this->sheet->getStyle("A3:" . $lastKey . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 		$this->sheet->getStyle($itemDescription."3:" . $itemDescription . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
 		$this->sheet->getStyle("A3:A" . $j)->getNumberFormat()->setFormatCode('0000000000000');
-		$this->sheet->getStyle('A3:A'.$j)->getFont()->setSize(8);
+		$this->sheet->getStyle('A3:' . $lastKey . $j)->getFont()->setSize(8);
 		$styleArray = array( 'borders' => array( 'allborders' => array( 'style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000'), ), ), ); 
 		$this->phpExcel->getActiveSheet()->getStyle('A1:'.$lastKey.$j)->applyFromArray($styleArray);
 	}

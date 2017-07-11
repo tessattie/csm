@@ -365,7 +365,6 @@ class brdata{
 
 	public function vendorPriceCompare($vendor1, $vendor2, $today, $from, $to)
 	{
-
 		$drop1 = "DROP VIEW vendor1";
 		$view1 = "CREATE VIEW vendor1 AS (SELECT  vc.UPC, v.Vendor AS VdrNo, v.VendorName AS VdrName, vc.VendorItem AS CertCode, vc.CaseCost, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
 				i.Brand, vc.Pack, i.SizeAlpha, i.Department AS SctNo, i.MajorDept AS DptNo, i.Description AS ItemDescription, p.BasePrice as Retail,
@@ -414,14 +413,15 @@ class brdata{
 				two.VdrName AS VdrNameTwo, two.VdrNo AS VdrNoTwo, two.Pack AS PackTwo, two.SizeAlpha AS SizeAlphaTwo, 
 				two.CaseCost AS CaseCostTwo, two.lastReceiving AS lastReceivingTwo, two.lastReceivingDate AS lastReceivingDateTwo, 
 				one.CertCode AS CertCodeOne, two.CertCode AS CertCodeTwo
-				FROM dbo.Vendor1 one
-				INNER JOIN Vendor2 two ON two.UPC = one.UPC ORDER BY one.SctNo";
+				FROM vendor1 one
+				INNER JOIN vendor2 two ON two.UPC = one.UPC ORDER BY one.SctNo";
 
 		$this->db->query($drop1);
 		$this->db->query($view1);
 		$this->db->query($drop2);
 		$this->db->query($view2);
 		$results = $this->db->query($SQL);
+
 
 		$report = $results->fetchall(PDO::FETCH_BOTH);
 
