@@ -63,6 +63,13 @@
           <input type='hidden' name = 'toNegvendor' id = 'toNegvendor'>
         </form>
 
+    <a href="#" id="vendorMvt" class="list-group-item">Vendor Section Final - Zero Movement</a>
+            <form method = 'POST' action = '/csm/public/home/vendorMovement' name='vendorMvtform' id = 'vendorMvtform'>
+                <input type='hidden' name = 'vendorMvtNumber' id = 'vendorMvtNumber'>
+                <input type='hidden' name = 'fromMvtvendor' id = 'fromMvtvendor'>
+                <input type='hidden' name = 'toMvtvendor' id = 'toMvtvendor'>
+              </form>
+
     <a href="#" id="vendorSection" class="list-group-item">Vendor Section - Normal</a>
     <form method = 'POST' action = '/csm/public/home/vendorSection' name='vendorSectionform' id = 'vendorSectionform'>
         <input type='hidden' name = 'svendorNumber' id = 'svendorNumber'>

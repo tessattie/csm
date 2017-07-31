@@ -161,7 +161,7 @@ class home extends Controller{
 			$i=0;
 			foreach($sectionReport as $key => $value)
 			{
-				if($value['sales'] != NULL)
+				if($value['sales'] != NULL  && $value['onhand'] == ".0000")
 				{
 					unset($sectionReport[$i]);
 				}
@@ -214,9 +214,10 @@ class home extends Controller{
 			$vendorReport = $this->brdata->get_vendorReport($_POST['vendorMvtNumber'], $this->today, $_POST['fromMvtvendor'], $_POST['toMvtvendor']);
 			$j=0;
 			$i=0;
+			// var_dump($vendorReport); die();
 			foreach($vendorReport as $key => $value)
 			{
-				if($value['sales'] != NULL)
+				if($value['sales'] != NULL || $value['onhand'] == ".0000")
 				{
 					unset($vendorReport[$i]);
 				}
@@ -231,6 +232,7 @@ class home extends Controller{
 			{
 				$title = '[VDR' . $_POST["vendorMvtNumber"] . ' - '. $report[0]["VdrName"] . '] - [' . $this->from . ' to ' . $this->to . '] - [' . count($report) . ' ITEMS]';				
 			}
+			// var_dump($report); die();
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles , "title" => $title, "tableID" => "report_result", "action" => "vendor", "reportType" => 'templateWithSectionOrder', "from" => $this->from, "to" => $this->to, "report" => $report, "menu" => $this->userRole);
 		}
 		$this->renderView($data);
@@ -253,9 +255,10 @@ class home extends Controller{
 			$vdrSctReport = $this->brdata->get_vendorSectionReport($_POST['svendorMvtNumber'], $_POST['sctvendorMvtNumber'], $this->today, $_POST['tovendorMvtSection'], $_POST['fromvendorMvtSection']);
 			$j=0;
 			$i=0;
+			// var_dump($)
 			foreach($vdrSctReport as $key => $value)
 			{
-				if($value['sales'] != NULL)
+				if($value['sales'] != NULL  && $value['onhand'] == ".0000")
 				{
 					unset($vdrSctReport[$i]);
 				}

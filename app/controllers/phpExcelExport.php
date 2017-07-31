@@ -134,7 +134,7 @@ class phpExcelExport extends Controller{
 		$i=0;
 		foreach($vendorReport as $key => $value)
 		{
-			if($value['sales'] != NULL)
+			if($value['sales'] != NULL || $value['onhand'] == ".0000")
 			{
 				unset($vendorReport[$i]);
 			}
@@ -433,7 +433,7 @@ class phpExcelExport extends Controller{
 		$i=0;
 		foreach($vdrSctReport as $key => $value)
 		{
-			if($value['sales'] != NULL)
+			if($value['sales'] != NULL || $value['onhand'] == ".0000")
 			{
 				unset($vdrSctReport[$i]);
 			}
@@ -494,7 +494,7 @@ class phpExcelExport extends Controller{
 		$i=0;
 		foreach($vdrSctReport as $key => $value)
 		{
-			if($value['sales'] != NULL)
+			if($value['sales'] != NULL  || $value['onhand'] == ".0000")
 			{
 				unset($vdrSctReport[$i]);
 			}
