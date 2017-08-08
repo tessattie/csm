@@ -270,6 +270,7 @@ class brdata{
 
 		// Execute query
 		$results = $this->db->query($SQL);
+		// print_r($this->db->errorInfo());die();
 		$report = $results->fetchall(PDO::FETCH_BOTH);
 
 		return $report ;
