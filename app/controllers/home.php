@@ -153,7 +153,7 @@ class home extends Controller{
 			}
 			$this->setDefaultDates($_POST['mulfromsectionneg'], $_POST['multosectionneg']);
 			$this->exportURL = "/csm/public/phpExcelExport/multipleSectionsNeg/".$exporturl . "/" . $this->from . "/" . $this->to;
-			$sectionReport = $this->brdata->get_multipleSectionReport($sections, $this->today, $_POST['mulfromsectionneg'], $_POST['multosectionneg']);
+			$sectionReport = $this->brdata->get_multipleSectionNegReport($sections, $this->today, $_POST['mulfromsectionneg'], $_POST['multosectionneg']);
 			if(!empty($sectionReport[0]))
 			{
 				$title = '[DPT'.$sectionReport[0]['DptNo'].' - '.$sectionReport[0]['DptName'].'] - ['.$this->from.' to '.$this->to.'] - 

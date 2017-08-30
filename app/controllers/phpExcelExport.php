@@ -374,7 +374,7 @@ class phpExcelExport extends Controller{
 		$report = $this->brdata->get_multipleSectionReport($secArray, $this->today, $from, $to);
 		$bold = array("G", "H", "I", "O");
 		$lastItem = count($report) + 4;
-		$this->setHeader("MULTIPLE SECTIONS REPORT" ," [SCT : ".$sections." - " . $report[0]['SctName'] . " ] [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "sctReport", $lastItem);
+		$this->setHeader("MULTIPLE SECTIONS REPORT" ," [ SCT : ".$sections." ] [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "sctReport", $lastItem);
 		$this->setReportWithSection($header, $report, $bold, "A", "", "D");
 		// print_r(array("Memcache" => $timeMemcache, "PHPExcel" => $timePHPExcel));
 		$this->saveReport('MultipleSections_' . $sections . '_' . $this->today);
@@ -400,10 +400,10 @@ class phpExcelExport extends Controller{
 						"Q" => "TPR END");
 		$this->setSheetName("MULTIPLE SECTIONS REPORT");
 		$secArray = explode("_", $sections);
-		$report = $this->brdata->get_multipleSectionReport($secArray, $this->today, $from, $to);
+		$report = $this->brdata->get_multipleSectionNegReport($secArray, $this->today, $from, $to);
 		$bold = array("G", "H", "I", "O");
 		$lastItem = count($report) + 4;
-		$this->setHeader("MULTIPLE SECTIONS REPORT" ," [SCT : ".$sections." - " . $report[0]['SctName'] . " ] [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "sctReport", $lastItem);
+		$this->setHeader("MULTIPLE SECTIONS REPORT" ," [ SCT : ".$sections." ] [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "sctReport", $lastItem);
 		$this->setReportWithSectionNegative($header, $report, $bold, "A", "", "D");
 		// print_r(array("Memcache" => $timeMemcache, "PHPExcel" => $timePHPExcel));
 		$this->saveReport('MultipleSections_' . $sections . '_' . $this->today);

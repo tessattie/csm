@@ -208,7 +208,47 @@ class brdata{
 				INNER JOIN dbo.Departments d ON d.Department = i.Department
 				INNER JOIN dbo.MajorDept md ON md.MajorDept = i.MajorDept
 				WHERE ".$sectionString." AND p.Store = '00000A'
-				ORDER BY i.Department DESC, v.VendorName ASC, i.Description ASC, vc.Pack DESC, i.SizeAlpha DESC;";
+				ORDER BY i.Department ASC, v.VendorName ASC, i.Description ASC, vc.Pack DESC, i.SizeAlpha DESC;";
+
+		// Execute query
+		$results = $this->db->query($SQL);
+		// print_r($this->db->errorInfo());die();
+		$report = $results->fetchall(PDO::FETCH_BOTH);
+
+		return $report ;
+	}
+
+	public function get_multipleSectionNegReport($sections, $today, $from, $to){
+		$sectionString = "";
+		for($i=0;$i<count($sections);$i++){
+			if($sectionString == ""){
+				$sectionString .= " i.department = '".$sections[$i]."' ";
+			}else{
+				$sectionString .= " OR i.department = '".$sections[$i]."' ";
+			}
+		}
+
+		// var_dump($sectionString);
+
+		$SQL = "SELECT DISTINCT i.UPC, vc.Vendor AS VdrNo, vc.VendorItem AS CertCode, vc.CaseCost, i.Brand, i.Description AS ItemDescription, i.SizeAlpha, vc.Pack, i.Department AS SctNo, i.MajorDept AS DptNo, v.VendorName AS VdrName,
+				d.Description AS SctName, md.Description AS DptName, p.BasePrice as Retail, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
+				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im 
+				WHERE im.UPC = vc.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, ISNULL((SELECT SUM(id.Units) FROM dbo.InventoryDetail id WHERE id.RecordType = 'R'  AND id.Vendor=vc.Vendor AND id.UPC=vc.UPC AND id.Date = (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=vc.UPC AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate, (SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
+				+ ISNULL((SELECT SUM(Units) FROM dbo.InventoryDetail WHERE RecordType = 'A' AND LastUpdated > (SELECT TOP 1 LastUpdated FROM dbo.InventoryDetail id 
+				WHERE id.RecordType = 'P' AND id.UPC = p.UPC ORDER BY LastUpdated DESC) AND UPC= p.UPC),0) 
+				+ ISNULL((SELECT SUM(QtySold) FROM dbo.ItemMovement WHERE Date > (SELECT TOP 1 Date FROM dbo.InventoryDetail id 
+				WHERE id.RecordType = 'P' AND id.UPC = p.UPC ORDER BY LastUpdated DESC) AND UPC= p.UPC),0) 
+				+ ISNULL((SELECT SUM(Units) FROM dbo.InventoryDetail WHERE RecordType = 'R' AND LastUpdated > (SELECT TOP 1 LastUpdated FROM dbo.InventoryDetail id 
+				WHERE id.RecordType = 'P' AND id.UPC = p.UPC ORDER BY LastUpdated DESC) AND UPC=p.UPC),0) 
+				FROM dbo.InventoryDetail WHERE UPC=p.UPC),99999) FROM dbo.InventoryDetail) AS onhand, (vc.CaseCost / NULLIF(vc.Pack, 0)) AS unitPrice
+				FROM dbo.Item i 
+				LEFT JOIN dbo.VendorCost vc ON i.UPC = vc.UPC
+				LEFT JOIN dbo.Vendors v ON v.Vendor = vc.Vendor
+				LEFT JOIN dbo.Price p ON p.UPC = vc.UPC
+				INNER JOIN dbo.Departments d ON d.Department = i.Department
+				INNER JOIN dbo.MajorDept md ON md.MajorDept = i.MajorDept
+				WHERE ".$sectionString." AND p.Store = '00000A'
+				ORDER BY i.UPC, v.VendorName ASC, i.Description ASC, vc.Pack DESC, i.SizeAlpha DESC;";
 
 		// Execute query
 		$results = $this->db->query($SQL);
