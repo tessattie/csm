@@ -92,6 +92,92 @@ class home extends Controller{
 		$this->renderView($data);
 	}
 
+	public function multipleSections()
+	{
+		$data = array();
+		$title = "";
+		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PACK", "SIZE",
+			"CASE COST", "RETAIL", "ON-HAND", "LAST REC", "LAST REC DATE", 
+			"SALES", "VDR #", "VDR NAME", "TPR PRICE", "TPR START DATE", "TPR END DATE");
+		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
+			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", 
+			"sales", "VdrNo", "VdrName", "tpr", "tprStart", "tprEnd");
+		if(!empty($_POST['mulsectionNumber'])){
+			$exporturl = "";
+			$sections = explode(",",$_POST['mulsectionNumber']);
+			for($i=0;$i<count($sections);$i++){
+				$sections[$i] = $this->completeSection($sections[$i]);
+				if($exporturl == ""){
+					$exporturl .=  $sections[$i];
+				}else{
+					$exporturl .= "_" . $sections[$i];
+				}
+				
+			}
+			$this->setDefaultDates($_POST['mulfromsection'], $_POST['multosection']);
+			$this->exportURL = "/csm/public/phpExcelExport/multipleSections/".$exporturl . "/" . $this->from . "/" . $this->to;
+			$sectionReport = $this->brdata->get_multipleSectionReport($sections, $this->today, $_POST['mulfromsection'], $_POST['multosection']);
+			if(!empty($sectionReport[0]))
+			{
+				$title = '[DPT'.$sectionReport[0]['DptNo'].' - '.$sectionReport[0]['DptName'].'] - ['.$this->from.' to '.$this->to.'] - 
+				['.count($sectionReport).' ITEMS]';
+			}
+			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
+				"title" => $title, "tableID" => "report_result", "action" => "section", "reportType" => 'templateWithSectionOrder', 
+				"from" => $this->from, "to" => $this->to, "report" => $sectionReport, "menu" => $this->userRole);
+		}
+		$this->renderView($data);
+	}
+
+	public function multipleSectionsNeg()
+	{
+		$data = array();
+		$title = "";
+		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PACK", "SIZE",
+			"CASE COST", "RETAIL", "ON-HAND", "LAST REC", "LAST REC DATE", 
+			"SALES", "VDR #", "VDR NAME", "TPR PRICE", "TPR START DATE", "TPR END DATE");
+		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
+			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", 
+			"sales", "VdrNo", "VdrName", "tpr", "tprStart", "tprEnd");
+		if(!empty($_POST['mulsectionNumberneg'])){
+			$exporturl = "";
+			$sections = explode(",",$_POST['mulsectionNumberneg']);
+			for($i=0;$i<count($sections);$i++){
+				$sections[$i] = $this->completeSection($sections[$i]);
+				if($exporturl == ""){
+					$exporturl .=  $sections[$i];
+				}else{
+					$exporturl .= "_" . $sections[$i];
+				}
+				
+			}
+			$this->setDefaultDates($_POST['mulfromsectionneg'], $_POST['multosectionneg']);
+			$this->exportURL = "/csm/public/phpExcelExport/multipleSectionsNeg/".$exporturl . "/" . $this->from . "/" . $this->to;
+			$sectionReport = $this->brdata->get_multipleSectionReport($sections, $this->today, $_POST['mulfromsectionneg'], $_POST['multosectionneg']);
+			if(!empty($sectionReport[0]))
+			{
+				$title = '[DPT'.$sectionReport[0]['DptNo'].' - '.$sectionReport[0]['DptName'].'] - ['.$this->from.' to '.$this->to.'] - 
+				['.count($sectionReport).' ITEMS]';
+			}
+			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
+				"title" => $title, "tableID" => "report_result", "action" => "section", "reportType" => 'templateWithSectionOrderNegative', 
+				"from" => $this->from, "to" => $this->to, "report" => $sectionReport, "menu" => $this->userRole);
+		}
+		$this->renderView($data);
+	}
+
+	public function completeSection($section){
+		$total = 4;
+		$value = '';
+		$amount = strlen($section);
+		$toadd = $total - (int)$amount;
+		for($i=0;$i<$toadd;$i++){
+			$value .= "0";
+		}
+		return $value.$section;
+	}
+
+
 	public function UPCReceivingHistory()
 	{
 		$data = array();

@@ -351,6 +351,64 @@ class phpExcelExport extends Controller{
 		$this->saveReport('Section_' . $report[0]['SctName'] . '_' . $this->today);
 	}
 
+	public function multipleSections($sections, $from, $to){
+		$header = array("A" => "UPC", 
+						"B" => "VDR ITEM #", 
+						"C" => "BRAND", 
+						"D" => "ITEM DESCRIPTION", 
+						"E" => "PACK", 
+						"F" => "SIZE", 
+						"G" => "CASE COST", 
+						"H"	 => "RETAIL", 
+						"I" => "ON-HAND", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
+						"L" => "SALES", 
+						"M" => "VDR #", 
+						"N" => "VDR NAME", 
+						"O" => "TPR PRICE", 
+						"P" => "TPR START", 
+						"Q" => "TPR END");
+		$this->setSheetName("MULTIPLE SECTIONS REPORT");
+		$secArray = explode("_", $sections);
+		$report = $this->brdata->get_multipleSectionReport($secArray, $this->today, $from, $to);
+		$bold = array("G", "H", "I", "O");
+		$lastItem = count($report) + 4;
+		$this->setHeader("MULTIPLE SECTIONS REPORT" ," [SCT : ".$sections." - " . $report[0]['SctName'] . " ] [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "sctReport", $lastItem);
+		$this->setReportWithSection($header, $report, $bold, "A", "", "D");
+		// print_r(array("Memcache" => $timeMemcache, "PHPExcel" => $timePHPExcel));
+		$this->saveReport('MultipleSections_' . $sections . '_' . $this->today);
+	}
+	
+	public function multipleSectionsNeg($sections, $from, $to){
+		$header = array("A" => "UPC", 
+						"B" => "VDR ITEM #", 
+						"C" => "BRAND", 
+						"D" => "ITEM DESCRIPTION", 
+						"E" => "PACK", 
+						"F" => "SIZE", 
+						"G" => "CASE COST", 
+						"H"	 => "RETAIL", 
+						"I" => "ON-HAND", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
+						"L" => "SALES", 
+						"M" => "VDR #", 
+						"N" => "VDR NAME", 
+						"O" => "TPR PRICE", 
+						"P" => "TPR START", 
+						"Q" => "TPR END");
+		$this->setSheetName("MULTIPLE SECTIONS REPORT");
+		$secArray = explode("_", $sections);
+		$report = $this->brdata->get_multipleSectionReport($secArray, $this->today, $from, $to);
+		$bold = array("G", "H", "I", "O");
+		$lastItem = count($report) + 4;
+		$this->setHeader("MULTIPLE SECTIONS REPORT" ," [SCT : ".$sections." - " . $report[0]['SctName'] . " ] [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "sctReport", $lastItem);
+		$this->setReportWithSectionNegative($header, $report, $bold, "A", "", "D");
+		// print_r(array("Memcache" => $timeMemcache, "PHPExcel" => $timePHPExcel));
+		$this->saveReport('MultipleSections_' . $sections . '_' . $this->today);
+	}
+
 	public function sectionNegative($section, $from, $to)
 	{
 		$header = array("A" => "UPC", 

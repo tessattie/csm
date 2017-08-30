@@ -25,6 +25,38 @@ jQuery(function($){
 		}
 	});
 
+	$("#multiplesection").click(function(){ 
+		var sectionNumber = prompt('Enter the section Number : ');
+		if(sectionNumber)
+		{
+			$("#mulsectionNumber").val(sectionNumber);
+			$("#mulfromsection").val($('#fromdate').val());
+			$("#multosection").val($('#todate').val());
+			document.forms["multiplesectionform"].submit();
+			$("#mulsectionNumber").val('');
+		}
+		else
+		{
+			alert("There are no section numbers with more than four digits. Try again.");
+		}
+	});
+
+	$("#multiplesectionneg").click(function(){ 
+		var sectionNumber = prompt('Enter the section Number : ');
+		if(sectionNumber)
+		{
+			$("#mulsectionNumberneg").val(sectionNumber);
+			$("#mulfromsectionneg").val($('#fromdate').val());
+			$("#multosectionneg").val($('#todate').val());
+			document.forms["multiplesectionformneg"].submit();
+			$("#mulsectionNumberneg").val('');
+		}
+		else
+		{
+			alert("There are no section numbers with more than four digits. Try again.");
+		}
+	});
+
 	$("#sectionNegative").click(function(){ 
 		var regex = /[0-9]/;
 		var sectionNumber = prompt('Enter the section Number : ');

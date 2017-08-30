@@ -93,6 +93,20 @@
         <input type='hidden' name = 'tosection' id = 'tosection'>
     </form>
 
+  <a href="#" id="multiplesection" class="list-group-item">Multiple Section - Normal</a>
+    <form method = 'POST' action = '/csm/public/home/multipleSections' name='multiplesectionform' id = 'multiplesectionform'>
+        <input type='hidden' name = 'mulsectionNumber' id = 'mulsectionNumber'>
+        <input type='hidden' name = 'mulfromsection' id = 'mulfromsection'>
+        <input type='hidden' name = 'multosection' id = 'multosection'>
+    </form>
+
+  <a href="#" id="multiplesectionneg" class="list-group-item">Multiple Section - Negative</a>
+    <form method = 'POST' action = '/csm/public/home/multipleSectionsNeg' name='multiplesectionformneg' id = 'multiplesectionformneg'>
+        <input type='hidden' name = 'mulsectionNumberneg' id = 'mulsectionNumberneg'>
+        <input type='hidden' name = 'mulfromsectionneg' id = 'mulfromsectionneg'>
+        <input type='hidden' name = 'multosectionneg' id = 'multosectionneg'>
+    </form>
+
   <a href="#" id="sectionNegative" class="list-group-item">Section Negative for Inventory</a>
     <form method = 'POST' action = '/csm/public/home/sectionNegative' name='sectionNegform' id = 'sectionNegform'>
         <input type='hidden' name = 'sectionNegNumber' id = 'sectionNegNumber'>
