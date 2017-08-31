@@ -208,7 +208,7 @@ class brdata{
 				INNER JOIN dbo.Departments d ON d.Department = i.Department
 				INNER JOIN dbo.MajorDept md ON md.MajorDept = i.MajorDept
 				WHERE ".$sectionString." AND p.Store = '00000A'
-				ORDER BY i.Department DESC, v.VendorName ASC, i.Description ASC, vc.Pack DESC, i.SizeAlpha DESC;";
+				ORDER BY i.Department DESC, vc.UPC, v.VendorName ASC, i.Description ASC, vc.Pack DESC, i.SizeAlpha DESC;";
 
 		// Execute query
 		$results = $this->db->query($SQL);
