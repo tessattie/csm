@@ -156,12 +156,12 @@ class home extends Controller{
 			$sectionReport = $this->brdata->get_multipleSectionNegReport($sections, $this->today, $_POST['mulfromsectionneg'], $_POST['multosectionneg']);
 			if(!empty($sectionReport[0]))
 			{
-				$title = '[DPT'.$sectionReport[0]['DptNo'].' - '.$sectionReport[0]['DptName'].'] - ['.$this->from.' to '.$this->to.'] - 
-				['.count($sectionReport).' ITEMS]';
+				$title = '[ DPT'.$sectionReport[0]['DptNo'].' - '.$sectionReport[0]['DptName'].'] - ['.$this->from.' to '.$this->to.'] - 
+				['.count($sectionReport).' ITEMS ]';
 			}
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
-				"title" => $title, "tableID" => "report_result", "action" => "section", "reportType" => 'templateWithSectionOrderNegative', 
-				"from" => $this->from, "to" => $this->to, "report" => $sectionReport, "menu" => $this->userRole);
+						  "title" => $title, "tableID" => "report_result", "action" => "section", "reportType" => 'templateWithSectionOrderNegativeRepeat', 
+						  "from" => $this->from, "to" => $this->to, "report" => $sectionReport, "menu" => $this->userRole);
 		}
 		$this->renderView($data);
 	}

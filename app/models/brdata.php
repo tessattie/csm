@@ -208,6 +208,9 @@ class brdata{
 				INNER JOIN dbo.Departments d ON d.Department = i.Department
 				INNER JOIN dbo.MajorDept md ON md.MajorDept = i.MajorDept
 				WHERE ".$sectionString." AND p.Store = '00000A'
+<<<<<<< HEAD
+				ORDER BY i.Department DESC, vc.UPC, v.VendorName ASC, i.Description ASC, vc.Pack DESC, i.SizeAlpha DESC;";
+=======
 				ORDER BY i.Department ASC, v.VendorName ASC, i.Description ASC, vc.Pack DESC, i.SizeAlpha DESC;";
 
 		// Execute query
@@ -249,6 +252,7 @@ class brdata{
 				INNER JOIN dbo.MajorDept md ON md.MajorDept = i.MajorDept
 				WHERE ".$sectionString." AND p.Store = '00000A'
 				ORDER BY i.UPC, v.VendorName ASC, i.Description ASC, vc.Pack DESC, i.SizeAlpha DESC;";
+>>>>>>> de701b758d65dc18e88ae8ef9d7aedf8c191eb8d
 
 		// Execute query
 		$results = $this->db->query($SQL);

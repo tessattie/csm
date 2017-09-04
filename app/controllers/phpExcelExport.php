@@ -379,7 +379,7 @@ class phpExcelExport extends Controller{
 		// print_r(array("Memcache" => $timeMemcache, "PHPExcel" => $timePHPExcel));
 		$this->saveReport('MultipleSections_' . $sections . '_' . $this->today);
 	}
-	
+
 	public function multipleSectionsNeg($sections, $from, $to){
 		$header = array("A" => "UPC", 
 						"B" => "VDR ITEM #", 
@@ -403,8 +403,8 @@ class phpExcelExport extends Controller{
 		$report = $this->brdata->get_multipleSectionNegReport($secArray, $this->today, $from, $to);
 		$bold = array("G", "H", "I", "O");
 		$lastItem = count($report) + 4;
-		$this->setHeader("MULTIPLE SECTIONS REPORT" ," [ SCT : ".$sections." ] [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "sctReport", $lastItem);
-		$this->setReportWithSectionNegative($header, $report, $bold, "A", "", "D");
+		$this->setHeader("MULTIPLE SECTIONS REPORT" ," [SCT : ".$sections." ] [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "sctReport", $lastItem);
+		$this->setReportWithSectionNegativeRepeat($header, $report, $bold, "A", "", "D");
 		// print_r(array("Memcache" => $timeMemcache, "PHPExcel" => $timePHPExcel));
 		$this->saveReport('MultipleSections_' . $sections . '_' . $this->today);
 	}
@@ -1161,6 +1161,98 @@ class phpExcelExport extends Controller{
 		for ($i=0; $i<count($report); $i++)
 		{
 			if($report[$i]['onhand'] < 0 && $report[$i]["SctNo"] != 184)
+			{
+				if($increment == 0 || $condition != $report[$i]["SctNo"])
+				{
+					$this->sheet->mergeCells('A' . $j . ':' . $start . $j);
+					$this->sheet->setCellValue($current . $j, $report[$i]['SctNo'].' - '.$report[$i]['SctName']);
+					$condition = $report[$i]["SctNo"];
+					$this->sheet->getStyle($current . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+					$this->sheet->getStyle($current . $j)->getFont()->setBold(true);
+					$this->sheet->mergeCells($finish . $j . ':' . $this->getLastArrayKey($header) . $j);
+					$this->phpExcel->getActiveSheet()
+					    ->getStyle($current . $j)
+					    ->getFill()
+					    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+					    ->getStartColor()
+					    ->setARGB('FFE0E0E0');
+					$j = $j + 1;
+				}
+				foreach($header as $key => $value)
+				{
+					if(($value == "TPR PRICE" && $report[$i]["tpr"] == ".00")
+					|| ($value == "TPR START" && $report[$i]["tpr"] == ".00") 
+					|| ($value == "TPR END" && $report[$i]["tpr"] == ".00"))
+					{
+						$this->sheet->setCellValue($key . $j, " ");
+					}
+					else
+					{
+						if($value == "CASE COST")
+				        {
+				        	$this->sheet->setCellValue($key . $j, number_format($report[$i][$this->columns[$value]], 2, ".", ""));
+				        }
+				        else
+				        {
+				        	if($value == "UNIT PRICE")
+				        	{
+				        		$this->sheet->setCellValue($key . $j, number_format($report[$i][$this->columns[$value]], 2, ".", ""));
+				        	}
+				        	else
+				        	{
+				        		$this->sheet->setCellValue($key . $j, $report[$i][$this->columns[$value]]);
+				        	}
+				        }
+					}
+			        if($this->columns[$value] == "CertCode")
+					{
+						$this->sheet->setCellValue($key . $j, trim($report[$i][$this->columns[$value]]));
+					}
+			        if($value == "ON-HAND")
+			        {
+			        	if($report[$i][$this->columns[$value]] < 0)
+			        	{
+			        		$this->sheet->getStyle($key . $j)->getFont()
+						    ->getColor()->setRGB('FF0000');
+			        	}
+			        }
+				} 
+				$j = $j + 1;
+				$increment = 1;
+			}
+		}
+		$j = $j - 1;
+		$this->sheet->getStyle('A3:'.$lastKey.$j)->getFont()->setSize(8);
+		for($z=0;$z<count($bold);$z++)
+		{
+			$this->sheet->getStyle($bold[$z].'3:'.$bold[$z].$j)->getFont()->setBold(true);
+		}
+		if($unit_price_col != "")
+		{
+			$this->sheet->getStyle($unit_price_col."3:" . $unit_price_col . $j)->getFont()
+						    ->getColor()->setRGB('0066CC');
+		}
+		$this->sheet->getStyle("A1:" . $lastKey . $j) ->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+		$this->sheet->getStyle("A3:" . $lastKey . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->sheet->getStyle($itemDescription."3:" . $itemDescription . $j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+		$this->sheet->getStyle($upc_col . "3:" . $upc_col . $j)->getNumberFormat()->setFormatCode('0000000000000');
+		$styleArray = array( 'borders' => array( 'allborders' => array( 'style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000'), ), ), ); 
+		$this->phpExcel->getActiveSheet()->getStyle('A1:'.$lastKey.$j)->applyFromArray($styleArray);
+	}
+
+	private function setReportWithSectionNegativeRepeat($header, $report, $bold, $upc_col = "A", $unit_price_col = "", $itemDescription = "D")
+	{
+		$j = 4;
+		$lastKey = $this->getLastArrayKey($header);
+		$alphabet = array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
+		$start = $alphabet[array_search($this->getItemDescriptionColumn($header), $alphabet) - 1];
+		$current =  $this->getItemDescriptionColumn($header);
+		$finish = $alphabet[array_search($this->getItemDescriptionColumn($header), $alphabet) + 1];
+		$increment = 0;
+		$condition = 'ht';
+		for ($i=0; $i<count($report); $i++)
+		{
+			if($report[$i]['onhand'] < 0 && $report[$i]["SctNo"] != 184 && $report[$i]["UPC"] != $report[$i+1]["UPC"])
 			{
 				if($increment == 0 || $condition != $report[$i]["SctNo"])
 				{
