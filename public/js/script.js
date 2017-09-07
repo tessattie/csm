@@ -92,9 +92,8 @@ jQuery(function($){
 	});
 
 	$("#vendoritemcode").click(function(){ 
-		var regex = /[0-9]/;
 		var itemcode = prompt('Enter the item code : ');
-		if(regex.test(itemcode))
+		if(itemcode)
 		{
 			$("#itemcode").val(itemcode);
 			$("#fromcode").val($('#fromdate').val());

@@ -70,6 +70,17 @@ class home extends Controller{
 		$this->view('home', $data);
 	}
 
+	public function completeValue($value, $zeros){
+		$total = $zeros;
+		$return = '';
+		$amount = strlen($return);
+		$toadd = $total - (int)$amount;
+		for($i=0;$i<$toadd;$i++){
+			$return .= "0";
+		}
+		return $return.$value;
+	}
+
 	public function vendor()
 	{
 		$data = array();
@@ -83,6 +94,7 @@ class home extends Controller{
 			$this->setDefaultDates($_POST['fromvendor'], $_POST['tovendor']);
 			$this->exportURL = "/csm/public/phpExcelExport/vendor/" .$_POST['vendorNumber']. "/" . $this->from . "/" . $this->to;
 			$vendorReport = $this->brdata->get_vendorReport($_POST['vendorNumber'], $this->today, $_POST['fromvendor'], $_POST['tovendor']);
+			// var_dump($vendorReport);die();
 			if(!empty($vendorReport[0]))
 			{
 				$title = '[VDR' . $_POST["vendorNumber"] . ' - '. $vendorReport[0]["VdrName"] . '] - [' . $this->from . ' to ' . $this->to . '] - [' . count($vendorReport) . ' ITEMS]';				
