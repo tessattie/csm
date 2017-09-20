@@ -14,8 +14,8 @@ class brdata{
 	{
 		$SQL = "SELECT  vc.UPC, v.Vendor AS VdrNo, v.VendorName AS VdrName, vc.VendorItem AS CertCode, vc.CaseCost, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
 				i.Brand, vc.Pack, i.SizeAlpha, i.Department AS SctNo, i.MajorDept AS DptNo, i.Description AS ItemDescription, p.BasePrice as Retail,
-				d.Description AS SctName, md.Description AS DptName, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
-				ISNULL((SELECT SUM(id.Units) FROM dbo.InventoryDetail id WHERE id.RecordType = 'R'  AND id.Vendor=vc.Vendor AND id.UPC=p.UPC AND id.Date = (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving,
+				d.Description AS SctName, md.Description AS DptName, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=i.UPC ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+				ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC ORDER BY id.LastUpdated DESC, id.Date DESC),0) AS lastReceiving,
 				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im 
 				WHERE im.Date BETWEEN '".$from."' AND '".$to."' AND im.UPC = p.UPC) AS sales,
 				(SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
@@ -58,8 +58,10 @@ class brdata{
 	{
 		$SQL ="SELECT i.UPC, i.Department AS SctNo, vc.Pack, i.SizeAlpha, i.Brand, i.Description AS ItemDescription, vc.Vendor AS VdrNo, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
 			vc.VendorItem AS CertCode, vc.CaseCost, p.BasePrice AS Retail, v.VendorName AS VdrName, d.Description AS SctName, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=i.UPC ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+			ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC ORDER BY id.LastUpdated DESC, id.Date DESC),0) AS lastReceiving,
 			(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im 
-			WHERE im.UPC = i.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, (SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
+			WHERE im.UPC = i.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, 
+			(SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
 			+ ISNULL((SELECT SUM(Units) FROM dbo.InventoryDetail WHERE RecordType = 'A' AND LastUpdated > (SELECT TOP 1 LastUpdated FROM dbo.InventoryDetail id 
 			WHERE id.RecordType = 'P' AND id.UPC = p.UPC ORDER BY LastUpdated DESC) AND UPC= p.UPC),0) 
 			+ ISNULL((SELECT SUM(QtySold) FROM dbo.ItemMovement WHERE Date > (SELECT TOP 1 Date FROM dbo.InventoryDetail id 
@@ -88,8 +90,8 @@ class brdata{
 		$itemDescription = strtoupper($itemDescription);
 
 		$SQL ="SELECT i.UPC, i.Department AS SctNo, i.MajorDept AS DptNo, vc.Pack, vc.Vendor as VdrNo, vc.VendorItem AS CertCode, vc.CaseCost, i.Brand, i.Description AS ItemDescription, d.Description AS SctName, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
-				i.SizeAlpha, p.BasePRice AS Retail, v.VendorName AS VdrName, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=vc.UPC ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
-				ISNULL((SELECT SUM(id.Units) FROM dbo.InventoryDetail id WHERE id.RecordType = 'R'  AND id.Vendor=vc.Vendor AND id.UPC=p.UPC AND id.Date = (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=vc.UPC AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving,
+				i.SizeAlpha, p.BasePRice AS Retail, v.VendorName AS VdrName, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=i.UPC ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+				ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC ORDER BY id.LastUpdated DESC, id.Date DESC),0) AS lastReceiving,
 				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im 
 				WHERE im.UPC = p.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales,
 				(SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
@@ -119,8 +121,8 @@ class brdata{
 	{
 		$SQL = "SELECT  vc.UPC, v.Vendor AS VdrNo, v.VendorName AS VdrName, vc.VendorItem AS CertCode, vc.CaseCost,
 				i.Brand, vc.Pack, i.SizeAlpha, i.Department AS SctNo, i.MajorDept AS DptNo, i.Description AS ItemDescription, p.BasePrice as Retail, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
-				d.Description AS SctName, md.Description AS DptName, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
-				ISNULL((SELECT SUM(id.Units) FROM dbo.InventoryDetail id WHERE id.RecordType = 'R'  AND id.Vendor=vc.Vendor AND id.UPC=p.UPC AND id.Date = (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving,
+				d.Description AS SctName, md.Description AS DptName, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=i.UPC ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+				ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC ORDER BY id.LastUpdated DESC, id.Date DESC),0) AS lastReceiving,
 				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im 
 				WHERE im.UPC = p.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, 
 				(SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
@@ -153,7 +155,10 @@ class brdata{
 		$SQL = "SELECT vc.UPC, vc.Vendor AS VdrNo, vc.VendorItem AS CertCode, vc.CaseCost, i.Brand, i.Description AS ItemDescription, i.SizeAlpha, vc.Pack, i.Department AS SctNo, i.MajorDept AS DptNo, v.VendorName AS VdrName,
 				d.Description AS SctName, md.Description AS DptName, p.BasePrice as Retail, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
 				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im 
-				WHERE im.UPC = vc.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, ISNULL((SELECT SUM(id.Units) FROM dbo.InventoryDetail id WHERE id.RecordType = 'R'  AND id.Vendor=vc.Vendor AND id.UPC=vc.UPC AND id.Date = (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=vc.UPC AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate, (SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
+				WHERE im.UPC = vc.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, 
+				(SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=i.UPC ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+				ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC ORDER BY id.LastUpdated DESC, id.Date DESC),0) AS lastReceiving,
+				(SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
 				+ ISNULL((SELECT SUM(Units) FROM dbo.InventoryDetail WHERE RecordType = 'A' AND LastUpdated > (SELECT TOP 1 LastUpdated FROM dbo.InventoryDetail id 
 				WHERE id.RecordType = 'P' AND id.UPC = p.UPC ORDER BY LastUpdated DESC) AND UPC= p.UPC),0) 
 				+ ISNULL((SELECT SUM(QtySold) FROM dbo.ItemMovement WHERE Date > (SELECT TOP 1 Date FROM dbo.InventoryDetail id 
@@ -193,7 +198,10 @@ class brdata{
 		$SQL = "SELECT vc.UPC, vc.Vendor AS VdrNo, vc.VendorItem AS CertCode, vc.CaseCost, i.Brand, i.Description AS ItemDescription, i.SizeAlpha, vc.Pack, i.Department AS SctNo, i.MajorDept AS DptNo, v.VendorName AS VdrName,
 				d.Description AS SctName, md.Description AS DptName, p.BasePrice as Retail, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
 				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im 
-				WHERE im.UPC = vc.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, ISNULL((SELECT SUM(id.Units) FROM dbo.InventoryDetail id WHERE id.RecordType = 'R'  AND id.Vendor=vc.Vendor AND id.UPC=vc.UPC AND id.Date = (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=vc.UPC AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate, (SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
+				WHERE im.UPC = vc.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, 
+				(SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=i.UPC ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+				ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC ORDER BY id.LastUpdated DESC, id.Date DESC),0) AS lastReceiving,
+				(SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
 				+ ISNULL((SELECT SUM(Units) FROM dbo.InventoryDetail WHERE RecordType = 'A' AND LastUpdated > (SELECT TOP 1 LastUpdated FROM dbo.InventoryDetail id 
 				WHERE id.RecordType = 'P' AND id.UPC = p.UPC ORDER BY LastUpdated DESC) AND UPC= p.UPC),0) 
 				+ ISNULL((SELECT SUM(QtySold) FROM dbo.ItemMovement WHERE Date > (SELECT TOP 1 Date FROM dbo.InventoryDetail id 
@@ -232,7 +240,10 @@ class brdata{
 		$SQL = "SELECT DISTINCT i.UPC, vc.Vendor AS VdrNo, vc.VendorItem AS CertCode, vc.CaseCost, i.Brand, i.Description AS ItemDescription, i.SizeAlpha, vc.Pack, i.Department AS SctNo, i.MajorDept AS DptNo, v.VendorName AS VdrName,
 				d.Description AS SctName, md.Description AS DptName, p.BasePrice as Retail, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
 				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im 
-				WHERE im.UPC = vc.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, ISNULL((SELECT SUM(id.Units) FROM dbo.InventoryDetail id WHERE id.RecordType = 'R'  AND id.Vendor=vc.Vendor AND id.UPC=vc.UPC AND id.Date = (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=vc.UPC AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate, (SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
+				WHERE im.UPC = vc.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, 
+				(SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=i.UPC ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+				ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC ORDER BY id.LastUpdated DESC, id.Date DESC),0) AS lastReceiving,
+				(SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
 				+ ISNULL((SELECT SUM(Units) FROM dbo.InventoryDetail WHERE RecordType = 'A' AND LastUpdated > (SELECT TOP 1 LastUpdated FROM dbo.InventoryDetail id 
 				WHERE id.RecordType = 'P' AND id.UPC = p.UPC ORDER BY LastUpdated DESC) AND UPC= p.UPC),0) 
 				+ ISNULL((SELECT SUM(QtySold) FROM dbo.ItemMovement WHERE Date > (SELECT TOP 1 Date FROM dbo.InventoryDetail id 
@@ -262,7 +273,10 @@ class brdata{
 		$SQL = "SELECT DISTINCT vc.UPC, vc.Vendor AS VdrNo, vc.VendorItem AS CertCode, vc.CaseCost, i.Brand, i.Description AS ItemDescription, i.SizeAlpha, vc.Pack, i.Department AS SctNo, i.MajorDept AS DptNo, v.VendorName AS VdrName,
 				d.Description AS SctName, md.Description AS DptName, p.BasePrice as Retail, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
 				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im 
-				WHERE im.UPC = vc.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, ISNULL((SELECT SUM(id.Units) FROM dbo.InventoryDetail id WHERE id.RecordType = 'R'  AND id.Vendor=vc.Vendor AND id.UPC=vc.UPC AND id.Date = (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=vc.UPC AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate, (SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
+				WHERE im.UPC = vc.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, 
+				(SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=i.UPC ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+				ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC ORDER BY id.LastUpdated DESC, id.Date DESC),0) AS lastReceiving,
+				(SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
 				+ ISNULL((SELECT SUM(Units) FROM dbo.InventoryDetail WHERE RecordType = 'A' AND LastUpdated > (SELECT TOP 1 LastUpdated FROM dbo.InventoryDetail id 
 				WHERE id.RecordType = 'P' AND id.UPC = p.UPC ORDER BY LastUpdated DESC) AND UPC= p.UPC),0) 
 				+ ISNULL((SELECT SUM(QtySold) FROM dbo.ItemMovement WHERE Date > (SELECT TOP 1 Date FROM dbo.InventoryDetail id 
@@ -291,11 +305,12 @@ class brdata{
 	{
 		$SQL = "SELECT DISTINCT vc.UPC, v.Vendor AS VdrNo, v.VendorName AS VdrName, vc.VendorItem AS CertCode, vc.CaseCost, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
 				i.Brand, vc.Pack, i.SizeAlpha, i.Department AS SctNo, i.MajorDept AS DptNo, i.Description AS ItemDescription, p.BasePrice as Retail,
-				d.Description AS SctName, md.Description AS DptName, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=vc.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+				d.Description AS SctName, md.Description AS DptName, 
 				i.Description AS ItemDescription, vc.Pack AS Pack,
-				ISNULL((SELECT SUM(id.Units) FROM dbo.InventoryDetail id WHERE id.RecordType = 'R'  AND id.Vendor=vc.Vendor AND id.UPC=vc.UPC AND id.Date = (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=vc.UPC AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving,
 				i.SizeAlpha AS SizeAlpha, vc.CaseCost AS CaseCost, p.BasePrice AS Retail, md.MajorDept AS DptNo,
 				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im WHERE im.UPC = p.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, 
+				(SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=i.UPC ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+				ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC ORDER BY id.LastUpdated DESC, id.Date DESC),0) AS lastReceiving,
 				(SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
 				+ ISNULL((SELECT SUM(Units) FROM dbo.InventoryDetail WHERE RecordType = 'A' AND LastUpdated > (SELECT TOP 1 LastUpdated FROM dbo.InventoryDetail id 
 				WHERE id.RecordType = 'P' AND id.UPC = p.UPC ORDER BY LastUpdated DESC) AND UPC= p.UPC),0) 
@@ -327,8 +342,9 @@ class brdata{
 				i.Brand, vc.Pack, i.SizeAlpha, i.Department AS SctNo, i.MajorDept AS DptNo, i.Description AS ItemDescription, p.BasePrice as Retail, 
 				d.Description AS SctName, md.Description AS DptName,
 				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im 
-				WHERE im.UPC = p.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
-				ISNULL((SELECT SUM(id.Units) FROM dbo.InventoryDetail id WHERE id.RecordType = 'R'  AND id.Vendor=v.Vendor AND id.UPC=p.UPC AND id.Date = (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving,
+				WHERE im.UPC = p.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, 
+				(SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=i.UPC ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+				ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC ORDER BY id.LastUpdated DESC, id.Date DESC),0) AS lastReceiving,
 				(SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
 				+ ISNULL((SELECT SUM(Units) FROM dbo.InventoryDetail WHERE RecordType = 'A' AND LastUpdated > (SELECT TOP 1 LastUpdated FROM dbo.InventoryDetail id 
 				WHERE id.RecordType = 'P' AND id.UPC = p.UPC ORDER BY LastUpdated DESC) AND UPC= p.UPC),0) 
@@ -360,8 +376,9 @@ class brdata{
 		$SQL ="SELECT DISTINCT vc.UPC, vc.Vendor AS VdrNo, p.BasePRice AS Retail, vc.VendorItem AS CertCode, vc.CaseCost, i.Brand, i.Description AS ItemDescription,
 				i.SizeAlpha, vc.Pack, v.VendorName AS VdrName, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
 				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im 
-				WHERE im.UPC = p.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=vc.UPC AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
-				ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.Vendor=vc.Vendor AND id.UPC=vc.UPC ORDER BY id.Date DESC, id.LastUpdated DESC),0) AS lastReceiving,
+				WHERE im.UPC = p.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, 
+				(SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=i.UPC AND id.Vendor = vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+				ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC  AND id.Vendor = vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC),0) AS lastReceiving,
 				(SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
 				+ ISNULL((SELECT SUM(Units) FROM dbo.InventoryDetail WHERE RecordType = 'A' AND LastUpdated > (SELECT TOP 1 LastUpdated FROM dbo.InventoryDetail id 
 				WHERE id.RecordType = 'P' AND id.UPC = p.UPC ORDER BY LastUpdated DESC) AND UPC= p.UPC),0) 
@@ -387,18 +404,6 @@ class brdata{
 
 	public function get_upcReceivingHistory($upcNumber, $today, $to, $from)
 	{
-		$number='';
-		$zeros='';
-		if(strlen($upcNumber) <15)
-		{
-			$zeros = 15 - strlen($upcNumber);
-		}
-
-		for($i = 0;$i<$zeros;$i++)
-		{
-			$number .= "0";
-		}
-		$upcNumber = $number.$upcNumber;
 		$SQL ="SELECT DISTINCT id.Date AS r_date, id.UPC, id.RecordType, id.Units AS r_units, id.Vendor AS VdrNo, v.VendorName AS VdrName,
 				i.Brand, i.Description AS ItemDescription, i.SizeAlpha, i.Pack, i.Department AS SctNo, i.MajorDept AS DptNo,
 				p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd, p.BasePRice AS Retail, 
@@ -435,9 +440,11 @@ class brdata{
 	public function get_itemcodeReport($itemcode, $today, $to, $from)
 	{
 		$SQL ="SELECT DISTINCT vc.UPC, vc.Vendor AS VdrNo, p.BasePRice AS Retail, vc.VendorItem AS CertCode, vc.CaseCost, i.Brand, i.Description AS ItemDescription, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
-				i.SizeAlpha, vc.Pack, v.VendorName AS VdrName, ISNULL((SELECT SUM(id.Units) FROM dbo.InventoryDetail id WHERE id.RecordType = 'R'  AND id.Vendor=vc.Vendor AND id.UPC=p.UPC AND id.Date = (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=vc.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving,
+				i.SizeAlpha, vc.Pack, v.VendorName AS VdrName,
 				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im 
-				WHERE im.UPC = p.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=vc.UPC AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+				WHERE im.UPC = p.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, 
+				(SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=i.UPC ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+				ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC ORDER BY id.LastUpdated DESC, id.Date DESC),0) AS lastReceiving,
 				(SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
 				+ ISNULL((SELECT SUM(Units) FROM dbo.InventoryDetail WHERE RecordType = 'A' AND LastUpdated > (SELECT TOP 1 LastUpdated FROM dbo.InventoryDetail id 
 				WHERE id.RecordType = 'P' AND id.UPC = p.UPC ORDER BY LastUpdated DESC) AND UPC= p.UPC),0) 
@@ -465,10 +472,11 @@ class brdata{
 		$drop1 = "DROP VIEW vendor1";
 		$view1 = "CREATE VIEW vendor1 AS (SELECT  vc.UPC, v.Vendor AS VdrNo, v.VendorName AS VdrName, vc.VendorItem AS CertCode, vc.CaseCost, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
 				i.Brand, vc.Pack, i.SizeAlpha, i.Department AS SctNo, i.MajorDept AS DptNo, i.Description AS ItemDescription, p.BasePrice as Retail,
-				d.Description AS SctName, md.Description AS DptName, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
-				ISNULL((SELECT SUM(id.Units) FROM dbo.InventoryDetail id WHERE id.RecordType = 'R'  AND id.Vendor=vc.Vendor AND id.UPC=p.UPC AND id.Date = (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving,
+				d.Description AS SctName, md.Description AS DptName, 
 				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im 
 				WHERE im.UPC = p.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, 
+				(SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=i.UPC AND id.Vendor = v.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+				ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.Vendor = v.Vendor AND id.UPC=p.UPC ORDER BY id.LastUpdated DESC, id.Date DESC),0) AS lastReceiving,
 				(SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
 				+ ISNULL((SELECT SUM(Units) FROM dbo.InventoryDetail WHERE RecordType = 'A' AND LastUpdated > (SELECT TOP 1 LastUpdated FROM dbo.InventoryDetail id 
 				WHERE id.RecordType = 'P' AND id.UPC = p.UPC ORDER BY LastUpdated DESC) AND UPC= p.UPC),0) 
@@ -488,10 +496,10 @@ class brdata{
 		$drop2 = "DROP VIEW vendor2";
 		$view2 = "CREATE VIEW vendor2 AS (SELECT  vc.UPC, v.Vendor AS VdrNo, v.VendorName AS VdrName, vc.VendorItem AS CertCode, vc.CaseCost, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
 				i.Brand, vc.Pack, i.SizeAlpha, i.Department AS SctNo, i.MajorDept AS DptNo, i.Description AS ItemDescription, p.BasePrice as Retail,
-				d.Description AS SctName, md.Description AS DptName, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
-				ISNULL((SELECT SUM(id.Units) FROM dbo.InventoryDetail id WHERE id.RecordType = 'R'  AND id.Vendor=vc.Vendor AND id.UPC=p.UPC AND id.Date = (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving,
-				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im 
-				WHERE im.UPC = p.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, 
+				d.Description AS SctName, md.Description AS DptName,
+				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im WHERE im.UPC = p.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, 
+				(SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.Vendor = v.Vendor AND id.UPC=i.UPC ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+				ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.Vendor = v.Vendor AND id.UPC=p.UPC ORDER BY id.LastUpdated DESC, id.Date DESC),0) AS lastReceiving,
 				(SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
 				+ ISNULL((SELECT SUM(Units) FROM dbo.InventoryDetail WHERE RecordType = 'A' AND LastUpdated > (SELECT TOP 1 LastUpdated FROM dbo.InventoryDetail id 
 				WHERE id.RecordType = 'P' AND id.UPC = p.UPC ORDER BY LastUpdated DESC) AND UPC= p.UPC),0) 
@@ -535,10 +543,11 @@ class brdata{
 		$drop1 = "DROP VIEW section1";
 		$view1 = "CREATE VIEW section1 AS (SELECT  vc.UPC, v.Vendor AS VdrNo, v.VendorName AS VdrName, vc.VendorItem AS CertCode, vc.CaseCost,
 				i.Brand, vc.Pack, i.SizeAlpha, i.Department AS SctNo, i.MajorDept AS DptNo, i.Description AS ItemDescription, p.BasePrice as Retail, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
-				d.Description AS SctName, md.Description AS DptName, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
-				ISNULL((SELECT SUM(id.Units) FROM dbo.InventoryDetail id WHERE id.RecordType = 'R'  AND id.Vendor=vc.Vendor AND id.UPC=p.UPC AND id.Date = (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving,
+				d.Description AS SctName, md.Description AS DptName, 
 				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im 
 				WHERE im.UPC = p.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, 
+				(SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=i.UPC AND id.Vendor = v.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+				ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.Vendor = v.Vendor AND id.UPC=p.UPC ORDER BY id.LastUpdated DESC, id.Date DESC),0) AS lastReceiving,
 				(SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
 				+ ISNULL((SELECT SUM(Units) FROM dbo.InventoryDetail WHERE RecordType = 'A' AND LastUpdated > (SELECT TOP 1 LastUpdated FROM dbo.InventoryDetail id 
 				WHERE id.RecordType = 'P' AND id.UPC = p.UPC ORDER BY LastUpdated DESC) AND UPC= p.UPC),0) 
@@ -558,10 +567,11 @@ class brdata{
 		$drop2 = "DROP VIEW section2";
 		$view2 = "CREATE VIEW section2 AS (SELECT  vc.UPC, v.Vendor AS VdrNo, v.VendorName AS VdrName, vc.VendorItem AS CertCode, vc.CaseCost,
 				i.Brand, vc.Pack, i.SizeAlpha, i.Department AS SctNo, i.MajorDept AS DptNo, i.Description AS ItemDescription, p.BasePrice as Retail, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
-				d.Description AS SctName, md.Description AS DptName, (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
-				ISNULL((SELECT SUM(id.Units) FROM dbo.InventoryDetail id WHERE id.RecordType = 'R'  AND id.Vendor=vc.Vendor AND id.UPC=p.UPC AND id.Date = (SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=p.UPC   AND id.Vendor=vc.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC)),0) AS lastReceiving,
+				d.Description AS SctName, md.Description AS DptName,
 				(SELECT SUM(im.QtySold) FROM dbo.ItemMovement im 
 				WHERE im.UPC = p.UPC AND im.Date BETWEEN '".$from."' AND '".$to."') AS sales, 
+				(SELECT TOP 1 id.Date FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.UPC=i.UPC AND id.Vendor = v.Vendor ORDER BY id.LastUpdated DESC, id.Date DESC) AS lastReceivingDate,
+				ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE id.RecordType = 'R' AND id.Vendor = v.Vendor AND id.UPC=p.UPC ORDER BY id.LastUpdated DESC, id.Date DESC),0) AS lastReceiving,
 				(SELECT TOP 1 ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 id.Units FROM dbo.InventoryDetail id WHERE UPC= p.UPC AND id.RecordType = 'P' ORDER BY id.LastUpdated DESC),0)
 				+ ISNULL((SELECT SUM(Units) FROM dbo.InventoryDetail WHERE RecordType = 'A' AND LastUpdated > (SELECT TOP 1 LastUpdated FROM dbo.InventoryDetail id 
 				WHERE id.RecordType = 'P' AND id.UPC = p.UPC ORDER BY LastUpdated DESC) AND UPC= p.UPC),0) 
