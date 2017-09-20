@@ -205,6 +205,7 @@ class home extends Controller{
 			$this->setDefaultDates($_POST['fromReceivingupc'], $_POST['toReceivingupc']);
 			$this->exportURL = "/csm/public/phpExcelExport/UPCReceivingHistory/".$_POST['upcReceivingNumber'] . "/" . $this->from . "/" . $this->to;
 			$receivingHistory = $this->brdata->get_upcReceivingHistory($_POST['upcReceivingNumber'], $this->today, $_POST['toReceivingupc'], $_POST['fromReceivingupc']);
+			var_dump($receivingHistory);
 			if(!empty($receivingHistory[0]))
 			{
 				$title = '[UPC : '.$_POST['upcReceivingNumber'].'] - ['.$this->from.' to '.$this->to.'] - ['.count($receivingHistory).' ITEMS]';
