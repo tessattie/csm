@@ -70,17 +70,6 @@ class home extends Controller{
 		$this->view('home', $data);
 	}
 
-	public function completeValue($value, $zeros){
-		$total = $zeros;
-		$return = '';
-		$amount = strlen($return);
-		$toadd = $total - (int)$amount;
-		for($i=0;$i<$toadd;$i++){
-			$return .= "0";
-		}
-		return $return.$value;
-	}
-
 	public function vendor()
 	{
 		$data = array();
@@ -100,7 +89,7 @@ class home extends Controller{
 			{
 				$title = '[VDR' . $_POST["vendorNumber"] . ' - '. $vendorReport[0]["VdrName"] . '] - [' . $this->from . ' to ' . $this->to . '] - [' . count($vendorReport) . ' ITEMS]';				
 			}
-			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles , "title" => $title, "tableID" => "report_result", "action" => "vendor", "reportType" => 'templateWithSectionOrder', "from" => $this->from, "to" => $this->to, "report" => $vendorReport, "menu" => $this->userRole);
+			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles , "title" => $title, "tableID" => "report_result", "action" => "vendor", "reportType" => 'vendorTemplate', "from" => $this->from, "to" => $this->to, "report" => $vendorReport, "menu" => $this->userRole);
 		}
 		$this->renderView($data);
 	}
@@ -207,7 +196,7 @@ class home extends Controller{
 			$this->setDefaultDates($_POST['fromReceivingupc'], $_POST['toReceivingupc']);
 			$this->exportURL = "/csm/public/phpExcelExport/UPCReceivingHistory/".$_POST['upcReceivingNumber'] . "/" . $this->from . "/" . $this->to;
 			$receivingHistory = $this->brdata->get_upcReceivingHistory($_POST['upcReceivingNumber'], $this->today, $_POST['toReceivingupc'], $_POST['fromReceivingupc']);
-			var_dump($receivingHistory);
+			// var_dump($receivingHistory);
 			if(!empty($receivingHistory[0]))
 			{
 				$title = '[UPC : '.$_POST['upcReceivingNumber'].'] - ['.$this->from.' to '.$this->to.'] - ['.count($receivingHistory).' ITEMS]';
@@ -662,7 +651,7 @@ class home extends Controller{
 			"sales", "tpr", "tprStart", "tprEnd");
 		if(!empty($_POST['dvendorNumber']) && !empty($_POST['dptvendorNumber']))
 		{
-			$_POST['dvendorNumber'] = $this->completeValue($_POST['dvendorNumber'], 4);
+			$_POST['dvendorNumber'] = $this->completeValue($_POST['dvendorNumber'], 6);
 			$_POST['dptvendorNumber'] = $this->completeValue($_POST['dptvendorNumber'], 2);
 			$this->setDefaultDates($_POST['fromvendorDpt'], $_POST['tovendorDpt']);
 			$this->exportURL = "/csm/public/phpExcelExport/vendorDepartment/".$_POST['dvendorNumber'] . "/" . $_POST['dptvendorNumber'] . "/" . $this->from . "/" . $this->to;

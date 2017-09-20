@@ -254,7 +254,7 @@ class phpExcelExport extends Controller{
 						"N" => "TPR START", 
 						"O" => "TPR END");
 		$this->setSheetName("VENDOR DEPARTMENT REPORT");
-		$vdrDptReport = $this->brdata->get_vendorDepartmentReport($vendor, $department, $this->today, $from, $to);
+		$report = $this->brdata->get_vendorDepartmentReport($vendor, $department, $this->today, $from, $to);
 		$lastItem = count($report) + 4;
 		$bold = array("G", "H", "I", "M");
 		$this->setHeader("VENDOR DEPARTMENT NEGATIVE REPORT" ,"[ VENDOR : " . $vendor . " -  ".$report[0]['VdrName']." ] - [ DPT : 
@@ -678,7 +678,7 @@ class phpExcelExport extends Controller{
 						"P" => "TPR START", 
 						"Q" => "TPR END");
 		$this->setSheetName("VENDOR ITEM CODE REPORT");
-		$report = $this->brdata->get_itemcodeReport($_POST['itemcode'], $this->today, $to, $from);
+		$report = $this->brdata->get_itemcodeReport($code, $this->today, $to, $from);
 		$lastItem = count($report) + 4;
 		$bold = array("J", "K", "I", "O");
 		$this->setHeader("VENDOR ITEM CODE REPORT" ,"[ ITEM CODE " . $code . " ] - [ ". $from . " - " . $to." ]"." - [ ".count($report)." ITEMS ]", $header, 'itemCode', $lastItem);

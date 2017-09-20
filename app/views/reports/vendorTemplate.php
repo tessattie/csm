@@ -14,6 +14,7 @@ if(!empty($data['report']) && $data['report'] != null && $data['report'] != fals
     echo "</tr></thead><tbody>";
 	for ($i = 0; $i < count($data['report']); $i++) 
     {
+        $data['report'][$i]["lastReceiving"] = $data['report'][$i][18];
         $onhandClass = "positive"; 
     	if($increment == 0 || $condition != $data['report'][$i]['SctNo'])
     	{

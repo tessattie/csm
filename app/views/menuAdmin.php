@@ -40,7 +40,7 @@
         <input type='hidden' name = 'toPriceCompare' id = 'toPriceCompare'>
     </form>
 
-  <a href="#" id="sectionPrice" class="list-group-item">Section Price Compare</a>
+  <a href="#" id="sectionPrice" class="list-group-item">Vendor Section Price Compare</a>
     <form method = 'POST' action = '/csm/public/home/sectionPriceCompare' name='SectionPriceCompareForm' id = 'SectionPriceCompareForm'>
         <input type='hidden' name = 'vendor1Section' id = 'vendor1Section'>
         <input type='hidden' name = 'vendor2Section' id = 'vendor2Section'>
