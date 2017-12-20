@@ -8,6 +8,23 @@ jQuery(function($){
             closeOnClick: false
         });
 
+	$("#limitedVendor").click(function(){ 
+		var regex = /[0-9]/;
+		var vendor = prompt('Enter the vendor Number : ');
+		if(regex.test(vendor))
+		{
+			$("#limitedVendorNo").val(vendor);
+			$("#fromlimitedVendorNo").val($('#fromdate').val());
+			$("#tolimitedVendorNo").val($('#todate').val());
+			document.forms["limitedVendorform"].submit();
+			$("#limitedVendorNo").val('');
+		}
+		else
+		{
+			alert("There are no vendor numbers with more than six digits. Try again.");
+		}
+	});
+
 	$("#section").click(function(){ 
 		var regex = /[0-9]/;
 		var sectionNumber = prompt('Enter the section Number : ');

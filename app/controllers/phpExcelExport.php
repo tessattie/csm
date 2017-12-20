@@ -69,19 +69,34 @@ class phpExcelExport extends Controller{
 		$this->setSheetName("VENDOR REPORT");
 		$bold = array("G", "M", "H", "I");
 		$unit_price_col = "";
-		$time_startMemcache = $this->microtime_float();
 		$report = $this->brdata->get_vendorReport($vendor, $this->today, $from, $to);
-		$time_endMemcache = $this->microtime_float();
-		$timeMemcache = $time_endMemcache - $time_startMemcache;
 		$lastItem = count($report) + 4;
 		$this->setHeader("VENDOR SECTION FINAL REPORT","[ VENDOR : " . $report[0]['VdrNo'] . " - ".$report[0]['VdrName']." ] - [ 
 			".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, 'vdrReport', $lastItem);
-		$time_startPHPExcel = $this->microtime_float();
 		$this->setReportWithSection($header, $report, $bold, $unit_price_col);
-		$time_endPHPExcel = $this->microtime_float();
-		$timePHPExcel = $time_endPHPExcel - $time_startPHPExcel;
-		// print_r(array("Memcache" => $timeMemcache, "PHPExcel" => $timePHPExcel));
 		$this->saveReport('VendorSectionFinal_'.$report[0]['VdrNo'].'_'.$report[0]['VdrName'].'_'.$this->today);
+	}
+
+	public function limitedVendor($vendor, $from, $to)
+	{
+		$header = array("A" => "UPC", 
+						"B" => "VDR ITEM #", 
+						"C" => "ITEM DESCRIPTION", 
+						"D" => "PACK", 
+						"E" => "SIZE", 
+						"F" => "RETAIL", 
+						"G" => "ON-HAND", 
+						"H" => "RETAIL", 
+						"I" => "ON-HAND");
+		$this->setSheetName("VENDOR LIMITED REPORT");
+		$bold = array("G");
+		$unit_price_col = "";
+		$report = $this->brdata->get_vendorReport($vendor, $this->today, $from, $to);
+		$lastItem = count($report) + 4;
+		$this->setHeader("VENDOR LIMITED REPORT","[ VENDOR : " . $report[0]['VdrNo'] . " - ".$report[0]['VdrName']." ] - [ 
+			".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, 'vdrReport', $lastItem);
+		$this->setReport($header, $report, $bold, $unit_price_col);
+		$this->saveReport('VendorLimited_'.$report[0]['VdrNo'].'_'.$report[0]['VdrName'].'_'.$this->today);
 	}
 
 	public function vendorNegative($vendor, $from, $to)

@@ -94,6 +94,29 @@ class home extends Controller{
 		$this->renderView($data);
 	}
 
+	public function limitedVendor(){
+		$data = array();
+		$title = "";
+		$theadTitles = array("UPC", "ITEM #", "ITEM DESCRIPTION", "PK", "SIZE",
+			"RETAIL", "ON-HAND");
+		$queryTitles = array("UPC", "CertCode", "ItemDescription", "Pack", "SizeAlpha",
+			"Retail", "onhand");
+		if(!empty($_POST['limitedVendorNo']))
+		{
+			$_POST['limitedVendorNo'] = $this->completeValue($_POST['limitedVendorNo'], 6);
+			$this->setDefaultDates($_POST['fromlimitedVendorNo'], $_POST['tolimitedVendorNo']);
+			$this->exportURL = "/csm/public/phpExcelExport/limitedVendor/" .$_POST['limitedVendorNo']. "/" . $this->from . "/" . $this->to;
+			$vendorReport = $this->brdata->get_vendorReport($_POST['limitedVendorNo'], $this->today, $_POST['fromlimitedVendorNo'], $_POST['tolimitedVendorNo']);
+			// var_dump($vendorReport);die();
+			if(!empty($vendorReport[0]))
+			{
+				$title = '[VDR' . $_POST["limitedVendorNo"] . ' - '. $vendorReport[0]["VdrName"] . '] - [' . $this->from . ' to ' . $this->to . '] - [' . count($vendorReport) . ' ITEMS]';				
+			}
+			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles , "title" => $title, "tableID" => "report_result", "action" => "vendor", "reportType" => 'defaultTemplate', "from" => $this->from, "to" => $this->to, "report" => $vendorReport, "menu" => $this->userRole);
+		}
+		$this->renderView($data);
+	}
+
 	public function multipleSections()
 	{
 		$data = array();

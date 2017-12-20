@@ -71,9 +71,28 @@ class export extends Controller{
 		$this->setSheetName("VENDOR REPORT");
 		$this->setHeader("VENDOR ".$vendor." FROM ".$from." TO ".$to, $header);
 		$report = $this->brdata->get_vendorReport($vendor, $this->today, $from, $to);
-		$this->setReportWithSection($header, $report);
+		$this->setReport($header, $report);
 		$this->styleReport($header, "O", 70, xlLandscape);
 		$this->saveReport('VendorSectionFinal_'.$vendor.'_'.$this->today);
+	}
+
+	public function limitedVendor($vendor, $from, $to)
+	{
+		$header = array("A" => "UPC", 
+						"B" => "VDR ITEM #", 
+						"C" => "ITEM DESCRIPTION", 
+						"D" => "PACK", 
+						"E" => "SIZE", 
+						"F" => "RETAIL", 
+						"G" => "ON-HAND", 
+						"H" => "RETAIL", 
+						"I" => "ON-HAND");
+		$this->setSheetName("VENDOR LIMITED REPORT");
+		$this->setHeader("VENDOR ".$vendor." FROM ".$from." TO ".$to, $header);
+		$report = $this->brdata->get_vendorReport($vendor, $this->today, $from, $to);
+		$this->setReportWithSection($header, $report);
+		$this->styleReport($header, "O", 70, xlLandscape);
+		$this->saveReport('VendorLimited_'.$vendor.'_'.$this->today);
 	}
 
 	public function specials($from, $to)
