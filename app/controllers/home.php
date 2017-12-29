@@ -821,8 +821,8 @@ class home extends Controller{
 	{
 		$data = array();
 		$this->classname = "liststable";
-		$theadTitles = array("SCT NO", "SCT NAME", "DPT NO", "DPT NAME");
-		$queryTitles = array("SctNo", "SctName", "DptNo", "DptName");
+		$theadTitles = array("DPT NO", "DPT NAME", "SCT NO", "SCT NAME");
+		$queryTitles = array("DptNo", "DptName", "SctNo", "SctName");
 		$this->exportURL = "/csm/public/phpExcelExport/sectionNames";
 		$sectionNames = $this->brdata->get_sectionNames();
 		$title = "SECTION NAMES REPORT";

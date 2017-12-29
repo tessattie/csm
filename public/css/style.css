@@ -147,6 +147,9 @@ caption
 {
 	font-size: 8px!important;
 }
+.liststable{
+	width:50%!important;
+}
 .liststable > thead > tr > th, .liststable > thead > tr > td, .liststable > tbody > tr > td
 {
 	font-size: 12px!important;
