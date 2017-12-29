@@ -367,6 +367,7 @@ class home extends Controller{
 			"sales", "tpr", "tprStart", "tprEnd");
 		if(!empty($_POST['svendorMvtNumber']) && !empty($_POST['sctvendorMvtNumber']))
 		{
+			$report = array();
 			$_POST['svendorMvtNumber'] = $this->completeValue($_POST['svendorMvtNumber'], 6);
 			$_POST['sctvendorMvtNumber'] = $this->completeValue($_POST['sctvendorMvtNumber'], 4);
 			$this->setDefaultDates($_POST['fromvendorMvtSection'], $_POST['tovendorMvtSection']);
