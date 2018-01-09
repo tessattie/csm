@@ -13,8 +13,8 @@ class App{
 
 	public function __construct()
 	{
-		ini_set('memory_limit', '512M');
-		ini_set('max_execution_time', 1000);
+		ini_set('memory_limit', '700M');
+		ini_set('max_execution_time', 10000);
 
 		$this->roles = array(0 => "SuperAdmin", 1 => "Admin", 2 => "Level 1", 3 => "Level 2", 4 => "Level 0");
 

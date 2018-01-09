@@ -7,7 +7,11 @@ class brdata{
 	public function __construct()
 	{
 		$server_name = 'HOST-STORE';
-		$this->db = new PDO( "sqlsrv:server=".$server_name." ; Database = BRDATA", "sa", "BRd@t@123");
+		$this->db = new PDO( "sqlsrv:server=".$server_name." ; Database = BRDATA", "sa", "BRd@t@123",
+    array(
+        PDO::ATTR_TIMEOUT => 100000,
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+    ));
 	}
 
 	public function get_vendorReport($vendorNumber, $today, $from, $to)
