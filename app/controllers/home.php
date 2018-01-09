@@ -144,8 +144,8 @@ class home extends Controller{
 			$sectionReport = $this->brdata->get_multipleSectionReport($sections, $this->today, $_POST['mulfromsection'], $_POST['multosection']);
 			if(!empty($sectionReport[0]))
 			{
-				$title = '[DPT'.$sectionReport[0]['DptNo'].' - '.$sectionReport[0]['DptName'].'] - ['.$this->from.' to '.$this->to.'] - 
-				['.count($sectionReport).' ITEMS]';
+				$title = '[ DPT'.$sectionReport[0]['DptNo'].' - '.$sectionReport[0]['DptName'].' ] - [ '.$exporturl.' ] - [ '.$this->from.' to '.$this->to.' ] - 
+				[ '.count($sectionReport).' ITEMS ]';
 			}
 			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles, 
 				"title" => $title, "tableID" => "report_result", "action" => "section", "reportType" => 'templateWithSectionOrder', 
