@@ -355,6 +355,50 @@ class home extends Controller{
 		$this->renderView($data);
 	}
 
+	public function departmentMovement()
+	{
+		$data = array();
+		$title = "";
+		$report = null;
+		$theadTitles = array("UPC", "ITEM #", "BRAND", "ITEM DESCRIPTION", "PK", "SIZE",
+			"CASE COST", "RETAIL", "ON-HAND", "LAST REC", "LAST REC DATE", "SALES", "TPR PRICE", "TPR START DATE", "TPR END DATE", "VDR NO", "VDR NAME");
+		$queryTitles = array("UPC", "CertCode", "Brand", "ItemDescription", "Pack", "SizeAlpha",
+			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", "sales", "tpr", "tprStart", "tprEnd", 'VdrNo', 'VdrName');
+		if(!empty($_POST['dptMvtNumber']))
+		{
+			$_POST['vendorMvtNumber'] = $this->completeValue($_POST['dptMvtNumber'], 6);
+			$this->setDefaultDates($_POST['fromDptvendor'], $_POST['toDptvendor']);
+			$this->exportURL = "/csm/public/phpExcelExport/departmentMovement/".$_POST['dptMvtNumber'] . "/" . $this->from . "/" . $this->to;
+			$dptReport = $this->brdata->get_departmentReport($_POST['dptMvtNumber'], $this->today, $_POST['fromDptvendor'], $_POST['toDptvendor']);
+			$j=0;
+			$i=0;
+			// var_dump($dptReport); die();
+			foreach($dptReport as $key => $value)
+			{
+				if(!empty($value['lastReceivingDate'])){
+						unset($dptReport[$i]);
+					}
+				if(!empty($value['sales']) || ($value['onhand'] != ".0000" && $value['onhand'] != "99999"))
+				{
+					unset($dptReport[$i]);
+				}
+				$i = $i + 1;
+			}
+			foreach($dptReport as $key => $value)
+			{
+				$report[$j] = $value;
+				$j = $j + 1;
+			}
+			if(!empty($report[0]))
+			{
+				$title = '[DPT' . $_POST["dptMvtNumber"] . ' - '. $report[0]["DptName"] . '] - [' . $this->from . ' to ' . $this->to . '] - [' . count($report) . ' ITEMS]';				
+			}
+			// var_dump($report); die();
+			$data = array("class" => $this->classname, "exportURL" => $this->exportURL, "qt" => $queryTitles, "thead" => $theadTitles , "title" => $title, "tableID" => "report_result", "action" => "vendor", "reportType" => 'templateWithSectionOrder', "from" => $this->from, "to" => $this->to, "report" => $report, "menu" => $this->userRole);
+		}
+		$this->renderView($data);
+	}
+
 	public function vendorSectionMovement()
 	{
 		$data = array();

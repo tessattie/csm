@@ -14,5 +14,12 @@
               <input type='hidden' name = 'fromvendorMvtSection' id = 'fromvendorMvtSection'>
               <input type='hidden' name = 'tovendorMvtSection' id = 'tovendorMvtSection'>
             </form></li>
+
+            <li><a href="#" id="dptMvt">Department - No receiving</a>
+            <form method = 'POST' action = '/csm/public/home/departmentMovement' name='dptMvtform' id = 'dptMvtform'>
+              <input type='hidden' name = 'dptMvtNumber' id = 'dptMvtNumber'>
+              <input type='hidden' name = 'fromDptvendor' id = 'fromDptvendor'>
+              <input type='hidden' name = 'toDptvendor' id = 'toDptvendor'>
+            </form></li>
           </ul>
         </li>

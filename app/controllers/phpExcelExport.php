@@ -517,10 +517,52 @@ class phpExcelExport extends Controller{
 			$report[$j] = $value;
 			$j = $j + 1;
 		}
+	}
+
+		public function departmentMovement($department, $from, $to)
+	{
+		$header = array("A" => "UPC", 
+						"B" => "VDR ITEM #", 
+						"C" => "BRAND", 
+						"D" => "ITEM DESCRIPTION", 
+						"E" => "PACK", 
+						"F" => "SIZE", 
+						"G" => "CASE COST", 
+						"H" => "RETAIL", 
+						"I" => "ON-HAND", 
+						"J" => "LAST REC", 
+						"K" => "LAST REC DATE", 
+						"L" => "SALES", 
+						"M" => "TPR PRICE", 
+						"N" => "TPR START", 
+						"O" => "TPR END",
+						"P" => "VDR #",
+						"Q" => "VDR NAME");
+		$this->setSheetName("DEPARTMENT MOVEMENT REPORT");
+		$vdrSctReport = $this->brdata->get_departmentReport($department, $this->today, $to, $from);
+		$bold = array("G", "H", "I", "O");
+		$j=0;
+		$i=0;
+		foreach($vdrSctReport as $key => $value)
+		{
+			if(!empty($value['lastReceivingDate'])){
+						unset($vdrSctReport[$i]);
+					}
+			if(!empty($value['sales']) || ($value['onhand'] != ".0000" && $value['onhand'] != "99999"))
+			{
+				unset($vdrSctReport[$i]);
+			}
+			$i = $i + 1;
+		}
+		foreach($vdrSctReport as $key => $value)
+		{
+			$report[$j] = $value;
+			$j = $j + 1;
+		}
 		$lastItem = count($report) + 4;
-		$this->setHeader("SECTION MOVEMENT REPORT" ," [SCT : ".$section." - " . $report[0]['SctName'] . " ] [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "sctReport", $lastItem);
-		$this->setReport($header, $report, $bold, "A", "", "D");
-		$this->saveReport('SectionMovement_'.$section.'_' . $report[0]['SctName'] . '_' . $this->today);
+		$this->setHeader("DEPARTMENT MOVEMENT REPORT" ," [DPT : ".$department." - " . $report[0]['DptName'] . " ] [ ".$from." - ".$to." ]"." - [ ".count($report)." ITEMS ]", $header, "dptReport", $lastItem);
+		$this->setReportWithSection($header, $report, $bold, "A", "", "D");
+		$this->saveReport('DepartmentMovement_'.$department.'_' . $report[0]['DptName'] . '_' . $this->today);
 	}
 
 	public function adjustments()
@@ -1124,7 +1166,13 @@ class phpExcelExport extends Controller{
 			        	}
 			        	else
 			        	{
-			        		$this->sheet->setCellValue($key . $j, $report[$i][$this->columns[$value]]);
+			        		if($value == "LAST REC"){
+			        			if($report[$i][$this->columns[$value]] == 0){
+			        				$this->sheet->setCellValue($key . $j, "");
+			        			}
+			        		}else{
+			        			$this->sheet->setCellValue($key . $j, $report[$i][$this->columns[$value]]);
+			        		}
 			        	}
 			        }
 				}

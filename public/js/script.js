@@ -108,6 +108,23 @@ jQuery(function($){
 		}
 	});
 
+	$("#dptMvt").click(function(){ 
+		var regex = /[0-9]/;
+		var dptNumber = prompt('Enter the department Number : ');
+		if(regex.test(dptNumber))
+		{
+			$("#dptMvtNumber").val(dptNumber);
+			$("#fromDptvendor").val($('#fromdate').val());
+			$("#toDptvendor").val($('#todate').val());
+			document.forms["dptMvtform"].submit();
+			$("#dptMvtNumber").val('');
+		}
+		else
+		{
+			alert("There are no department numbers with more than two digits. Try again.");
+		}
+	});
+
 	$("#vendoritemcode").click(function(){ 
 		var itemcode = prompt('Enter the item code : ');
 		if(itemcode)
