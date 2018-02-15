@@ -26,7 +26,7 @@ class phpExcelExport extends Controller{
 	public function __construct()
 	{
 		parent::__construct();
-		date_default_timezone_set('America/Port-au-Prince');
+		// date_default_timezone_set('America/Port-au-Prince');
 		$this->today = date('Y-m-d', strtotime("-1 days"));
 		// $this->cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_in_memory; 
 		$this->phpExcel = $this->phpExcel();
@@ -1169,6 +1169,8 @@ class phpExcelExport extends Controller{
 			        		if($value == "LAST REC"){
 			        			if($report[$i][$this->columns[$value]] == 0){
 			        				$this->sheet->setCellValue($key . $j, "");
+			        			}else{
+			        				$this->sheet->setCellValue($key . $j, $report[$i][$this->columns[$value]]);
 			        			}
 			        		}else{
 			        			$this->sheet->setCellValue($key . $j, $report[$i][$this->columns[$value]]);
