@@ -17,7 +17,7 @@ class account extends Controller{
 	{
 		parent::__construct();
 		$this->exportURL = "#";
-		$this->roles = array(1 => "Admin", 2 => "Level 1", 3 => "Level 2", 4 => "Level 0");
+		$this->roles = array(1 => "Admin", 2 => "Level 1", 3 => "Level 2", 4 => "Level 0", 10 => "Level 5");
 		$this->users = $this->model('users');
 		$this->from = date('Y-m-01');
 		$this->to = date('Y-m-d');
@@ -35,8 +35,10 @@ class account extends Controller{
 			{
 				if(empty($value))
 				{
+					$users = $this->users->getUsers();
 					$errormessage = "<p class='bg-danger'>You must complete all the fields</p>";
-					$this->view('account', array('users' => $users, 'error' => $errormessage, "menu" => $this->userRole, "exportURL" => $this->exportURL));
+					$this->view('account', array('users' => $users, 'error' => $errormessage, "menu" => $this->userRole, "exportURL" => $this->exportURL, 'from' => $this->from, 'to' => $this->to));
+				
 				}
 			}
 			if(empty($this->roles[$_POST["role"]]))
@@ -46,12 +48,15 @@ class account extends Controller{
 			$_POST['password'] = $password;
 			$this->users->setUser($_POST);
 		}
+
 		$users = $this->users->getUsers();
 		$count = count($users);
+
 		for($i=0;$i<$count;$i++)
 		{
 			$users[$i]['role'] = $this->roles[$users[$i]['role']];
 		}
+
 		$this->view('account', array('users' => $users, 'error' => $errormessage, "menu" => $this->userRole, "exportURL" => $this->exportURL, "from" => $this->from, "to" => $this->to));
 	}
 

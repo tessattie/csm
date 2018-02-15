@@ -16,7 +16,7 @@ class App{
 		ini_set('memory_limit', '700M');
 		ini_set('max_execution_time', 10000);
 
-		$this->roles = array(0 => "SuperAdmin", 1 => "Admin", 2 => "Level 1", 3 => "Level 2", 4 => "Level 0");
+		$this->roles = array(0 => "SuperAdmin", 1 => "Admin", 2 => "Level 1", 3 => "Level 2", 4 => "Level 0", 10 => 'Level 5');
 
 		$this->rights = array(0 => array("SuperAdmin" => array("controllers" => array("home", "export", "account", "login", "error"), 
 														  "actions" => array("index", "vendor", "UPCRange", "section", "vendorSection", 
@@ -39,7 +39,10 @@ class App{
 							  4 => array("Level 0" => array("controllers" => array("home", "export", "login", "error"),
 							  								"actions" => array("index", "itemDescription", "UPCPriceCompare", "logout", "vendor", "vendorSection",
 							  												   "vendorItemCode", "vendorNames", "UPCPriceCompare_url", "sectionMovement",
-							  												   "sectionNames", "changeExportFolder", "departmentNames", "delete", "reset", "changePassword"))));
+							  												   "sectionNames", "changeExportFolder", "departmentNames", "delete", "reset", "changePassword"))),
+							  10 => array("Level 5" => array("controllers" => array("home", "export", "login", "error"),
+							  								"actions" => array("index", "itemDescription", "UPCPriceCompare", "logout", "vendor", "vendorSection",
+							  												   "vendorItemCode", "vendorNames", "UPCPriceCompare_url", "changeExportFolder", "departmentNames", "delete", "reset", "changePassword"))));
 
 		$url = $this->parseUrl();
 		
@@ -57,8 +60,10 @@ class App{
 		if($controllerName != 'login')
 		{
 			$this->controller->checkSession();
-			if($_SESSION['csm']['role'] > 4)
+			if($_SESSION['csm']['role'] == 1 || $_SESSION['csm']['role'] == 2 || $_SESSION['csm']['role'] == 3 || $_SESSION['csm']['role'] == 4 || $_SESSION['csm']['role'] == 10)
 			{
+				
+			}else{
 				unset($_SESSION);
 				header('Location: /csm/public/login');
 			}

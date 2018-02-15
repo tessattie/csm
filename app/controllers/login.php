@@ -33,9 +33,7 @@ class login extends Controller{
 					}
 					else
 					{
-						if($user['role'] > 4){
-							$errorMessage = '<p class="bg-danger">This user does not have access to this application</p>';
-						}else{
+						if($user['role'] == 1 || $user['role'] == 2 || $user['role'] == 3 || $user['role'] == 4 || $user['role'] == 10){
 							if($user['id'] == 30){
 							$errorMessage = '<p class="bg-danger">You cannot login to this account with the administrator password</p>';
 							}else{
@@ -43,6 +41,8 @@ class login extends Controller{
 								$this->rememberUser($_POST);
 								header('Location: /csm/public/home');
 							}
+						}else{
+							$errorMessage = '<p class="bg-danger">This user does not have access to this application</p>';
 						}
 					}
 				}
@@ -79,6 +79,7 @@ class login extends Controller{
 		$_SESSION['csm']["firstname"] = $user['firstname'];
 		$_SESSION['csm']["lastname"] = $user['lastname'];
 		$_SESSION['csm']["role"] = $user['role'];
+		$_SESSION['csm']["vendors"] = explode(',', $user['vendors']);
 	}
 
 	private function rememberUser($post)

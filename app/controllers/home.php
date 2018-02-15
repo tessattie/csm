@@ -80,6 +80,18 @@ class home extends Controller{
 			"CaseCost", "Retail", "onhand", "lastReceiving", "lastReceivingDate", "sales", "tpr", "tprStart", "tprEnd");
 		if(!empty($_POST['vendorNumber']))
 		{
+			// print_r($_POST); print_r($_SESSION); die();
+			if($_SESSION['csm']['role'] == 10){
+				$condition = false;
+				for($i=0;$i<count($_SESSION['csm']['vendors']);$i++){
+					if($_SESSION['csm']['vendors'][$i] == $_POST['vendorNumber']){
+						$condition = true;
+					}
+				}
+				if($condition == false){
+					header('Location:/csm/public/home');
+				}
+			}
 			$_POST['vendorNumber'] = $this->completeValue($_POST['vendorNumber'], 6);
 			$this->setDefaultDates($_POST['fromvendor'], $_POST['tovendor']);
 			$this->exportURL = "/csm/public/phpExcelExport/vendor/" .$_POST['vendorNumber']. "/" . $this->from . "/" . $this->to;

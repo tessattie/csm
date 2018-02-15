@@ -12,7 +12,7 @@ class users{
 
 	public function getUsers()
 	{
-		$SQL = "SELECT * FROM users WHERE (role=1 OR role=2 OR role=3 OR role=4) AND visible = 1 ORDER BY lastname";
+		$SQL = "SELECT * FROM users WHERE (role=1 OR role=2 OR role=3 OR role=4 OR role=10) AND visible = 1 ORDER BY lastname";
 		$result = $this->db->query($SQL);
 		return $result->fetchall(PDO::FETCH_BOTH);
 	}
@@ -40,8 +40,8 @@ class users{
 
 	public function setUser($user)
 	{
-		$insert = $this->db->prepare("INSERT INTO users (firstname, lastname, username, password, email, role)
-	    VALUES (:firstname, :lastname, :username, :password, :email, :role)");
+		$insert = $this->db->prepare("INSERT INTO users (firstname, lastname, username, password, email, role, vendors)
+	    VALUES (:firstname, :lastname, :username, :password, :email, :role, :vendors)");
 
 	    $insert->bindParam(':firstname', $user['firstname']);
 	    $insert->bindParam(':lastname', $user['lastname']);
@@ -49,6 +49,7 @@ class users{
 	    $insert->bindParam(':password', $user['password']);
 	    $insert->bindParam(':email', $user['email']);
 	    $insert->bindParam(':role', $user['role']);
+	    $insert->bindParam(':vendors', $user['vendors']);
 
 	    $insert->execute();
 	}
