@@ -11,6 +11,14 @@
       <a class="navbar-brand" href="/csm/public/home"><p><img src="/csm/public/images/logo.png" class="logo"></p></a>
     </div>
 
+    <form class="form-inline my-2 my-lg-0" style="width:39%;float:left">
+    <?php if(!empty($_SESSION['csm']['keyword'])) : ?>
+      <input class="form-control mr-sm-2" type="text" placeholder="Keyword" id='keywordInput' style="margin-top:20px;float:right" value = "<?= $_SESSION['csm']['keyword'] ?>">
+    <?php else : ?>
+      <input class="form-control mr-sm-2" type="text" placeholder="Keyword" id='keywordInput' style="margin-top:20px;float:right">
+    <?php endif; ?>
+    </form>
+
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <?php 

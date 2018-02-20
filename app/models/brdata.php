@@ -1,8 +1,9 @@
 <?php
-
 class brdata{
 
 	private $db;
+
+	private $condition;
 
 	public function __construct()
 	{
@@ -12,10 +13,16 @@ class brdata{
         PDO::ATTR_TIMEOUT => 100000,
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ));
+		if(!empty($_SESSION['csm']['keyword'])){
+			$this->condition = " AND (i.Description LIKE '%".$_SESSION['csm']['keyword']."%' OR i.Brand LIKE '%".$_SESSION['csm']['keyword']."%') ";
+		}else{
+			$this->condition = '';
+		}
 	}
 
 	public function get_vendorReport($vendorNumber, $today, $from, $to)
 	{
+		
 		$SQL = "SELECT  vc.UPC, v.Vendor AS VdrNo, v.VendorName AS VdrName, vc.VendorItem AS CertCode, vc.CaseCost, p.TPRPrice AS tpr, p.TPRStartDate AS tprStart, p.TPREndDate AS tprEnd,
 				i.Brand, vc.Pack, i.SizeAlpha, i.Department AS SctNo, i.MajorDept AS DptNo, i.Description AS ItemDescription, p.BasePrice as Retail,
 				d.Description AS SctName, md.Description AS DptName, 
@@ -45,7 +52,7 @@ class brdata{
 				INNER JOIN dbo.Item i ON i.UPC = vc.UPC
 				INNER JOIN dbo.Departments d ON d.Department = i.Department
 				INNER JOIN dbo.MajorDept md ON md.MajorDept = i.MajorDept
-				WHERE v.Vendor = '".$vendorNumber."' AND p.Store = '00000A'
+				WHERE v.Vendor = '".$vendorNumber."' AND p.Store = '00000A' ".$this->condition."
 				ORDER BY i.Department, i.Description, i.SizeAlpha ASC, vc.Pack DESC;";
 		// Execute query
 		$results = $this->db->query($SQL);
@@ -96,7 +103,7 @@ class brdata{
 			LEFT JOIN dbo.Price p ON p.UPC = i.UPC
 			LEFT JOIN dbo.Vendors v ON v.Vendor = vc.Vendor
 			LEFT JOIN dbo.Departments d ON d.Department = i.Department
-			WHERE i.UPC >= '".$upc1."' AND i.UPC <= '".$upc2."' AND p.Store = '00000A'
+			WHERE i.UPC >= '".$upc1."' AND i.UPC <= '".$upc2."' AND p.Store = '00000A' ".$this->condition."
 			ORDER BY i.Department, vc.Vendor, i.Description;";
 
 		// Execute query
@@ -137,7 +144,7 @@ class brdata{
 				LEFT JOIN dbo.Price p ON p.UPC = i.UPC
 				LEFT JOIN dbo.Vendors v ON v.Vendor = vc.Vendor
 				INNER JOIN dbo.Departments d ON d.Department = i.Department
-				WHERE i.Description LIKE '%".$itemDescription."%'
+				WHERE i.Description LIKE '%".$itemDescription."%' 
 				ORDER BY i.Department, vc.Pack, vc.Vendor;";
 
 		// Execute query
@@ -177,7 +184,7 @@ class brdata{
 				INNER JOIN dbo.Item i ON i.UPC = vc.UPC
 				INNER JOIN dbo.Departments d ON d.Department = i.Department
 				INNER JOIN dbo.MajorDept md ON md.MajorDept = i.MajorDept
-				WHERE v.Vendor = '".$vendorNumber."' AND p.Store = '00000A' AND i.Department = '".$sectionNumber."'
+				WHERE v.Vendor = '".$vendorNumber."' AND p.Store = '00000A' AND i.Department = '".$sectionNumber."' ".$this->condition."
 				ORDER BY i.Department, i.Description, vc.Pack DESC, i.SizeAlpha DESC;";
 
 		// Execute query
@@ -217,7 +224,7 @@ class brdata{
 				LEFT JOIN dbo.Price p ON p.UPC = vc.UPC
 				INNER JOIN dbo.Departments d ON d.Department = i.Department
 				INNER JOIN dbo.MajorDept md ON md.MajorDept = i.MajorDept
-				WHERE i.Department = '".$sectionNumber."' AND p.Store = '00000A'
+				WHERE i.Department = '".$sectionNumber."' AND p.Store = '00000A' ".$this->condition."
 				ORDER BY v.VendorName ASC, i.Description ASC, vc.Pack DESC, i.SizeAlpha DESC;";
 
 		// Execute query
@@ -267,7 +274,7 @@ class brdata{
 				LEFT JOIN dbo.Price p ON p.UPC = vc.UPC
 				INNER JOIN dbo.Departments d ON d.Department = i.Department
 				INNER JOIN dbo.MajorDept md ON md.MajorDept = i.MajorDept
-				WHERE ".$sectionString." AND p.Store = '00000A'
+				WHERE ".$sectionString." AND p.Store = '00000A' ".$this->condition."
 				ORDER BY i.Department ASC, v.VendorName ASC, i.Description ASC, vc.Pack DESC, i.SizeAlpha DESC;";
 
 		// Execute query
@@ -317,7 +324,7 @@ class brdata{
 				LEFT JOIN dbo.Price p ON p.UPC = vc.UPC
 				INNER JOIN dbo.Departments d ON d.Department = i.Department
 				INNER JOIN dbo.MajorDept md ON md.MajorDept = i.MajorDept
-				WHERE ".$sectionString." AND p.Store = '00000A'
+				WHERE ".$sectionString." AND p.Store = '00000A' ".$this->condition."
 				ORDER BY i.UPC, v.VendorName ASC, i.Description ASC, vc.Pack DESC, i.SizeAlpha DESC;";
 
 		// Execute query
@@ -357,7 +364,7 @@ class brdata{
 				LEFT JOIN dbo.Price p ON p.UPC = vc.UPC
 				INNER JOIN dbo.Departments d ON d.Department = i.Department
 				INNER JOIN dbo.MajorDept md ON md.MajorDept = i.MajorDept
-				WHERE i.Department = '".$sectionNumber."' AND p.Store = '00000A'
+				WHERE i.Department = '".$sectionNumber."' AND p.Store = '00000A' ".$this->condition."
 				ORDER BY vc.UPC, v.VendorName ASC, i.Description ASC, vc.Pack DESC, i.SizeAlpha DESC;";
 
 		// Execute query
@@ -400,7 +407,7 @@ class brdata{
 				INNER JOIN dbo.Vendors v ON vc.vendor = v.vendor
 				INNER JOIN dbo.MajorDept md ON md.MajorDept = d.MajorDept
 				LEFT JOIN dbo.InventoryDetail id ON id.UPC = i.UPC
-				WHERE md.MajorDept = '".$departmentNumber."' AND p.Store = '00000A'
+				WHERE md.MajorDept = '".$departmentNumber."' AND p.Store = '00000A' ".$this->condition."
 				ORDER BY i.Department ASC, v.VendorName ASC, i.Description ASC, vc.Pack, i.SizeAlpha;";
 
 		// Execute query
@@ -442,7 +449,7 @@ class brdata{
 				INNER JOIN dbo.Departments d ON d.Department = i.Department
 				INNER JOIN dbo.MajorDept md ON md.MajorDept = i.MajorDept
 				LEFT JOIN dbo.InventoryDetail id ON p.UPC = id.UPC 
-				WHERE v.Vendor = '".$vendorNumber."' AND i.MajorDept = '".$departmentNumber."' AND p.Store = '00000A'
+				WHERE v.Vendor = '".$vendorNumber."' AND i.MajorDept = '".$departmentNumber."' AND p.Store = '00000A' ".$this->condition."
 				ORDER BY i.Department, i.Description, vc.Pack DESC, i.SizeAlpha DESC;";
 
 		// Execute query

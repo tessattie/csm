@@ -41,6 +41,9 @@ class home extends Controller{
 			$this->to = $_COOKIE["to"];
 		}
 		$this->classname = "thereport";
+		if(empty($_SESSION['csm']['keyword'])){
+			$_SESSION['csm']['keyword'] = '';
+		}
 		$this->exportURL = "javascript: void(0)";
 		$this->brdata = $this->model('brdata');
 		$this->fileArianne = "HOME";
@@ -68,6 +71,15 @@ class home extends Controller{
 		}
 		$data = array("exportURL" => $this->exportURL, "from" => $this->from, "to" => $this->to, "action" => "index", "menu" => $this->userRole, "title" => $this->fileArianne);
 		$this->view('home', $data);
+	}
+
+	public function setKeyword(){
+		if(!empty($_POST['key'])){
+			$_SESSION['csm']['keyword'] = $_POST['key'];
+		}else{
+			$_SESSION['csm']['keyword'] = '';
+		}
+		echo $_SESSION['csm']['keyword']; die();
 	}
 
 	public function vendor()

@@ -484,5 +484,27 @@ jQuery(function($){
 		}
 	})
 
+	$('#keywordInput').change(function(){
+		var keyword = $(this).val();
+		$.ajax({
+	       url : '/csm/public/home/setKeyword',
+	       type : 'POST',
+	       data : {key : keyword},
+	       dataType : 'html',
+	       success : function(data, statut){
+	           console.log(data) // On passe code_html à jQuery() qui va nous créer l'arbre DOM !
+	       },
+
+	       error : function(resultat, statut, erreur){
+	         
+	       },
+
+	       complete : function(resultat, statut){
+
+	       }
+
+	    });
+	})
+
 
 });
