@@ -1,5 +1,5 @@
 <?php  
-	$roles = array(1 => "Admin", 4 => "Level 0", 2 => "Level 1", 3 => "Level 2");
+	$roles = array(1 => "Admin", 4 => "Level 0", 2 => "Level 1", 3 => "Level 2", 10 => 'Level 5');
 ?>
 <table class="table table-bordered">
 		<thead>
