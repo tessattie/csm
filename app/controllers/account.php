@@ -78,7 +78,8 @@ class account extends Controller{
 		$errormessage = "";
 		if(isset($_POST['submit']))
 		{
-			$this->users->updateUser($_POST['firstname'], $_POST['lastname'], $_POST['username'], $_POST['email'], $_POST['role'], $_POST['id']);
+			// print_r($_POST);die();
+			$this->users->updateUser($_POST['firstname'], $_POST['lastname'], $_POST['username'], $_POST['email'], $_POST['role'], $_POST['id'], $_POST['vendors']);
 		}
 		$users = $this->users->getUsers();
 		$user = $this->users->getUserById($id);

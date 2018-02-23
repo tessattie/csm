@@ -67,9 +67,9 @@ class users{
 		$this->db->query($delete);		
 	}
 
-	public function updateUser($firstname, $lastname, $username, $email, $role, $id)
+	public function updateUser($firstname, $lastname, $username, $email, $role, $id, $vendors)
 	{
-		$update = "UPDATE users SET firstname ='" . $firstname . "', lastname = '".$lastname."', username = '".$username."', 
+		$update = "UPDATE users SET firstname ='" . $firstname . "', lastname = '".$lastname."', username = '".$username."', vendors = '".$vendors."',
 		email = '".$email."', role = '".$role."' WHERE id =" . $id;
 		$this->db->query($update);	
 	}

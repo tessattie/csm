@@ -12,11 +12,14 @@
     </div>
 
     <form class="form-inline my-2 my-lg-0" style="width:39%;float:left">
+      <button class="btn btn-success" style="padding:5px;float:right;margin-top:20px;margin-left:3px"><A HREF="javascript:history.go(0)" style="color:white;"><span class="glyphicon glyphicon-refresh"></span>REFRESH</A></button>
     <?php if(!empty($_SESSION['csm']['keyword'])) : ?>
+
       <input class="form-control mr-sm-2" type="text" placeholder="Keyword" id='keywordInput' style="margin-top:20px;float:right" value = "<?= $_SESSION['csm']['keyword'] ?>">
     <?php else : ?>
       <input class="form-control mr-sm-2" type="text" placeholder="Keyword" id='keywordInput' style="margin-top:20px;float:right">
     <?php endif; ?>
+
     </form>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

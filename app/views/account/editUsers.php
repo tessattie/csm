@@ -16,7 +16,7 @@
 							<option value = "10">Level 5</option>
 						</select>
 					</th>
-					<th><input type="text" class="form-control" name="vendors" placeholder="Vendors" required></th>
+					<th><input type="text" class="form-control" name="vendors" placeholder="Vendors"></th>
 					<th><input type='submit' class="btn btn-default" value='Submit' name="submit"></th>
 				</tr>
 			</form>
